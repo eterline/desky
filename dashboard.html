@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desky - Panel</title>
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+    <header>
+        <div class="header">
+            <H1>
+                |{{.SysData.Host}}|
+            </H1>
+            <ul>
+                <li><a href="/dashboard/panel">Home</a></li>
+                <li><a href="/dashboard/docker">Docker</a></li>
+                <li><a href="/dashboard/vm">Proxmox</a></li>
+                <li id="logout"><a href="/logout">Log Out</a></li>
+            </ul> 
+        </div>
+    </header>
+    <main>
+        <div class="padding">
+            <div class="sys-info">
+                <div id="cpu">
+                    <div class="load-data">{{ .SysData.CpuLoad }}%</div>
+                    <div class="metric-type">
+                        <i class="fa fa-window-close-o" aria-hidden="true"></i>
+                        Cpu Load
+                    </div>
+                </div>
+                <div id="mem">
+                    <div class="load-data">{{ .SysData.MemLoad }}%</div>
+                    <div class="metric-type">
+                        <i class="fa fa-window-close-o" aria-hidden="true"></i>
+                        Mem Load
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                {{ range .Apps }}
+                <a href="{{ .Url }}">
+                    <div class="app">
+                        <img style="width: 100px; height: 100px;" src="/static/images/web-icons/{{ .Icon }}.svg" alt="">
+                        <div class="app-name">
+                            {{ .Name }}
+                        </div>
+                    </div>
+                </a>
+                {{ end }}
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer">
+            <H1>Desky</H1>
+        </div>
+    </footer>
+</body>
+</html>

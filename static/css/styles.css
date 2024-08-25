@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+* {
+    font-family: "JetBrains Mono";
+    font-size: 14;
+}
+
+body {
+    background-image: url("/static/images/pexels-sagui-andrea-200115-618833.jpg");
+    background-repeat: repeat-x;
+    background-position: center;
+    background-attachment: fixed;
+}

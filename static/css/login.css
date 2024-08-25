@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+* {
+    font-family: "JetBrains Mono";
+    font-size: 14;
+}
+
+body {
+    background-image: url("/static/images/pexels-sagui-andrea-200115-618833.jpg");
+    background-repeat: repeat-x;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.main {
+    width: 350px;
+    height: 500px;
+    background: red;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+    box-shadow: 0px;
+}
+
+body {
+    display: flex;
+    align-content: center;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+H2 {
+    color: antiquewhite;
+    font-size: 3em;
+    font-weight: bold;
+    justify-content: center;
+    display: flex ;
+}
+
+label {
+    color: antiquewhite;
+    font-size: 2em;
+    font-weight: bold;
+    justify-content: center;
+    display: flex ;
+    margin: 60px;
+    cursor: cell;
+    transition: 0.3s ease-in-out;
+}
+
+input {
+    color: antiquewhite;
+    width: 60%;
+    height: 25px;
+    background: transparent;
+    justify-content: center;
+    display: flex;
+    border-width: 0px 0px 1px;
+    padding: 3px;
+    margin: 10px auto;
+}
+
+button {
+    font-size: 1em;
+    width: 30%;
+    height: 1.2empx;
+    color: black;
+    background-color: rgb(255, 255, 255);
+    justify-content: center;
+    display: block;
+    padding: 3px;
+    margin: auto;
+    outline: none;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+    transition: all .2s ease-in-out;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+a {
+    color: rgba(250, 235, 215, 0.4);
+    font-size: 1em;
+    font-weight: bold;
+    justify-content: center;
+    display: flex ;
+}
