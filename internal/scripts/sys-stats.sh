@@ -15,3 +15,4 @@ print_stats () {
 	echo -n '}'
 }
 
+print_stats | jq .
