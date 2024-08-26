@@ -78,6 +78,7 @@ main {
 }
 
 .padding {
+    border-radius:  0px 0px 10px;
     width: fit-content;
     height: 80%;
     display: flex;
@@ -87,7 +88,7 @@ main {
 
 .main {
     display: flex;
-    border-radius: 10px;
+    border-radius: 10px 0px 0px 10px;
     flex-wrap: wrap;
     align-content:flex-start;
     overflow: scroll;
@@ -117,7 +118,7 @@ main {
 }
 
 .device {
-    border-radius: 15px;
+    border-radius: 0px 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -162,7 +163,7 @@ main {
     height: 150px;
     margin: 15px;
     padding-top: 5px;
-    border-radius: 20px;
+    border-radius: 20px 0px;
     transition: 0.3s ease-in-out transform;
 }
 

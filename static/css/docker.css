@@ -77,21 +77,10 @@ main {
     align-items: center;
 }
 
-.main {
-    display: flex;
-    border-radius: 10px;
-    flex-wrap: wrap;
-    align-content:flex-start;
-    overflow: scroll;
-
-    margin: 10px;
-
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 15px;
-}
-
 .padding {
-    width: fit-content;
+    background-color: rgba(161, 161, 161, 0.5);
+    border-radius: 10px 0px 0px 10px;
+    padding: 5px;
     height: 80%;
     display: flex;
     overflow: scroll;
@@ -102,7 +91,6 @@ main {
     border-radius: 15px;
     background-color: rgba(0, 0, 0, 0.7);
     margin: 5px;
-    width: 100%;
     display: flex;
     justify-content: start;
     padding: 10px;

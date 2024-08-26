@@ -33,6 +33,7 @@ type SysStats struct {
 		Total   int `json:"total"`
 		Used    int `json:"used"`
 	} `json:"disk"`
+	Uptime string `json:"uptime"`
 }
 
 func GetStats() SysStats {
@@ -62,6 +63,14 @@ func CpuModel() string {
 		return "UnknownModel"
 	}
 	return string(board)
+}
+
+func Uptime() string {
+	time, err := execCmd("uptime | awk '{print $3}' | tr -d ,")
+	if err != nil {
+		return "null"
+	}
+	return string(time)
 }
 
 func execCmd(cmd string) ([]byte, error) {
