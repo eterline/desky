@@ -1,0 +1,80 @@
+[
+    {
+        "name": "Proxmox",
+        "icon": "proxmox",
+        "url": "https://home-ve.lan:8006",
+        "description": "Proxmox VE"
+    },
+    {
+        "name": "OMV",
+        "icon": "openmediavault",
+        "url": "http://omv.home-ve.lan:3000",
+        "description": "OpenMediaVault System."
+    },
+    {
+        "name": "Portainer",
+        "icon": "portainer",
+        "url": "http://omv.home-ve.lan:9000",
+        "description": "Portainer Docker assist."
+    },
+    {
+        "name": "Nginx",
+        "icon": "nginx-proxy-manager",
+        "url": "http://omv.home-ve.lan:9000",
+        "description": "Portainer Docker assist."
+    },
+    {
+        "name": "Prometheus",
+        "icon": "prometheus",
+        "url": "http://prometheus.home-ve.lan:9090",
+        "description": ""
+    },
+    {
+        "name": "Grafana",
+        "icon": "grafana",
+        "url": "http://omv.home-ve.lan:2020",
+        "description": ""
+    },
+    {
+        "name": "Uptime Kuma",
+        "icon": "uptime-kuma",
+        "url": "http://uptimekuma.home-ve.lan",
+        "description": ""
+    },
+    {
+        "name": "Calibre-Web",
+        "icon": "calibre-web",
+        "url": "http://omv.home-ve.lan:8083",
+        "description": ""
+    },
+    {
+        "name": "Transmission",
+        "icon": "transmission",
+        "url": "http://omv.home-ve.lan:9091",
+        "description": ""
+    },
+    {
+        "name": "Syncthing",
+        "icon": "syncthing",
+        "url": "http://omv.home-ve.lan:8384",
+        "description": ""
+    },
+    {
+        "name": "Hoppscotch",
+        "icon": "hoppscotch",
+        "url": "http://omv.home-ve.lan:3400/",
+        "description": ""
+    },
+    {
+        "name": "Code Srv",
+        "icon": "vscode",
+        "url": "http://omv.home-ve.lan:8443",
+        "description": ""
+    },
+    {
+        "name": "Filebrowser",
+        "icon": "filebrowser",
+        "url": "https://eterline.duckdns.org/",
+        "description": ""
+    }
+]

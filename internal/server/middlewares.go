@@ -27,7 +27,7 @@ func (s *server) authUser(next http.Handler) http.Handler {
 			http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
 			return
 		}
-		if id != "1" {
+		if id != s.cookieKey {
 			http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
 			return
 		}

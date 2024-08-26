@@ -11,7 +11,8 @@
     <header>
         <div class="header">
             <H1>
-                |{{.SysData.Host}}|
+                <i class="fa fa-server" aria-hidden="true"></i>
+                {{.Host}}
             </H1>
             <ul>
                 <li><a href="/dashboard/panel">Home</a></li>
@@ -24,26 +25,31 @@
     <main>
         <div class="padding">
             <div class="sys-info">
-                <div id="cpu">
-                    <div class="load-data">{{ .SysData.CpuLoad }}%</div>
+                <div class="device">
+                    <div class="load-data" id="cpu-usage">0%</div>
                     <div class="metric-type">
-                        <i class="fa fa-window-close-o" aria-hidden="true"></i>
+                        <i class="fa fa-microchip" aria-hidden="true"></i>
                         Cpu Load
                     </div>
                 </div>
-                <div id="mem">
-                    <div class="load-data">{{ .SysData.MemLoad }}%</div>
+                <div class="device">
+                    <div class="load-data" id="mem-usage">0%</div>
                     <div class="metric-type">
-                        <i class="fa fa-window-close-o" aria-hidden="true"></i>
+                        <i class="fa fa-bars" aria-hidden="true"></i>
                         Mem Load
                     </div>
+                </div>
+                <div class="paltform">
+                    Board:{{.Board}}
+                    <br>
+                    CPU:{{.Cpu}}
                 </div>
             </div>
             <div class="main">
                 {{ range .Apps }}
                 <a href="{{ .Url }}">
                     <div class="app">
-                        <img style="width: 100px; height: 100px;" src="/static/images/web-icons/{{ .Icon }}.svg" alt="">
+                        <img style="width: 90px; height: 90px;" src="/static/images/web-icons/{{ .Icon }}.svg" alt="">
                         <div class="app-name">
                             {{ .Name }}
                         </div>
@@ -55,8 +61,9 @@
     </main>
     <footer>
         <div class="footer">
-            <H1>Desky</H1>
+            Desky
         </div>
+        <script src="/static/scripts/dashboard.js"></script> 
     </footer>
 </body>
 </html>

@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+* {
+    font-family: "JetBrains Mono";
+    font-size: 14;
+}
+
+body {
+    background-image: url("/static/images/pexels-sagui-andrea-200115-618833.jpg");
+    background-repeat: repeat-x;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* ------------------Header of page------------------- */
+
+header {
+    width: 100%;
+    height: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    margin-top: 15px;
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.header H1 {
+    color: aliceblue;
+    margin-left: 15px;
+}
+
+.header li {
+    display: inline;
+    float: left;
+    margin: 10px;
+}
+
+.header li a {
+    font-size: 1.2em;
+    border-radius: 10px;
+    display: block;
+    background-color: rgba(255, 255, 255, 0.308);
+    display: block;
+    color: rgba(255, 255, 255, 0.644);
+    text-align: center;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+.header li a:hover {
+    background-color: rgba(240, 255, 255, 0.6);
+    color: black;
+}
+
+
+#logout {
+    margin-left: 50px;
+}
+
+/* ---------------------Main site----------------------- */
+
+main {
+    width: 100%;
+    height: calc(100vh - 200px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main {
+    display: flex;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    align-content:flex-start;
+    overflow: scroll;
+
+    margin: 10px;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+}
+
+.padding {
+    width: fit-content;
+    height: 80%;
+    display: flex;
+    overflow: scroll;
+    flex-direction: column;
+}
+
+.container {
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.7);
+    margin: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    padding: 10px;
+}
+
+.container * {
+    vertical-align: middle;
+}
+
+.container th {
+    border-radius: 5px;
+    padding: 5px;
+    background-color:rgba(255, 255, 255, 0.76);
+    margin: 5px;
+    text-align: left;
+}
+.container th {
+    margin-left: 5px;
+}
+
+.ct-data {
+    border-radius: 10px;
+    margin: 5px;
+    padding: 5px;
+    background-color: rgba(240, 248, 255, 0.6);
+}
+
+/* ----------------Footer of page----------------- */
+
+footer {
+    width: 100%;
+    height: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer {
+    font-size: 2em;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.89);
+}

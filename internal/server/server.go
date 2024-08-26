@@ -9,24 +9,13 @@ import (
 	"github.com/gorilla/sessions"
 )
 
-type server struct {
-	router       *mux.Router
-	sessionStore sessions.Store
-	templates    paths
-	configs      config.Settings
-}
-
-type paths struct {
-	login     string
-	dashboard string
-	notFound  string
-}
-
 func newServer(sessonStore sessions.Store, cfg config.Settings) *server {
 	templs := paths{
 		login:     "login.html",
 		dashboard: "dashboard.html",
 		notFound:  "404.html",
+		docker:    "docker.html",
+		proxmox:   "proxmox.html",
 	}
 
 	s := &server{
@@ -34,6 +23,7 @@ func newServer(sessonStore sessions.Store, cfg config.Settings) *server {
 		sessionStore: sessonStore,
 		templates:    templs,
 		configs:      cfg,
+		cookieKey:    config.RandStringBytes(32),
 	}
 
 	s.configRouter()
@@ -53,11 +43,12 @@ func (s *server) configRouter() {
 	s.router.HandleFunc("/", s.goHome)
 	s.router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(dir))))
 	s.router.HandleFunc("/login", s.goLogin)
+	s.router.HandleFunc("/logout", s.goLogOut)
 
 	private := s.router.PathPrefix("/dashboard").Subrouter()
 	private.Use(s.authUser)
 	private.HandleFunc("/panel", s.goDasboard)
-	private.HandleFunc("/docker", s.goDasboard)
+	private.HandleFunc("/docker", s.goDocker)
 	private.HandleFunc("/vm", s.goDasboard)
 }
 
