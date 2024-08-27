@@ -28,15 +28,17 @@ type (
 	}
 
 	dashboardData struct {
-		Apps  applets.Apps
-		Host  string
-		Board string
-		Cpu   string
+		Apps       applets.Apps
+		Host       string
+		Board      string
+		Cpu        string
+		Background string
 	}
 
 	dockerData struct {
 		Host       string
 		Containers api.ContainerList
+		Background string
 	}
 
 	proxmoxData struct {

@@ -42,7 +42,7 @@ func (s *server) goLogin(w http.ResponseWriter, r *http.Request) {
 		log.Println(TEMPLATE_ERR, err.Error())
 		return
 	}
-	err = t.ExecuteTemplate(w, s.templates.login, nil)
+	err = t.ExecuteTemplate(w, s.templates.login, s.configs)
 	if err != nil {
 		log.Println(EXEC_TEMPLATE_ERR, err.Error())
 		return
@@ -67,7 +67,7 @@ func (s *server) goDasboard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var data dashboardData
-	data.setDashboardData()
+	data.setDashboardData(s.configs)
 
 	err = t.ExecuteTemplate(w, s.templates.dashboard, data)
 	if err != nil {
@@ -102,7 +102,7 @@ func (s *server) goNotFound(w http.ResponseWriter, r *http.Request) {
 		log.Println(TEMPLATE_ERR, err)
 		return
 	}
-	err = t.ExecuteTemplate(w, s.templates.notFound, nil)
+	err = t.ExecuteTemplate(w, s.templates.notFound, s.configs)
 	if err != nil {
 		log.Println(EXEC_TEMPLATE_ERR, EXEC_TEMPLATE_ERR)
 		return
@@ -115,7 +115,7 @@ func (s *server) apiSystem(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(st)
 }
 
-func (d *dashboardData) setDashboardData() {
+func (d *dashboardData) setDashboardData(s config.Settings) {
 	d.Apps = applets.ParseApps()
 	host, err := os.Hostname()
 	if err != nil {
@@ -125,6 +125,7 @@ func (d *dashboardData) setDashboardData() {
 	}
 	d.Board = system.BoardModel()
 	d.Cpu = system.CpuModel()
+	d.Background = s.Background
 }
 
 func (d *dockerData) setDockerData(s config.Settings) {
@@ -135,4 +136,5 @@ func (d *dockerData) setDockerData(s config.Settings) {
 		d.Host = host
 	}
 	d.Containers = api.DockerContainers(s)
+	d.Background = s.Background
 }

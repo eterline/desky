@@ -30,7 +30,8 @@ type (
 			Ip   string `yaml:"ip"`
 			Port string `yaml:"port"`
 		} `yaml:"Address"`
-		User struct {
+		Background string `yaml:"Background"`
+		User       struct {
 			Username string `yaml:"username"`
 			Password string `yaml:"password"`
 		} `yaml:"User"`
