@@ -35,6 +35,8 @@ func (s *server) goLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Printf("| %s > Log In failed. Attempt username: %s", r.RemoteAddr, username)
+
 	t, err := template.ParseFiles(s.templates.login)
 	if err != nil {
 		log.Println(TEMPLATE_ERR, err.Error())

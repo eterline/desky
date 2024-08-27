@@ -20,7 +20,7 @@
     {
         "name": "Nginx",
         "icon": "nginx-proxy-manager",
-        "url": "http://omv.home-ve.lan:9000",
+        "url": "a",
         "description": "Portainer Docker assist."
     },
     {

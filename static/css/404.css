@@ -27,3 +27,6 @@ body {
     flex-direction:column;
 }
 
+#timer {
+    font-size: 2em;
+}
