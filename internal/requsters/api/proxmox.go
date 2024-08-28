@@ -3,6 +3,8 @@ package api
 import (
 	"encoding/json"
 	"sync"
+
+	"github.com/eterline/desky/internal/requsters/system"
 )
 
 const (
@@ -61,77 +63,18 @@ func VirtHostRequest() (VMList, LXCList) {
 }
 
 func (v *VMList) Parse() {
-	// out, err := system.ExecCmd(VM_LIST)
-	// if err != nil {
-	// 	v = nil
-	// }
-	out := []byte(testVm)
+	out, err := system.ExecCmd(VM_LIST)
+	if err != nil {
+		v = nil
+	}
 	json.Unmarshal(out, &v)
 
 }
 
 func (v *LXCList) Parse() {
-	// out, err := system.ExecCmd(LXC_LIST)
-	// if err != nil {
-	// 	v = nil
-	// }
-	out := []byte(testLXC)
+	out, err := system.ExecCmd(LXC_LIST)
+	if err != nil {
+		v = nil
+	}
 	json.Unmarshal(out, &v)
 }
-
-const (
-	testVm = `
-[
-  {
-    "VMID": "250",
-    "NAME": "NAS",
-    "STATUS": "running",
-    "MEM(MB)": "6144",
-    "BOOTDISK(GB)": "48.00",
-    "PID": "2449"
-  },
-  {
-    "VMID": "300",
-    "NAME": "Win-Server",
-    "STATUS": "stopped",
-    "MEM(MB)": "4092",
-    "BOOTDISK(GB)": "48.00",
-    "PID": "0"
-  }
-]
-	`
-	testLXC = `
-[
-  {
-    "VMID": "100",
-    "Status": "running",
-    "Lock": "",
-    "Name": "nginx"
-  },
-  {
-    "VMID": "110",
-    "Status": "running",
-    "Lock": "",
-    "Name": "dns"
-  },
-  {
-    "VMID": "115",
-    "Status": "running",
-    "Lock": "",
-    "Name": "prometheus"
-  },
-  {
-    "VMID": "130",
-    "Status": "running",
-    "Lock": "",
-    "Name": "test-debian"
-  },
-  {
-    "VMID": "500",
-    "Status": "running",
-    "Lock": "",
-    "Name": "uptimekuma"
-  }
-]
-	`
-)
