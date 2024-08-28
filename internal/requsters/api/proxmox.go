@@ -15,7 +15,6 @@ NR > 1 {
 
 	LXC_LIST = `pct list  | awk '
 NR > 1 { 
-    printf "{\"VMID\": \"%s\", \"Status\": \"%s\", \"Lock\": \"%s\", \"Name\": \"%s\"}\n", $1, $2, $3, $4 
 }' | jq -s '.'`
 )
 
