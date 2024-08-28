@@ -30,12 +30,15 @@ func (s *server) goLogin(w http.ResponseWriter, r *http.Request) {
 			s.error(w, r, http.StatusBadRequest, err)
 			return
 		}
+		go system.ExecCmd("internal/scripts/tg-notify-login.sh")
 		log.Printf("Log In to panel from: %s.", r.RemoteAddr)
 		http.Redirect(w, r, "/dashboard/panel", http.StatusTemporaryRedirect)
 		return
 	}
-
-	log.Printf("| %s > Log In failed. Attempt username: %s", r.RemoteAddr, username)
+	if username != "" && password != "" {
+		log.Printf("| %s > Log In failed. Attempt username: %s", r.RemoteAddr, username)
+		go system.ExecCmd("internal/scripts/tg-notify-failed.sh")
+	}
 
 	t, err := template.ParseFiles(s.templates.login)
 	if err != nil {
