@@ -1,0 +1,39 @@
+/* ---------------------Main site----------------------- */
+.virt {
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(161, 161, 161, 0.5);
+}
+
+.container {
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.7);
+    margin: 5px;
+    display: flex;
+    overflow: scroll;
+    flex-direction: column;
+    justify-content: start;
+    padding: 5px;
+}
+
+.container img {
+    margin: auto;
+}
+
+.container th {
+    border-radius: 5px;
+    padding: 5px;
+    background-color:rgba(255, 255, 255, 0.76);
+    margin: 5px;
+    text-align: left;
+}
+.container th {
+    margin-left: 5px;
+}
+
+.ct-data {
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 5px;
+    background-color: rgba(240, 248, 255, 0.6);
+}

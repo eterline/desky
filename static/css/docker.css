@@ -13,9 +13,9 @@
     border-radius: 15px;
     background-color: rgba(0, 0, 0, 0.7);
     margin: 5px;
+    padding: 5px;
     display: flex;
     justify-content: start;
-    padding: 10px;
 }
 
 .container * {
@@ -32,10 +32,19 @@
 .container th {
     margin-left: 5px;
 }
+.container tr{
+    padding: 2px;
+}
+
+.container tr :hover {
+    background-color: rgba(240, 248, 255, 0.4);
+    border-radius: 5px;
+}
 
 .ct-data {
     border-radius: 10px;
-    margin: 5px;
+    flex-direction: row;
     padding: 5px;
+    margin-left: 5px;
     background-color: rgba(240, 248, 255, 0.6);
 }

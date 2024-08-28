@@ -38,7 +38,7 @@ type SysStats struct {
 
 func GetStats() SysStats {
 	var stat SysStats
-	res, err := execCmd("./internal/scripts/sys-stats.sh")
+	res, err := ExecCmd("./internal/scripts/sys-stats.sh")
 	if err != nil {
 		return stat
 	}
@@ -50,7 +50,7 @@ func GetStats() SysStats {
 }
 
 func BoardModel() string {
-	board, err := execCmd("cat /sys/devices/virtual/dmi/id/board_name")
+	board, err := ExecCmd("cat /sys/devices/virtual/dmi/id/board_name")
 	if err != nil {
 		return "UnknownModel"
 	}
@@ -58,7 +58,7 @@ func BoardModel() string {
 }
 
 func CpuModel() string {
-	board, err := execCmd(`lscpu | sed -nr '/Model name/ s/.*:\s*(.*) @ .*/\1/p'`)
+	board, err := ExecCmd(`lscpu | sed -nr '/Model name/ s/.*:\s*(.*) @ .*/\1/p'`)
 	if err != nil {
 		return "UnknownModel"
 	}
@@ -66,14 +66,14 @@ func CpuModel() string {
 }
 
 func Uptime() string {
-	time, err := execCmd("uptime | awk '{print $3}' | tr -d ,")
+	time, err := ExecCmd("uptime | awk '{print $3}' | tr -d ,")
 	if err != nil {
 		return "null"
 	}
 	return string(time)
 }
 
-func execCmd(cmd string) ([]byte, error) {
+func ExecCmd(cmd string) ([]byte, error) {
 	out, err := exec.Command("sh", "-c", cmd).Output()
 	if err != nil {
 		return nil, err

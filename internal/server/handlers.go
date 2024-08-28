@@ -109,10 +109,37 @@ func (s *server) goNotFound(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (s *server) goProxmox(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles(s.templates.proxmox)
+	if err != nil {
+		log.Println(TEMPLATE_ERR, err.Error())
+		return
+	}
+
+	var data proxmoxData
+	data.setProxmoxData(s.configs)
+	err = t.ExecuteTemplate(w, s.templates.proxmox, data)
+	if err != nil {
+		log.Println(EXEC_TEMPLATE_ERR, err)
+		return
+	}
+}
+
 func (s *server) apiSystem(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	st := system.GetStats()
 	json.NewEncoder(w).Encode(st)
+}
+
+func (d *proxmoxData) setProxmoxData(s config.Settings) {
+	host, err := os.Hostname()
+	if err != nil {
+		d.Host = "Error"
+	} else {
+		d.Host = host
+	}
+	d.VMs, d.LXCs = api.VirtHostRequest()
+	d.Background = s.Background
 }
 
 func (d *dashboardData) setDashboardData(s config.Settings) {

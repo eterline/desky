@@ -42,6 +42,10 @@ type (
 	}
 
 	proxmoxData struct {
+		Host       string
+		LXCs       api.LXCList
+		VMs        api.VMList
+		Background string
 	}
 
 	ctxKey int8

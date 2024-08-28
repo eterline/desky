@@ -49,7 +49,7 @@ func (s *server) configRouter() {
 	private.Use(s.authUser)
 	private.HandleFunc("/panel", s.goDasboard)
 	private.HandleFunc("/docker", s.goDocker)
-	private.HandleFunc("/vm", s.goDasboard)
+	private.HandleFunc("/proxmox", s.goProxmox)
 }
 
 func (s *server) configApiRouter() {
