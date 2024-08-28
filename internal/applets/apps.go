@@ -19,7 +19,7 @@ type (
 )
 
 func ParseApps() Apps {
-	file, err := os.Open("configs/apps.json")
+	file, err := os.Open("init/apps.json")
 	if err != nil {
 		log.Fatal(err.Error())
 	}

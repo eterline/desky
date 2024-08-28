@@ -1,0 +1,62 @@
+{{ define "main" }}
+    <main>
+        <div class="virt">
+                {{ range .LXCs }}
+                <div class="container">
+                    <img style="height: 100px; width: 100px;" src="/static/images/web-icons/lxc.svg" alt="">
+                    <div class="ct-data">
+                        <table>
+                            <tr>
+                                <th>Name</th>
+                                <td> {{ .Name }}</td>
+                            </tr>
+                            <tr>
+                                <th>VMID</th>
+                                <td> {{ .VMID }}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                {{ if eq .Status "running" }}
+                                    <td style="color: greenyellow;"> {{ .Status }}</td>
+                                {{ else }}
+                                    <td style="color: rgb(255, 47, 47);"> {{ .Status }}</td>
+                                {{ end }}
+                            </tr>
+                        </table> 
+                    </div>
+                </div>
+                {{ end }}
+                {{ range .VMs }}
+                <div class="container">
+                    <img style="height: 100px; width: 100px;" src="/static/images/web-icons/vm.svg" alt="">
+                    <div class="ct-data">
+                        <table>
+                            <tr>
+                                <th>Name</th>
+                                <td> {{ .Name }}</td>
+                            </tr>
+                            <tr>
+                                <th>VMID</th>
+                                <td> {{ .VMID }}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                {{ if eq .Status "running" }}
+                                    <td style="color: greenyellow;"> {{ .Status }}</td>
+                                {{ else }}
+                                    <td style="color: rgb(255, 47, 47);"> {{ .Status }}</td>
+                                {{ end }}
+                            </tr>
+                        </table> 
+                    </div>
+                </div>
+            {{ end }}
+        </div>
+    </main>
+{{ end }}
+
+{{ define "styles" }}
+<link rel="stylesheet" href="/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/css/index.css">
+<link rel="stylesheet" href="/static/css/proxmox.css">
+{{ end }}

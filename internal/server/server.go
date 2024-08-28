@@ -1,7 +1,7 @@
 package server
 
 import (
-	"flag"
+	"log"
 	"net/http"
 
 	"github.com/eterline/desky/internal/config"
@@ -11,11 +11,12 @@ import (
 
 func newServer(sessonStore sessions.Store, cfg config.Settings) *server {
 	templs := paths{
-		login:     "login.html",
-		dashboard: "dashboard.html",
-		notFound:  "404.html",
-		docker:    "docker.html",
-		proxmox:   "proxmox.html",
+		index:     "templates/index.html",
+		login:     "templates/login.html",
+		dashboard: "templates/dashboard.html",
+		notFound:  "templates/404.html",
+		docker:    "templates/docker.html",
+		proxmox:   "templates/proxmox.html",
 	}
 
 	s := &server{
@@ -32,18 +33,16 @@ func newServer(sessonStore sessions.Store, cfg config.Settings) *server {
 }
 
 func (s *server) configRouter() {
-	var dir string
-	flag.StringVar(&dir, "static", "./static", "static content path")
-	flag.Parse()
-
 	s.router.Use(loggingMiddleware)
-	notF := http.HandlerFunc(s.goNotFound)
-	s.router.NotFoundHandler = notF
+	s.router.NotFoundHandler = http.HandlerFunc(s.goHome)
 
-	s.router.HandleFunc("/", s.goHome)
-	s.router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(dir))))
+	s.router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", http.FileServer(http.Dir("./public"))))
 	s.router.HandleFunc("/login", s.goLogin)
 	s.router.HandleFunc("/logout", s.goLogOut)
+
+	content := s.router.PathPrefix("/static/").Subrouter()
+	content.Use(s.authUser)
+	content.PathPrefix("").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	private := s.router.PathPrefix("/dashboard").Subrouter()
 	private.Use(s.authUser)
@@ -53,9 +52,9 @@ func (s *server) configRouter() {
 }
 
 func (s *server) configApiRouter() {
-	private := s.router.PathPrefix("/api").Subrouter()
-	private.Use(s.authUser)
-	private.HandleFunc("/system", s.apiSystem)
+	api := s.router.PathPrefix("/api").Subrouter()
+	api.Use(s.authUser)
+	api.HandleFunc("/system", s.apiSystem)
 }
 
 func (s *server) error(w http.ResponseWriter, r *http.Request, code int, err error) {
@@ -71,4 +70,10 @@ func chekUser(s config.Settings, u string, p string) bool {
 		return true
 	}
 	return false
+}
+
+func errLog(err error) {
+	if err != nil {
+		log.Println(TEMPLATE_ERR, err.Error())
+	}
 }

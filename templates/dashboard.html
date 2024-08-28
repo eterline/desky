@@ -1,0 +1,45 @@
+{{ define "main" }}
+    <main>
+        <div class="padding">
+            <div class="sys-info">
+                <div class="device">
+                    <div class="load-data" id="cpu-usage">0%</div>
+                    <div class="metric-type">
+                        <i class="fa fa-microchip" aria-hidden="true"></i>
+                        Cpu Load
+                    </div>
+                </div>
+                <div class="device">
+                    <div class="load-data" id="mem-usage">0%</div>
+                    <div class="metric-type">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                        Mem Load
+                    </div>
+                </div>
+                <div class="paltform">
+                    Board:{{.Board}}
+                    <br>
+                    CPU:{{.Cpu}}
+                </div>
+            </div>
+            <div class="main">
+                {{ range .Apps }}
+                <a href="{{ .Url }}">
+                    <div class="app">
+                        <img style="width: 90px; height: 90px;" src="/static/images/web-icons/{{ .Icon }}.svg" alt="">
+                        <div class="app-name">
+                            {{ .Name }}
+                        </div>
+                    </div>
+                </a>
+                {{ end }}
+            </div>
+        </div>
+    </main>
+{{ end }}
+
+{{ define "styles" }}
+<link rel="stylesheet" href="/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/css/index.css">
+<link rel="stylesheet" href="/static/css/dashboard.css">
+{{ end }}

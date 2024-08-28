@@ -39,13 +39,8 @@ func (s *server) goLogin(w http.ResponseWriter, r *http.Request) {
 		log.Printf("| %s > Log In failed. Attempt username: %s", r.RemoteAddr, username)
 		go system.ExecCmd("internal/scripts/tg-notify-failed.sh")
 	}
-
-	t, err := template.ParseFiles(s.templates.login)
-	if err != nil {
-		log.Println(TEMPLATE_ERR, err.Error())
-		return
-	}
-	err = t.ExecuteTemplate(w, s.templates.login, s.configs)
+	t := template.Must(template.ParseFiles(s.templates.login))
+	err := t.ExecuteTemplate(w, "login.html", s.configs)
 	if err != nil {
 		log.Println(EXEC_TEMPLATE_ERR, err.Error())
 		return
@@ -64,15 +59,12 @@ func clearSession(s *server) {
 }
 
 func (s *server) goDasboard(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles(s.templates.dashboard)
-	if err != nil {
-		log.Println(TEMPLATE_ERR, err.Error())
-		return
-	}
+	t := template.Must(template.ParseFiles(s.templates.dashboard, s.templates.index))
+
 	var data dashboardData
 	data.setDashboardData(s.configs)
 
-	err = t.ExecuteTemplate(w, s.templates.dashboard, data)
+	err := t.ExecuteTemplate(w, "index", data)
 	if err != nil {
 		log.Println(EXEC_TEMPLATE_ERR, err.Error())
 		return
@@ -80,15 +72,23 @@ func (s *server) goDasboard(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) goDocker(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles(s.templates.docker)
-	if err != nil {
-		log.Println(TEMPLATE_ERR, err.Error())
-		return
-	}
+	t := template.Must(template.ParseFiles(s.templates.docker, s.templates.index))
 
 	var data dockerData
 	data.setDockerData(s.configs)
-	err = t.ExecuteTemplate(w, s.templates.docker, data)
+	err := t.ExecuteTemplate(w, "index", data)
+	if err != nil {
+		log.Println(EXEC_TEMPLATE_ERR, err)
+		return
+	}
+}
+
+func (s *server) goProxmox(w http.ResponseWriter, r *http.Request) {
+	t := template.Must(template.ParseFiles(s.templates.proxmox, s.templates.index))
+
+	var data proxmoxData
+	data.setProxmoxData(s.configs)
+	err := t.ExecuteTemplate(w, "index", data)
 	if err != nil {
 		log.Println(EXEC_TEMPLATE_ERR, err)
 		return
@@ -101,29 +101,10 @@ func (s *server) goHome(w http.ResponseWriter, r *http.Request) {
 
 func (s *server) goNotFound(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles(s.templates.notFound)
-	if err != nil {
-		log.Println(TEMPLATE_ERR, err)
-		return
-	}
+	errLog(err)
 	err = t.ExecuteTemplate(w, s.templates.notFound, s.configs)
 	if err != nil {
 		log.Println(EXEC_TEMPLATE_ERR, EXEC_TEMPLATE_ERR)
-		return
-	}
-}
-
-func (s *server) goProxmox(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles(s.templates.proxmox)
-	if err != nil {
-		log.Println(TEMPLATE_ERR, err.Error())
-		return
-	}
-
-	var data proxmoxData
-	data.setProxmoxData(s.configs)
-	err = t.ExecuteTemplate(w, s.templates.proxmox, data)
-	if err != nil {
-		log.Println(EXEC_TEMPLATE_ERR, err)
 		return
 	}
 }

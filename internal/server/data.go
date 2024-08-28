@@ -20,6 +20,7 @@ type (
 
 	// html pages names
 	paths struct {
+		index     string
 		login     string
 		dashboard string
 		notFound  string

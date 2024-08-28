@@ -58,7 +58,7 @@ type (
 const letterBytes = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 func ParseSettings() Settings {
-	file, err := os.Open("configs/settings.yml")
+	file, err := os.Open("init/settings.yml")
 	if err != nil {
 		log.Fatal(err.Error())
 	}

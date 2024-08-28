@@ -91,3 +91,18 @@ footer {
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.89);
 }
+
+@media only screen and (max-width: 1240px) {
+    #logout {
+        margin-left: 10px;
+    }
+    * {
+        font-size: 10px;
+    }
+
+    .header li {
+        display: inline;
+        float: left;
+        margin: 5px;
+    }
+  }
