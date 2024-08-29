@@ -2,11 +2,15 @@
 .padding {
     background-color: rgba(161, 161, 161, 0.5);
     border-radius: 10px 0px 0px 10px;
-    padding: 5px;
     height: 80%;
     display: flex;
-    overflow: scroll;
     flex-direction: column;
+}
+
+.padding-sub {
+    margin: 8px;
+    overflow: scroll;
+    border-radius: 10px;
 }
 
 .container {
@@ -28,10 +32,9 @@
     background-color:rgba(255, 255, 255, 0.76);
     margin: 5px;
     text-align: left;
-}
-.container th {
     margin-left: 5px;
 }
+
 .container tr{
     padding: 2px;
 }

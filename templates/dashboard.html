@@ -2,37 +2,43 @@
     <main>
         <div class="padding">
             <div class="sys-info">
-                <div class="device">
-                    <div class="load-data" id="cpu-usage">0%</div>
-                    <div class="metric-type">
-                        <i class="fa fa-microchip" aria-hidden="true"></i>
-                        Cpu Load
+                <div class="sys-info-sub">
+                    <div class="device">
+                        <div class="load-data" id="cpu-usage">0%</div>
+                        <div class="metric-type">
+                            <i class="fa fa-microchip" aria-hidden="true"></i>
+                            |CPU|
+                        </div>
+                        <progress id="cpu-progress" max="100" value=""></progress>
                     </div>
-                </div>
-                <div class="device">
-                    <div class="load-data" id="mem-usage">0%</div>
-                    <div class="metric-type">
-                        <i class="fa fa-bars" aria-hidden="true"></i>
-                        Mem Load
+                    <div class="device">
+                        <div class="load-data" id="mem-usage">0%</div>
+                        <div class="metric-type">
+                            <i class="fa fa-bars" aria-hidden="true"></i>
+                            |RAM|
+                        </div>
+                        <progress id="mem-progress" max="100" value=""></progress>
                     </div>
-                </div>
-                <div class="paltform">
-                    Board:{{.Board}}
-                    <br>
-                    CPU:{{.Cpu}}
+                    <div class="paltform">
+                        Board:{{.Board}}
+                        <br>
+                        CPU:{{.Cpu}}
+                    </div>
                 </div>
             </div>
             <div class="main">
-                {{ range .Apps }}
-                <a href="{{ .Url }}">
-                    <div class="app">
-                        <img style="width: 90px; height: 90px;" src="/static/images/web-icons/{{ .Icon }}.svg" alt="">
-                        <div class="app-name">
-                            {{ .Name }}
+                <div class="main-in">
+                    {{ range .Apps }}
+                    <a href="{{ .Url }}">
+                        <div class="app">
+                            <img style="width: 90px; height: 90px;" src="/static/images/web-icons/{{ .Icon }}.svg" alt="">
+                            <div class="app-name">
+                                {{ .Name }}
+                            </div>
                         </div>
-                    </div>
-                </a>
-                {{ end }}
+                    </a>
+                    {{ end }}
+                </div>
             </div>
         </div>
     </main>

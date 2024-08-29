@@ -1,7 +1,8 @@
 {{ define "main" }}
     <main>
         <div class="padding">
-            {{ range .Containers }}
+            <div class="padding-sub">
+                {{ range .Containers }}
                 <div class="container">
                     <img style="height: 100px;" src="/static/images/web-icons/docker.svg" alt="">
                     <div class="ct-data">
@@ -41,6 +42,7 @@
                     </div>
                 </div>
             {{ end }}
+            </div>
         </div>
     </main>
 {{ end }}

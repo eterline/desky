@@ -96,9 +96,6 @@ footer {
     #logout {
         margin-left: 10px;
     }
-    * {
-        font-size: 10px;
-    }
 
     .header li {
         display: inline;

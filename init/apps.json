@@ -36,9 +36,15 @@
         "description": ""
     },
     {
-        "name": "Uptime Kuma",
-        "icon": "uptime-kuma",
-        "url": "http://uptimekuma.home-ve.lan",
+        "name": "Pi Alert",
+        "icon": "pialert",
+        "url": "http://alert.home-ve.lan/",
+        "description": ""
+    },
+    {
+        "name": "Gotify",
+        "icon": "gotify",
+        "url": "https://eterline.duckdns.org",
         "description": ""
     },
     {
@@ -75,12 +81,6 @@
         "name": "Code Srv",
         "icon": "vscode",
         "url": "http://omv.home-ve.lan:8443",
-        "description": ""
-    },
-    {
-        "name": "Filebrowser",
-        "icon": "filebrowser",
-        "url": "https://eterline.duckdns.org",
         "description": ""
     }
 ]
