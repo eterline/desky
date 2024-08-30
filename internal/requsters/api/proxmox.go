@@ -43,6 +43,41 @@ type Virt struct {
 	LXCList
 }
 
+var testVar = `
+[
+  {
+    "VMID": "100",
+    "Status": "running",
+    "Lock": "",
+    "Name": "nginx"
+  },
+  {
+    "VMID": "110",
+    "Status": "running",
+    "Lock": "",
+    "Name": "dns"
+  },
+  {
+    "VMID": "115",
+    "Status": "running",
+    "Lock": "",
+    "Name": "prometheus"
+  },
+  {
+    "VMID": "130",
+    "Status": "stopped",
+    "Lock": "",
+    "Name": "test-debian"
+  },
+  {
+    "VMID": "800",
+    "Status": "running",
+    "Lock": "",
+    "Name": "alert"
+  }
+]
+`
+
 func VirtHostRequest() (VMList, LXCList) {
 	var (
 		vm  VMList
@@ -76,5 +111,5 @@ func (v *LXCList) Parse() {
 	if err != nil {
 		v = nil
 	}
-	json.Unmarshal(out, &v)
+	json.Unmarshal([]byte(out), &v)
 }

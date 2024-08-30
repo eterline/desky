@@ -126,7 +126,7 @@ func (s *server) apiQm(w http.ResponseWriter, r *http.Request) {
 	case "shutdown":
 		go system.ExecCmd(fmt.Sprintf("qm shutdown %s", id))
 	case "reboot":
-		go system.ExecCmd(fmt.Sprintf("qm reboot %s", id))
+		go system.ExecCmd(fmt.Sprintf("qm restart %s", id))
 	default:
 		s.error(w, r, http.StatusBadRequest, nil)
 		return
@@ -144,7 +144,7 @@ func (s *server) apiPct(w http.ResponseWriter, r *http.Request) {
 	case "shutdown":
 		go system.ExecCmd(fmt.Sprintf("pct shutdown %s", id))
 	case "reboot":
-		go system.ExecCmd(fmt.Sprintf("pct reboot %s", id))
+		go system.ExecCmd(fmt.Sprintf("pct restart %s", id))
 	default:
 		s.error(w, r, http.StatusBadRequest, nil)
 		return

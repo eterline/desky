@@ -1,8 +1,11 @@
 /* ---------------------Main site----------------------- */
 .virt {
     display: flex;
+    overflow: scroll;
+    border-radius: 10px;
     flex-direction: row;
     background-color: rgba(161, 161, 161, 0.5);
+    
 }
 
 .container {
@@ -10,7 +13,6 @@
     background-color: rgba(0, 0, 0, 0.7);
     margin: 5px;
     display: flex;
-    overflow: scroll;
     flex-direction: column;
     justify-content: start;
     padding: 5px;
@@ -36,4 +38,38 @@
     margin-top: 5px;
     padding: 5px;
     background-color: rgba(240, 248, 255, 0.6);
+}
+
+.reboot-btn {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    width: 30%;
+    height: 30px;
+    border-radius: 15px;
+}
+
+.act-btn {
+    border-radius: 15px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    width: 60%;
+    height: 30px;
+}
+
+.btns {
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgba(89, 80, 172, 0.6);
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+    margin: 5px;
+}
+
+.btns button {
+    text-align: center;
+    padding-top: 5px;
+    vertical-align: middle;
 }

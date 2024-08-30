@@ -8,11 +8,11 @@
                         <table>
                             <tr>
                                 <th>Name</th>
-                                <td> {{ .Name }}</td>
+                                <td> {{ .Name }} </td>
                             </tr>
                             <tr>
                                 <th>VMID</th>
-                                <td> {{ .VMID }}</td>
+                                <td> {{ .VMID }} </td>
                             </tr>
                             <tr>
                                 <th>Status</th>
@@ -22,8 +22,22 @@
                                     <td style="color: rgb(255, 47, 47);"> {{ .Status }}</td>
                                 {{ end }}
                             </tr>
-                        </table> 
+                        </table>
                     </div>
+                        <div class="btns">
+                            <button data-type="lxc" data-id="{{ .VMID }}" class="reboot-btn">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                            {{ if eq .Status "running" }}
+                            <button data-type="lxc" data-id="{{ .VMID }}" class="shutdown-btn act-btn" style="background-color: brown; color: black; border-color: rgb(107, 28, 28);">
+                                <i class="fa fa-pause"></i>
+                            </button>
+                            {{ else }}
+                            <button data-type="lxc" data-id="{{ .VMID }}" class="start-btn act-btn" style="background-color: rgb(87, 165, 42); color: black; border-color: rgb(40, 68, 17);">
+                                <i class="fa fa-play"></i>
+                            </button>
+                            {{ end }}
+                        </div>
                 </div>
                 {{ end }}
                 {{ range .VMs }}
@@ -47,12 +61,27 @@
                                     <td style="color: rgb(255, 47, 47);"> {{ .Status }}</td>
                                 {{ end }}
                             </tr>
-                        </table> 
+                        </table>
+                    </div>
+                    <div class="btns">
+                        <button data-type="qm" data-id="{{ .VMID }}" class="reboot-btn">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                        {{ if eq .Status "running" }}
+                        <button data-type="qm" data-id="{{ .VMID }}" class="shutdown-btn act-btn" style="background-color: brown; color: black; border-color: rgb(107, 28, 28);">
+                            <i class="fa fa-pause"></i>
+                        </button>
+                        {{ else }}
+                        <button data-type="qm" data-id="{{ .VMID }}" class="start-btn act-btn" style="background-color: rgb(87, 165, 42); color: black; border-color: rgb(40, 68, 17);">
+                            <i class="fa fa-play"></i>
+                        </button>
+                        {{ end }}
                     </div>
                 </div>
             {{ end }}
         </div>
     </main>
+    <script src="/static/scripts/proxmox.js"></script> 
 {{ end }}
 
 {{ define "styles" }}
