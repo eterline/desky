@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -11,6 +12,7 @@ import (
 	"github.com/eterline/desky/internal/config"
 	"github.com/eterline/desky/internal/requsters/api"
 	"github.com/eterline/desky/internal/requsters/system"
+	"github.com/gorilla/mux"
 )
 
 func (s *server) goLogin(w http.ResponseWriter, r *http.Request) {
@@ -115,6 +117,42 @@ func (s *server) apiSystem(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(st)
 }
 
+func (s *server) apiQm(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+	switch vars["cmd"] {
+	case "start":
+		go system.ExecCmd(fmt.Sprintf("qm start %s", id))
+	case "shutdown":
+		go system.ExecCmd(fmt.Sprintf("qm shutdown %s", id))
+	case "reboot":
+		go system.ExecCmd(fmt.Sprintf("qm reboot %s", id))
+	default:
+		s.error(w, r, http.StatusBadRequest, nil)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "{\"message\":\"OK\"}")
+}
+
+func (s *server) apiPct(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+	switch vars["cmd"] {
+	case "start":
+		go system.ExecCmd(fmt.Sprintf("pct start %s", id))
+	case "shutdown":
+		go system.ExecCmd(fmt.Sprintf("pct shutdown %s", id))
+	case "reboot":
+		go system.ExecCmd(fmt.Sprintf("pct reboot %s", id))
+	default:
+		s.error(w, r, http.StatusBadRequest, nil)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "{\"message\":\"OK\"}")
+}
+
 func (d *proxmoxData) setProxmoxData(s config.Settings) {
 	host, err := os.Hostname()
 	if err != nil {
@@ -137,6 +175,7 @@ func (d *dashboardData) setDashboardData(s config.Settings) {
 	d.Board = system.BoardModel()
 	d.Cpu = system.CpuModel()
 	d.Background = s.Background
+	d.Auth = s.Auth
 }
 
 func (d *dockerData) setDockerData(s config.Settings) {

@@ -55,6 +55,8 @@ func (s *server) configApiRouter() {
 	api := s.router.PathPrefix("/api").Subrouter()
 	api.Use(s.authUser)
 	api.HandleFunc("/system", s.apiSystem)
+	api.HandleFunc("/pct/{id}/{cmd}", s.apiPct)
+	api.HandleFunc("/qm/{id}/{cmd}", s.apiQm)
 }
 
 func (s *server) error(w http.ResponseWriter, r *http.Request, code int, err error) {

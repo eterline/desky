@@ -16,6 +16,7 @@ func Start() error {
 		settings.Proxmox.Up,
 		settings.Address.Ip,
 		settings.Address.Port,
+		settings.Auth,
 	)
 	return http.ListenAndServeTLS(
 		fmt.Sprintf("%s:%s", settings.Address.Ip, settings.Address.Port),

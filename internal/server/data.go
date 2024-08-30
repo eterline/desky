@@ -34,12 +34,14 @@ type (
 		Board      string
 		Cpu        string
 		Background string
+		Auth       bool
 	}
 
 	dockerData struct {
 		Host       string
 		Containers api.ContainerList
 		Background string
+		Auth       bool
 	}
 
 	proxmoxData struct {
@@ -47,6 +49,7 @@ type (
 		LXCs       api.LXCList
 		VMs        api.VMList
 		Background string
+		Auth       bool
 	}
 
 	ctxKey int8

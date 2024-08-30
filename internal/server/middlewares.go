@@ -17,20 +17,19 @@ func loggingMiddleware(next http.Handler) http.Handler {
 
 func (s *server) authUser(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		session, err := s.sessionStore.Get(r, SessionName)
-		if err != nil {
-			s.error(w, r, http.StatusInternalServerError, err)
-			return
+		if s.configs.Auth {
+			session, err := s.sessionStore.Get(r, SessionName)
+			if err != nil {
+				s.error(w, r, http.StatusInternalServerError, err)
+				return
+			}
+			id, ok := session.Values["uID"]
+			if !ok || id != s.cookieKey {
+				http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
+				return
+			}
+			next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), ctxKeyUser, "Admin")))
 		}
-		id, ok := session.Values["uID"]
-		if !ok {
-			http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
-			return
-		}
-		if id != s.cookieKey {
-			http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
-			return
-		}
-		next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), ctxKeyUser, "Admin")))
+		next.ServeHTTP(w, r)
 	})
 }

@@ -21,6 +21,7 @@ ______             _
 ===============================   
  - Desky succsessfully started on: %s:%s
  - Proxmox module is up: %v
+ - Auth mode: %v
 ===============================                   
 `
 
@@ -31,6 +32,7 @@ type (
 			Port string `yaml:"port"`
 		} `yaml:"Address"`
 		Background string `yaml:"Background"`
+		Auth       bool   `yaml:"Auth"`
 		User       struct {
 			Username string `yaml:"username"`
 			Password string `yaml:"password"`
@@ -86,6 +88,6 @@ func RandStringBytes(n int) string {
 	return string(b)
 }
 
-func PrintLogo(prox bool, ip string, port string) {
-	log.Printf(printDesky, ip, port, prox)
+func PrintLogo(prox bool, ip string, port string, a bool) {
+	log.Printf(printDesky, ip, port, prox, a)
 }
