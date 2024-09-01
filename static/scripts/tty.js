@@ -1,8 +1,6 @@
 const terminal = new Terminal({
     convertEol: true,
     cursorBlink: true,
-    cols: 80,
-    rows: 24,
 });
 
 const host = window.location.host; 
