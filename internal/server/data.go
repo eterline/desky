@@ -26,6 +26,7 @@ type (
 		notFound  string
 		docker    string
 		proxmox   string
+		tty       string
 	}
 
 	dashboardData struct {

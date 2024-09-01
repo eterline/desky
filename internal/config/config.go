@@ -2,8 +2,9 @@ package config
 
 import (
 	"log"
-	"math/rand"
 	"os"
+
+	"math/rand"
 
 	"gopkg.in/yaml.v3"
 )

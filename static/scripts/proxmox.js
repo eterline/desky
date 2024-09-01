@@ -11,11 +11,12 @@ reboot_buttons.forEach(button => {
     button.addEventListener('click', () => {
         const id = button.getAttribute('data-id');
         const type = button.getAttribute('data-type');
+        let url = " ";
         if (type == "lxc") {
-            const url = `/api/pct/${id}/reboot`;
+            url = `/api/pct/${id}/reboot`;
         } else {
-            const url = `/api/qm/${id}/reboot`;
-        }
+            url = `/api/qm/${id}/reboot`;
+        };
         fetch(url, {
             method: 'GET',
             headers: {
@@ -30,10 +31,11 @@ shutdown_buttons.forEach(button => {
     button.addEventListener('click', () => {
         const id = button.getAttribute('data-id');
         const type = button.getAttribute('data-type');
+        let url = " ";
         if (type == "lxc") {
-            const url = `/api/pct/${id}/shutdown`;
+            url = `/api/pct/${id}/shutdown`;
         } else {
-            const url = `/api/qm/${id}/shutdown`;
+            url = `/api/qm/${id}/shutdown`;
         };
         fetch(url, {
             method: 'GET',
@@ -49,10 +51,11 @@ start_buttons.forEach(button => {
     button.addEventListener('click', () => {
         const id = button.getAttribute('data-id');
         const type = button.getAttribute('data-type');
+        let url = " ";
         if (type == "lxc") {
-            const url = `/api/pct/${id}/start`;
+            url = `/api/pct/${id}/start`;
         } else {
-            const url = `/api/qm/${id}/start`;
+            url = `/api/qm/${id}/start`;
         };
         fetch(url, {
             method: 'GET',

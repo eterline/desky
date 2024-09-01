@@ -1,0 +1,24 @@
+{{ define "main" }}
+<main>
+    <div class="padding">
+        <div class="label">
+            TTY
+        </div>
+        <div id="terminal-container">
+            <div id="terminal"></div>
+        </div>
+    </div>
+</main>
+<script src="/node/xterm/lib/xterm.js"></script>
+<script src="/static/scripts/tty.js"></script>
+{{ end }}
+
+{{ define "styles" }}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/css/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
+<link rel="stylesheet" href="/static/css/tty.css">
+{{ end }}
+

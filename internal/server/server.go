@@ -17,6 +17,7 @@ func newServer(sessonStore sessions.Store, cfg config.Settings) *server {
 		notFound:  "templates/404.html",
 		docker:    "templates/docker.html",
 		proxmox:   "templates/proxmox.html",
+		tty:       "templates/tty.html",
 	}
 
 	s := &server{
@@ -37,6 +38,7 @@ func (s *server) configRouter() {
 	s.router.NotFoundHandler = http.HandlerFunc(s.goHome)
 
 	s.router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", http.FileServer(http.Dir("./public"))))
+	s.router.PathPrefix("/node/").Handler(http.StripPrefix("/node/", http.FileServer(http.Dir("./node_modules"))))
 	s.router.HandleFunc("/login", s.goLogin)
 	s.router.HandleFunc("/logout", s.goLogOut)
 
@@ -46,9 +48,11 @@ func (s *server) configRouter() {
 
 	private := s.router.PathPrefix("/dashboard").Subrouter()
 	private.Use(s.authUser)
+	private.HandleFunc("/ws", wsConnection)
 	private.HandleFunc("/panel", s.goDasboard)
 	private.HandleFunc("/docker", s.goDocker)
 	private.HandleFunc("/proxmox", s.goProxmox)
+	private.HandleFunc("/tty", s.goTty)
 }
 
 func (s *server) configApiRouter() {

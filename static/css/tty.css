@@ -1,0 +1,21 @@
+.padding {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgba(161, 161, 161, 0.5);
+}
+
+.label {
+    text-align: center;
+    font-size: 2em;
+}
+
+#terminal {
+    padding: 10px;
+    text-align: left;
+}
+
+#terminal-container {
+    padding: 5px;
+    background-color: black;
+    border-radius: 8px;
+}

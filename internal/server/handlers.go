@@ -97,6 +97,18 @@ func (s *server) goProxmox(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (s *server) goTty(w http.ResponseWriter, r *http.Request) {
+	t := template.Must(template.ParseFiles(s.templates.tty, s.templates.index))
+
+	var data proxmoxData
+	data.setProxmoxData(s.configs)
+	err := t.ExecuteTemplate(w, "index", data)
+	if err != nil {
+		log.Println(EXEC_TEMPLATE_ERR, err)
+		return
+	}
+}
+
 func (s *server) goHome(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/dashboard/panel", http.StatusTemporaryRedirect)
 }
