@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os/exec"
@@ -28,7 +27,7 @@ func wsConnection(w http.ResponseWriter, r *http.Request) {
 			log.Println(err)
 			break
 		}
-		fmt.Println(string(msg))
+		log.Printf("tty command: %s", string(msg))
 		cmd := exec.Command("sh", "-c", "cd /root &&"+string(msg))
 		output, err := cmd.CombinedOutput()
 		if err != nil {

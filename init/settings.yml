@@ -17,5 +17,5 @@ Proxmox:
   password: '99013Vault99013'
 Docker:
   up: true
-  url: 'http://omv.home-ve.lan:9400/api/v1/containers'
+  url: 'http://omv:9400/api/v1/containers'
   key: '99013Vault99013'

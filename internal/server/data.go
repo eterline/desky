@@ -1,11 +1,17 @@
 package server
 
 import (
+	"html/template"
+	"log"
+	"net/http"
+	"os"
+
 	"github.com/eterline/desky/internal/applets"
 	"github.com/eterline/desky/internal/config"
 	"github.com/eterline/desky/internal/requsters/api"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
+	"github.com/zcalusic/sysinfo"
 )
 
 type (
@@ -53,6 +59,19 @@ type (
 		Auth       bool
 	}
 
+	ttyData struct {
+		Host       string
+		Background string
+		Auth       bool
+	}
+
+	sysInfoData struct {
+		Host       string
+		Background string
+		Auth       bool
+		Info       sysinfo.SysInfo
+	}
+
 	ctxKey int8
 )
 
@@ -62,3 +81,19 @@ const (
 	TEMPLATE_ERR             = "error parse template file:"
 	EXEC_TEMPLATE_ERR        = "error execute template:"
 )
+
+func findHostname() string {
+	host, err := os.Hostname()
+	if err != nil {
+		return "Unknown"
+	}
+	return host
+}
+
+func templExecute(w http.ResponseWriter, t *template.Template, templ string, data any) {
+	err := t.ExecuteTemplate(w, templ, data)
+	if err != nil {
+		log.Println(EXEC_TEMPLATE_ERR, err)
+		return
+	}
+}
