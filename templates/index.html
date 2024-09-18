@@ -3,9 +3,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="/static/images/favion.svg">
+    <link rel="icon" type="image/svg+xml" href="/static/images/favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desky - Panel</title>
+    <title>Desky - {{template "name" .}}</title>
     {{template "styles"}}
     <style>
         body {background-image: url("/static/images/{{.Background}}");}
@@ -38,6 +38,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/dashboard/monitor">
+                        <img width="15px" height="15px" src="/static/images/web-icons/monitor.svg">
+                        Monitor
+                    </a>
+                </li>
+                <li>
                     <a href="/dashboard/tty">
                         <img width="15px" height="15px" src="/static/images/web-icons/terminal.svg">
                         TTY
@@ -55,6 +61,9 @@
     <footer>
         <div class="footer">
             Desky
+            <a href="https://github.com/eterline/desky">
+                <img src="/static/images/web-icons/github.svg">
+            </a>
         </div>
     </footer>
 </body>

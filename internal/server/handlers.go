@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/eterline/desky/internal/config"
-	"github.com/eterline/desky/internal/requsters/api"
 	"github.com/eterline/desky/internal/requsters/system"
 )
 
@@ -56,96 +55,38 @@ func clearSession(s *server) {
 }
 
 func (s *server) goDasboard(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles(s.templates.dashboard, s.templates.index))
+	t := assemblyTempls(s.templates.dashboard)
 
-	var data dashboardData
-	data.setDashboardData(s.configs)
-
+	data := initDashboard(s.configs)
 	templExecute(w, t, "index", data)
 }
 
 func (s *server) goDocker(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles(s.templates.docker, s.templates.index))
-
-	var data dockerData
-	data.setDockerData(s.configs)
-
-	templExecute(w, t, "index", data)
+	t := assemblyTempls(s.templates.docker)
+	templExecute(w, t, "index", initDocker(s.configs))
 }
 
 func (s *server) goProxmox(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles(s.templates.proxmox, s.templates.index))
-
-	var data proxmoxData
-	data.setProxmoxData(s.configs)
-
-	templExecute(w, t, "index", data)
+	t := assemblyTempls(s.templates.proxmox)
+	d := initProxmox(s.configs)
+	templExecute(w, t, "index", d)
 }
 
 func (s *server) goTty(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles(s.templates.tty, s.templates.index))
-
-	var data ttyData
-	data.setTtyData(s.configs)
-
-	templExecute(w, t, "index", data)
+	t := assemblyTempls(s.templates.tty)
+	templExecute(w, t, "index", initTty(s.configs))
 }
 
 func (s *server) goSysInfo(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles(s.templates.tty, s.templates.index))
-
-	var data sysInfoData
-	data.setSysInfoData(s.configs)
-
-	templExecute(w, t, "index", data)
+	t := assemblyTempls(s.templates.tty)
+	templExecute(w, t, "index", initSysInfo(s.configs))
 }
 
 func (s *server) goHome(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/dashboard/panel", http.StatusTemporaryRedirect)
 }
 
-func (s *server) goNotFound(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles(s.templates.notFound)
-	errLog(err)
-	err = t.ExecuteTemplate(w, s.templates.notFound, s.configs)
-	if err != nil {
-		log.Println(EXEC_TEMPLATE_ERR, EXEC_TEMPLATE_ERR)
-		return
-	}
-}
-
-func (d *proxmoxData) setProxmoxData(s config.Settings) {
-	d.Host = findHostname()
-	d.VMs, d.LXCs = api.VirtHostRequest()
-	d.Background = s.Background
-	d.Auth = s.Auth
-}
-
-func (d *dashboardData) setDashboardData(s config.Settings) {
-	d.Host = findHostname()
-	d.Board = system.BoardModel()
-	d.Cpu = system.CpuModel()
-	d.Background = s.Background
-	d.Auth = s.Auth
-}
-
-func (d *dockerData) setDockerData(s config.Settings) {
-	d.Host = findHostname()
-	d.Containers = api.DockerContainers(s)
-	d.Background = s.Background
-	d.Auth = s.Auth
-}
-
-func (d *ttyData) setTtyData(s config.Settings) {
-	d.Host = findHostname()
-	d.Background = s.Background
-	d.Auth = s.Auth
-}
-
-// TODO: Доделать вывод инфы о системе через вкладку System.
-func (d *sysInfoData) setSysInfoData(s config.Settings) {
-	d.Host = findHostname()
-	d.Background = s.Background
-	d.Auth = s.Auth
-	d.Info.GetSysInfo()
+func assemblyTempls(templ ...string) *template.Template {
+	templ = append(templ, "templates/index.html")
+	return template.Must(template.ParseFiles(templ...))
 }

@@ -17,5 +17,5 @@ Proxmox:
   password: 'root'
 Docker:
   up: true
-  url: 'http://url.to.docker.api'
-  key: 'apikey'
+  url: 'http://omv.lan:9400/api/v1/containers'
+  key: '99013Vault99013'

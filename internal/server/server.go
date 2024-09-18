@@ -14,7 +14,6 @@ func newServer(sessonStore sessions.Store, cfg config.Settings) *server {
 		index:     "templates/index.html",
 		login:     "templates/login.html",
 		dashboard: "templates/dashboard.html",
-		notFound:  "templates/404.html",
 		docker:    "templates/docker.html",
 		proxmox:   "templates/proxmox.html",
 		tty:       "templates/tty.html",
@@ -50,6 +49,7 @@ func (s *server) configRouter() {
 	private.Use(s.authUser)
 	private.HandleFunc("/ws", wsConnection)
 	private.HandleFunc("/panel", s.goDasboard)
+	private.HandleFunc("/tty", s.goTty)
 	private.HandleFunc("/docker", s.goDocker)
 	private.HandleFunc("/proxmox", s.goProxmox)
 	private.HandleFunc("/tty", s.goTty)

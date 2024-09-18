@@ -29,7 +29,6 @@ type (
 		index     string
 		login     string
 		dashboard string
-		notFound  string
 		docker    string
 		proxmox   string
 		tty       string

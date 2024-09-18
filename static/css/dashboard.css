@@ -1,15 +1,14 @@
 /* ---------------------Main site----------------------- */
 .padding {
     border-radius:  0px 0px 10px;
-    max-width: 60%;
     height: 80%;
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
+    flex-direction: row;
 }
 
 .main {
-    margin-right: 10px;
+    width: 550px;
+    padding: 4px;
     display: flex;
     border-radius: 10px 0px 0px 10px;
     background-color: rgba(0, 0, 0, 0.5);
@@ -17,17 +16,15 @@
 
 .main-in {
     overflow: scroll;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-    align-content:flex-start;
-    overflow: scroll;
     display: flex;
-    margin-right: auto;
+    flex-wrap: wrap;
+    padding: 10px;
+    overflow: scroll;
+    margin: 0px auto ;
 }
 
 .app {
-    margin: 15px;
+    margin: 8px;
 }
 
 .main a {
