@@ -9,6 +9,12 @@ import (
 func loggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("| %s > %s.", r.RemoteAddr, r.RequestURI)
+		defer func() {
+			if _, ok := recover().(error); ok {
+				log.Printf("| %s > %s.", r.RemoteAddr, http.StatusInternalServerError)
+				w.WriteHeader(http.StatusInternalServerError)
+			}
+		}()
 		next.ServeHTTP(w, r)
 	})
 }

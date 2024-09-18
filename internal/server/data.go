@@ -2,7 +2,6 @@ package server
 
 import (
 	"html/template"
-	"log"
 	"net/http"
 	"os"
 
@@ -90,9 +89,5 @@ func findHostname() string {
 }
 
 func templExecute(w http.ResponseWriter, t *template.Template, templ string, data any) {
-	err := t.ExecuteTemplate(w, templ, data)
-	if err != nil {
-		log.Println(EXEC_TEMPLATE_ERR, err)
-		return
-	}
+	t.ExecuteTemplate(w, templ, data)
 }

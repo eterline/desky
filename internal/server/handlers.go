@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/eterline/desky/internal/config"
-	"github.com/eterline/desky/internal/requsters/system"
 )
 
 func (s *server) goLogin(w http.ResponseWriter, r *http.Request) {
@@ -26,14 +25,11 @@ func (s *server) goLogin(w http.ResponseWriter, r *http.Request) {
 			s.error(w, r, http.StatusBadRequest, err)
 			return
 		}
-		go system.ExecCmd("internal/scripts/tg-notify-login.sh")
 		log.Printf("Log In to panel from: %s.", r.RemoteAddr)
 		http.Redirect(w, r, "/dashboard/panel", http.StatusTemporaryRedirect)
 		return
-	}
-	if username != "" && password != "" {
+	} else {
 		log.Printf("| %s > Log In failed. Attempt username: %s", r.RemoteAddr, username)
-		go system.ExecCmd("internal/scripts/tg-notify-failed.sh")
 	}
 	t := template.Must(template.ParseFiles(s.templates.login))
 	err := t.ExecuteTemplate(w, "login.html", s.configs)

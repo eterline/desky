@@ -97,7 +97,7 @@
     height: 150px;
     padding-top: 5px;
     border-radius: 20px 0px;
-    transition: 0.3s ease-in-out transform;
+    transition: 0.2s ease-in-out transform;
 }
 
 .app ::content {
@@ -105,7 +105,7 @@
 }
 
 .app:hover {
-    transform: scale(1.1)
+    transform: scale(1.05)
 }
 
 .app img {

@@ -9,10 +9,10 @@ import (
 
 type (
 	App struct {
-		Name  string `json:"name"`
-		Icon  string `json:"icon"`
-		Url   string `json:"url"`
-		Descr string `json:"desciprion"`
+		Name string `json:"name"`
+		Icon string `json:"icon"`
+		Url  string `json:"url"`
+		Desc string `json:"desciprion"`
 	}
 
 	Apps []App
