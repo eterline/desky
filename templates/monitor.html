@@ -1,6 +1,35 @@
 {{ define "main" }}
 <main>
-    
+    <div class="padding">
+        <div id="system">
+            <div class="Host">
+
+            </div>
+            <div id="cpu">
+               <div id="cpu-model">
+                    {{ .Info.CPU.Model }}
+               </div>
+               <div id="cpu-cores">
+                    <div>Cores {{ .Info.CPU.Cores }}</div>
+                    <div>Threads {{ .Info.CPU.Threads }}</div>
+               </div>
+               <div id="cpu-freq">Frequency: {{ .Info.CPU.Speed }}</div>
+            </div>
+        </div>
+        <div id="disks">
+            {{ range .Info.Storage }}
+                <div class="disk">
+                    <div class="model">
+                        {{ .Name }}: <a href="https://www.google.com/search?q={{ .Model }}">{{ .Model }}</a>
+                    </div>
+                    <div class="serial">
+                        Serial: {{ .Serial }}
+                    </div>
+                    <div class="size">Size: {{ .Size }} MB</div>
+                </div>
+            {{ end }}
+        </div>
+    </div>
 </main>
 {{ end }}
 

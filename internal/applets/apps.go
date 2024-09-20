@@ -27,7 +27,7 @@ func ParseApps() Apps {
 	decoder := yaml.NewDecoder(file)
 	err = decoder.Decode(&appList)
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Panic(err.Error())
 	}
 	return appList
 }

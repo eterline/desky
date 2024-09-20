@@ -30,6 +30,7 @@ type (
 		dashboard string
 		docker    string
 		proxmox   string
+		monitor   string
 		tty       string
 	}
 

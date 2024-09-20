@@ -50,7 +50,7 @@ func initTty(s config.Settings) ttyData {
 func initSysInfo(s config.Settings) sysInfoData {
 	var inf sysinfo.SysInfo
 	inf.GetSysInfo()
-
+	inf.CPU.
 	return sysInfoData{
 		Host:       findHostname(),
 		Background: s.Background,

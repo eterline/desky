@@ -1,6 +1,8 @@
 package server
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"log"
 	"net/http"
 
@@ -16,6 +18,7 @@ func newServer(sessonStore sessions.Store, cfg config.Settings) *server {
 		dashboard: "templates/dashboard.html",
 		docker:    "templates/docker.html",
 		proxmox:   "templates/proxmox.html",
+		monitor:   "templates/monitor.html",
 		tty:       "templates/tty.html",
 	}
 
@@ -52,6 +55,7 @@ func (s *server) configRouter() {
 	private.HandleFunc("/tty", s.goTty)
 	private.HandleFunc("/docker", s.goDocker)
 	private.HandleFunc("/proxmox", s.goProxmox)
+	private.HandleFunc("/monitor", s.goSysInfo)
 	private.HandleFunc("/tty", s.goTty)
 }
 
@@ -72,10 +76,16 @@ func (s *server) respond(w http.ResponseWriter, r *http.Request, code int) {
 }
 
 func chekUser(s config.Settings, u string, p string) bool {
-	if s.User.Username == u && s.User.Password == p {
-		return true
-	}
-	return false
+	h := sha256.New()
+	h.Write([]byte(p))
+	hex.EncodeToString(h.Sum(nil))
+	return s.User.Username == u && s.User.Password == ToHash(p)
+}
+
+func ToHash(str string) string {
+	h := sha256.New()
+	h.Write([]byte(str))
+	return hex.EncodeToString(h.Sum(nil))
 }
 
 func errLog(err error) {

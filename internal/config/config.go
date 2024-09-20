@@ -1,10 +1,10 @@
 package config
 
 import (
+	"errors"
 	"log"
-	"os"
-
 	"math/rand"
+	"os"
 
 	"gopkg.in/yaml.v3"
 )
@@ -44,11 +44,7 @@ type (
 		} `yaml:"TLS"`
 		SessionStoreKey string `yaml:"Sessionkey"`
 		Proxmox         struct {
-			Up       bool   `yaml:"up"`
-			Ip       string `yaml:"ip"`
-			Port     string `yaml:"port"`
-			User     string `yaml:"username"`
-			Password string `yaml:"password"`
+			Up bool `yaml:"up"`
 		} `yaml:"Proxmox"`
 		Docker struct {
 			Up  bool   `yaml:"up"`
@@ -71,6 +67,9 @@ func ParseSettings() Settings {
 	err = decoder.Decode(&cfg)
 	if err != nil {
 		log.Fatal(err.Error())
+	}
+	if len(cfg.User.Password) != 64 {
+		log.Fatal(errors.New("Password must be SHA256 string"))
 	}
 	if !cfg.Proxmox.Up {
 		cfg.Proxmox.Up = false

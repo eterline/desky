@@ -1,21 +1,20 @@
 package server
 
 import (
-	"context"
 	"log"
 	"net/http"
 )
 
 func loggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("| %s > %s.", r.RemoteAddr, r.RequestURI)
 		defer func() {
 			if _, ok := recover().(error); ok {
-				log.Printf("| %s > %s.", r.RemoteAddr, http.StatusInternalServerError)
+				log.Printf("[%v] %s > %s.", r.Response.StatusCode, r.RemoteAddr, http.StatusInternalServerError)
 				w.WriteHeader(http.StatusInternalServerError)
 			}
 		}()
 		next.ServeHTTP(w, r)
+		log.Printf(" %s > %s.", r.RemoteAddr, r.RequestURI)
 	})
 }
 
@@ -32,7 +31,6 @@ func (s *server) authUser(next http.Handler) http.Handler {
 				http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
 				return
 			}
-			next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), ctxKeyUser, "Admin")))
 		}
 		next.ServeHTTP(w, r)
 	})

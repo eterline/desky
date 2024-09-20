@@ -11,9 +11,7 @@ import (
 func (s *server) goLogin(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	username := r.FormValue("username")
-	password := r.FormValue("password")
-
-	if chekUser(s.configs, username, password) {
+	if chekUser(s.configs, username, r.FormValue("password")) {
 		session, err := s.sessionStore.Get(r, SessionName)
 		if err != nil {
 			s.error(w, r, http.StatusBadRequest, err)
@@ -51,30 +49,30 @@ func clearSession(s *server) {
 }
 
 func (s *server) goDasboard(w http.ResponseWriter, r *http.Request) {
-	t := assemblyTempls(s.templates.dashboard)
+	t := s.assemblyTempls(s.templates.dashboard)
 
 	data := initDashboard(s.configs)
 	templExecute(w, t, "index", data)
 }
 
 func (s *server) goDocker(w http.ResponseWriter, r *http.Request) {
-	t := assemblyTempls(s.templates.docker)
+	t := s.assemblyTempls(s.templates.docker)
 	templExecute(w, t, "index", initDocker(s.configs))
 }
 
 func (s *server) goProxmox(w http.ResponseWriter, r *http.Request) {
-	t := assemblyTempls(s.templates.proxmox)
+	t := s.assemblyTempls(s.templates.proxmox)
 	d := initProxmox(s.configs)
 	templExecute(w, t, "index", d)
 }
 
 func (s *server) goTty(w http.ResponseWriter, r *http.Request) {
-	t := assemblyTempls(s.templates.tty)
+	t := s.assemblyTempls(s.templates.tty)
 	templExecute(w, t, "index", initTty(s.configs))
 }
 
 func (s *server) goSysInfo(w http.ResponseWriter, r *http.Request) {
-	t := assemblyTempls(s.templates.tty)
+	t := s.assemblyTempls(s.templates.monitor)
 	templExecute(w, t, "index", initSysInfo(s.configs))
 }
 
@@ -82,7 +80,7 @@ func (s *server) goHome(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/dashboard/panel", http.StatusTemporaryRedirect)
 }
 
-func assemblyTempls(templ ...string) *template.Template {
-	templ = append(templ, "templates/index.html")
+func (s *server) assemblyTempls(templ ...string) *template.Template {
+	templ = append(templ, s.templates.index)
 	return template.Must(template.ParseFiles(templ...))
 }

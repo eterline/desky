@@ -1,0 +1,92 @@
+/* ---------------------Main site----------------------- */
+
+.padding {
+    gap: 5px;
+    width: 80%;
+    height: 80%;
+    padding: 4px;
+    display: flex;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#system {
+    width: 60%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#disks {
+    width: 40%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.disk {
+    border-radius: 4px;
+    padding: 2px;
+    margin: 10px;
+    background-color: rgb(255, 255, 255);
+}
+
+.disk .model {
+    border-radius: 4px;
+    margin: 5px;
+    padding: 2px;
+    color: aliceblue;
+    background-color: black;
+}
+
+.disk .model a {
+    color: aliceblue;
+}
+
+.disk .serial {
+    margin-left: 5px;
+}
+
+.disk .size {
+    margin: 5px;
+    padding: 5px;
+    width: fit-content;
+    background-color:rgba(131, 131, 131, 0.493);
+    border-radius: 6px;
+    font-size: 1.5em;
+}
+
+#cpu {
+    border-radius: 10px;
+    margin: 10px;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 45%;
+}
+
+#cpu-freq {
+    color: antiquewhite;
+    padding: 2px;
+}
+
+#cpu #cpu-model {
+    background-color: azure;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+#cpu #cpu-cores {
+    margin-top: 4px;
+    display: flex;
+    width: 100%;
+    gap: 5px;
+}
+
+#cpu #cpu-cores div {
+    border-radius: 4px;
+    font-size: 1.4em;
+    padding: 3px;
+    background-color: rgba(226, 226, 226, 0.801);
+    text-align: center;
+    width: 50%;
+}
