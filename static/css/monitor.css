@@ -10,15 +10,33 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-#system {
-    width: 60%;
+#systemd {
+    width: 30%;
     height: 100%;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-#disks {
+#system {
     width: 40%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.scroll {
+    height: 100%;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scroll::-webkit-scrollbar {
+    display: none;
+}
+
+#disks {
+    width: 30%;
     height: 100%;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.5);
@@ -56,12 +74,12 @@
     font-size: 1.5em;
 }
 
-#cpu {
+.module {
     border-radius: 10px;
     margin: 10px;
     padding: 5px;
     background-color: rgba(0, 0, 0, 0.6);
-    width: 45%;
+    height: fit-content;
 }
 
 #cpu-freq {
@@ -69,24 +87,47 @@
     padding: 2px;
 }
 
-#cpu #cpu-model {
+.module-title {
+    text-align: center;
     background-color: azure;
     padding: 2px;
     border-radius: 5px;
 }
 
-#cpu #cpu-cores {
+#cpu-cores, #mem-param {
     margin-top: 4px;
     display: flex;
     width: 100%;
     gap: 5px;
 }
 
-#cpu #cpu-cores div {
+#cpu-cores div, #mem-param div {
     border-radius: 4px;
     font-size: 1.4em;
     padding: 3px;
     background-color: rgba(226, 226, 226, 0.801);
     text-align: center;
-    width: 50%;
+    width: 45%;
+}
+
+.bios-data {
+    padding: 0px 5px;
+    color: azure;
+    border-radius: 4px;
+    background-color: rgba(240, 255, 255, 0.199);
+    margin: 2px;
+}
+
+.unit {
+    border-radius: 5px;
+    color: aliceblue;
+    padding: 2px;
+    margin: 4px;
+    background-color: rgba(0, 0, 0, 0.555);
+}
+
+.unit div {
+    border-radius: 5px;
+    text-align: center;
+    background-color: aliceblue;
 }

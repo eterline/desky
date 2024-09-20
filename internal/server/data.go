@@ -69,6 +69,7 @@ type (
 		Background string
 		Auth       bool
 		Info       sysinfo.SysInfo
+		Systemd    any
 	}
 
 	ctxKey int8

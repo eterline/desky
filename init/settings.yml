@@ -5,7 +5,7 @@ Background: 'image2.jpg'
 Auth: false
 User:
   username: 'admin'
-  password: '1963a5d83887dc5eef7947510655c6e4ac7d22c0e0ecdd35d0740c24e0a3b7dc'
+  password: 'SHA256-string'
 TLS:
   crt: certificates/local.crt
   key: certificates/local.key
@@ -19,4 +19,4 @@ Proxmox:
 Docker:
   up: true
   url: 'http://omv.lan:9400/api/v1/containers'
-  key: '99013Vault99013'
+  key: 'pass-key'

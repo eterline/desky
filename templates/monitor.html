@@ -1,23 +1,78 @@
 {{ define "main" }}
 <main>
     <div class="padding">
-        <div id="system">
-            <div class="Host">
-
-            </div>
-            <div id="cpu">
-               <div id="cpu-model">
-                    {{ .Info.CPU.Model }}
-               </div>
-               <div id="cpu-cores">
-                    <div>Cores {{ .Info.CPU.Cores }}</div>
-                    <div>Threads {{ .Info.CPU.Threads }}</div>
-               </div>
-               <div id="cpu-freq">Frequency: {{ .Info.CPU.Speed }}</div>
+        <div id="systemd">
+            <div class="scroll">
+                {{ range .Systemd }}
+                    <div class="unit">
+                        {{ .Unit }}
+                        {{ if eq .State "enabled" }}
+                            <div style="color: green;">{{ .State }}</div>
+                        {{ end }}
+                        {{ if eq .State "alias" }}
+                            <div style="color: green;">{{ .State }}</div>
+                        {{ end }}
+                        {{ if eq .State "static" }}
+                            <div style="color: rgb(102, 0, 128);">{{ .State }}</div>
+                        {{ end }}
+                        {{ if eq .State "disabled" }}
+                            <div style="color: rgb(128, 0, 0);">{{ .State }}</div>
+                        {{ end }}
+                    </div>
+                {{ end }}
             </div>
         </div>
+            <div id="system">
+                <div class="scroll">
+                    <div class="module">
+                        <div class="module-title">
+                                {{ .Info.CPU.Model }}
+                        </div>
+                        <div id="cpu-cores">
+                                <div>Cores {{ .Info.CPU.Cores }}</div>
+                                <div>Threads {{ .Info.CPU.Threads }}</div>
+                        </div>
+                        <div id="cpu-freq">Frequency: {{ .Info.CPU.Speed }}</div>
+                    </div>
+                    <div class="module">
+                        <div class="module-title">
+                            {{ .Info.Memory.Type }} RAM
+                        </div>
+                        <div id="mem-param">
+                            <div>Speed {{ .Info.Memory.Speed }}</div>
+                            <div>Size {{ .Info.Memory.Size }}</div>
+                        </div>
+                    </div>
+                    <div class="module">
+                        <div class="module-title">
+                            Motherboard
+                        </div>
+                        <div class="bios-data">Name: {{ .Info.Board.Name }}</div>
+                        <div class="bios-data">Serial: {{ .Info.Board.Serial }}</div>
+                        <div class="bios-data">Vendor: {{ .Info.Board.Vendor }}</div>
+                        <div class="bios-data">Version: {{ .Info.Board.Version }}</div>
+                    </div>
+                    <div class="module">
+                        <div class="module-title">
+                            BIOS
+                        </div>
+                        <div class="bios-data">Vendor: {{ .Info.BIOS.Vendor }}</div>
+                        <div class="bios-data">Ver: {{ .Info.BIOS.Version }}</div>
+                        <div class="bios-data">Date: {{ .Info.BIOS.Date }}</div>
+                    </div>
+                    <div class="module">
+                        <div class="module-title">
+                            OS
+                        </div>
+                        <div class="bios-data">Name: {{ .Info.OS.Name }}</div>
+                        <div class="bios-data">Architecture: {{ .Info.OS.Architecture }}</div>
+                        <div class="bios-data">OS Version: {{ .Info.OS.Version }}</div>
+                    </div>
+                </div>
+            </div>
         <div id="disks">
-            {{ range .Info.Storage }}
+            <div class="scroll">
+                {{ range .Info.Storage }}
                 <div class="disk">
                     <div class="model">
                         {{ .Name }}: <a href="https://www.google.com/search?q={{ .Model }}">{{ .Model }}</a>
@@ -28,6 +83,7 @@
                     <div class="size">Size: {{ .Size }} MB</div>
                 </div>
             {{ end }}
+            </div>
         </div>
     </div>
 </main>
