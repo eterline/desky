@@ -89,10 +89,14 @@ WantedBy=default.target
 
 ## Screenshoots
 
+Main apps
 ![Screenshot 1](./repo/screenshoot_1.png)
 
+System info
 ![Screenshot 2](./repo/screenshoot_2.png)
 
+TTY cmd
+![Screenshot 2](./repo/screenshoot_3.png)
 
 ## License
 
