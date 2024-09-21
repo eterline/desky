@@ -70,6 +70,7 @@ type (
 		Auth       bool
 		Info       sysinfo.SysInfo
 		Systemd    any
+		Smarts     any
 	}
 
 	ctxKey int8

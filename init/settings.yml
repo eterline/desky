@@ -1,11 +1,11 @@
 Address:
   ip: '0.0.0.0'
-  port: 44044
+  port: 443
 Background: 'image2.jpg'
 Auth: false
 User:
   username: 'admin'
-  password: 'SHA256-string'
+  password: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'
 TLS:
   crt: certificates/local.crt
   key: certificates/local.key

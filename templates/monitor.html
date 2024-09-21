@@ -7,16 +7,16 @@
                     <div class="unit">
                         {{ .Unit }}
                         {{ if eq .State "enabled" }}
-                            <div style="color: green;">{{ .State }}</div>
+                            <div style="color: green;">State: {{ .State }}</div>
                         {{ end }}
                         {{ if eq .State "alias" }}
-                            <div style="color: green;">{{ .State }}</div>
+                            <div style="color: green;">State: {{ .State }}</div>
                         {{ end }}
                         {{ if eq .State "static" }}
-                            <div style="color: rgb(102, 0, 128);">{{ .State }}</div>
+                            <div style="color: rgb(102, 0, 128);">State: {{ .State }}</div>
                         {{ end }}
                         {{ if eq .State "disabled" }}
-                            <div style="color: rgb(128, 0, 0);">{{ .State }}</div>
+                            <div style="color: rgb(128, 0, 0);">State: {{ .State }}</div>
                         {{ end }}
                     </div>
                 {{ end }}
@@ -26,47 +26,47 @@
                 <div class="scroll">
                     <div class="module">
                         <div class="module-title">
-                                {{ .Info.CPU.Model }}
+                                [{{ .Info.CPU.Model }}]
                         </div>
                         <div id="cpu-cores">
                                 <div>Cores {{ .Info.CPU.Cores }}</div>
                                 <div>Threads {{ .Info.CPU.Threads }}</div>
                         </div>
-                        <div id="cpu-freq">Frequency: {{ .Info.CPU.Speed }}</div>
+                        <div id="cpu-freq">Frequency: {{ .Info.CPU.Speed }}-MHz</div>
                     </div>
                     <div class="module">
                         <div class="module-title">
-                            {{ .Info.Memory.Type }} RAM
+                            [{{ .Info.Memory.Type }} RAM]
                         </div>
                         <div id="mem-param">
-                            <div>Speed {{ .Info.Memory.Speed }}</div>
-                            <div>Size {{ .Info.Memory.Size }}</div>
+                            <div>Speed {{ .Info.Memory.Speed }}-MHz</div>
+                            <div>Size {{ .Info.Memory.Size }}-MB</div>
                         </div>
                     </div>
                     <div class="module">
                         <div class="module-title">
-                            Motherboard
+                            [Motherboard]
                         </div>
-                        <div class="bios-data">Name: {{ .Info.Board.Name }}</div>
-                        <div class="bios-data">Serial: {{ .Info.Board.Serial }}</div>
-                        <div class="bios-data">Vendor: {{ .Info.Board.Vendor }}</div>
-                        <div class="bios-data">Version: {{ .Info.Board.Version }}</div>
+                        <div class="module-data">Name: <a href="https://www.google.com/search?q={{ .Info.Board.Vendor }} {{ .Info.Board.Name }}">{{ .Info.Board.Name }}</a></div>
+                        <div class="module-data">Serial: {{ .Info.Board.Serial }}</div>
+                        <div class="module-data">Vendor: {{ .Info.Board.Vendor }}</div>
+                        <div class="module-data">Version: {{ .Info.Board.Version }}</div>
                     </div>
                     <div class="module">
                         <div class="module-title">
-                            BIOS
+                            [BIOS]
                         </div>
-                        <div class="bios-data">Vendor: {{ .Info.BIOS.Vendor }}</div>
-                        <div class="bios-data">Ver: {{ .Info.BIOS.Version }}</div>
-                        <div class="bios-data">Date: {{ .Info.BIOS.Date }}</div>
+                        <div class="module-data">Vendor: {{ .Info.BIOS.Vendor }}</div>
+                        <div class="module-data">Version: {{ .Info.BIOS.Version }}</div>
+                        <div class="module-data">Release: {{ .Info.BIOS.Date }}</div>
                     </div>
                     <div class="module">
                         <div class="module-title">
-                            OS
+                            [OS]
                         </div>
-                        <div class="bios-data">Name: {{ .Info.OS.Name }}</div>
-                        <div class="bios-data">Architecture: {{ .Info.OS.Architecture }}</div>
-                        <div class="bios-data">OS Version: {{ .Info.OS.Version }}</div>
+                        <div class="module-data">Name: {{ .Info.OS.Name }}</div>
+                        <div class="module-data">Architecture: {{ .Info.OS.Architecture }}</div>
+                        <div class="module-data">OS Version: {{ .Info.OS.Version }}</div>
                     </div>
                 </div>
             </div>
@@ -75,12 +75,19 @@
                 {{ range .Info.Storage }}
                 <div class="disk">
                     <div class="model">
-                        {{ .Name }}: <a href="https://www.google.com/search?q={{ .Model }}">{{ .Model }}</a>
+                        [<span>{{ .Name }}</span>]: <a href="https://www.google.com/search?q={{ .Model }}">{{ .Model }}</a>
                     </div>
                     <div class="serial">
                         Serial: {{ .Serial }}
                     </div>
                     <div class="size">Size: {{ .Size }} MB</div>
+                    <div>
+                        <H3>SMART</H3>
+                        <div class="disk-data">Temperature: {{ (index $.Smarts .Name).Temperature }}</div>
+                        <div class="disk-data">WR: {{ (index $.Smarts .Name).Written }}</div>
+                        <div class="disk-data">RD: {{ (index $.Smarts .Name).Read }}</div>
+                        <div class="disk-data">Hours: {{ (index $.Smarts .Name).PowerOnHours }}</div>
+                    </div>
                 </div>
             {{ end }}
             </div>

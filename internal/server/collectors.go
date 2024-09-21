@@ -4,6 +4,7 @@ import (
 	"github.com/eterline/desky/internal/applets"
 	"github.com/eterline/desky/internal/config"
 	"github.com/eterline/desky/internal/requsters/api"
+	"github.com/eterline/desky/internal/requsters/disk"
 	"github.com/eterline/desky/internal/requsters/system"
 	"github.com/eterline/desky/internal/requsters/systemd"
 	"github.com/zcalusic/sysinfo"
@@ -51,11 +52,13 @@ func initTty(s config.Settings) ttyData {
 func initSysInfo(s config.Settings) sysInfoData {
 	var inf sysinfo.SysInfo
 	inf.GetSysInfo()
+	smarts := disk.SmartDisks(inf.Storage)
 	return sysInfoData{
 		Host:       findHostname(),
 		Background: s.Background,
 		Auth:       s.Auth,
 		Info:       inf,
 		Systemd:    systemd.UnitsList(),
+		Smarts:     smarts,
 	}
 }

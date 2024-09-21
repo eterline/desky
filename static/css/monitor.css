@@ -11,14 +11,14 @@
 }
 
 #systemd {
-    width: 30%;
+    width: 25%;
     height: 100%;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.5);
 }
 
 #system {
-    width: 40%;
+    width: 35%;
     height: 100%;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.5);
@@ -36,7 +36,7 @@
 }
 
 #disks {
-    width: 30%;
+    width: 40%;
     height: 100%;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.5);
@@ -55,6 +55,10 @@
     padding: 2px;
     color: aliceblue;
     background-color: black;
+}
+
+.model span {
+    color: rgb(0, 255, 255);
 }
 
 .disk .model a {
@@ -110,11 +114,23 @@
     width: 45%;
 }
 
-.bios-data {
+.module-data {
     padding: 0px 5px;
     color: azure;
     border-radius: 4px;
     background-color: rgba(240, 255, 255, 0.199);
+    margin: 2px;
+}
+
+.module-data a {
+    color: azure;
+    text-decoration: none;
+}
+.disk-data {
+    padding: 0px 5px;
+    color: rgb(0, 0, 0);
+    border-radius: 4px;
+    background-color: rgba(68, 68, 68, 0.199);
     margin: 2px;
 }
 
