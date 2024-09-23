@@ -66,7 +66,7 @@ func CpuModel() string {
 }
 
 func Uptime() string {
-	time, err := ExecCmd("uptime | awk '{print $3}' | tr -d ,")
+	time, err := ExecCmd("uptime -p")
 	if err != nil {
 		return "null"
 	}

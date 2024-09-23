@@ -10,17 +10,19 @@ import (
 	"github.com/eterline/desky/internal/requsters/api"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
+	proxmox "github.com/luthermonson/go-proxmox"
 	"github.com/zcalusic/sysinfo"
 )
 
 type (
 	// Server structure data
 	server struct {
-		router       *mux.Router
-		sessionStore sessions.Store
-		templates    paths
-		configs      config.Settings
-		cookieKey    string
+		router        *mux.Router
+		sessionStore  sessions.Store
+		templates     paths
+		configs       config.Settings
+		cookieKey     string
+		proxmoxClient *proxmox.Client
 	}
 
 	// html pages names
@@ -52,8 +54,9 @@ type (
 
 	proxmoxData struct {
 		Host       string
-		LXCs       api.LXCList
-		VMs        api.VMList
+		HostData   interface{}
+		LXCs       interface{}
+		VMs        interface{}
 		Background string
 		Auth       bool
 	}

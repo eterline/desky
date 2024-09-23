@@ -44,7 +44,11 @@ type (
 		} `yaml:"TLS"`
 		SessionStoreKey string `yaml:"Sessionkey"`
 		Proxmox         struct {
-			Up bool `yaml:"up"`
+			Up       bool   `yaml:"up"`
+			User     string `yaml:"username"`
+			Password string `yaml:"password"`
+			Host     string `yaml:"hostname"`
+			Port     int    `yaml:"port"`
 		} `yaml:"Proxmox"`
 		Docker struct {
 			Up  bool   `yaml:"up"`
@@ -76,6 +80,9 @@ func ParseSettings() Settings {
 	}
 	if !cfg.Docker.Up {
 		cfg.Docker.Up = false
+	}
+	if cfg.Proxmox.Port == 0 {
+		cfg.Proxmox.Port = 8006
 	}
 	return cfg
 }

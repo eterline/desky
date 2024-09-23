@@ -7,11 +7,12 @@ import (
 	"net/http"
 
 	"github.com/eterline/desky/internal/config"
+	"github.com/eterline/desky/pkg/ve"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 )
 
-func newServer(sessonStore sessions.Store, cfg config.Settings) *server {
+func NewServer(sessonStore sessions.Store, cfg config.Settings, auth ve.Auth) *server {
 	templs := paths{
 		index:     "templates/index.html",
 		login:     "templates/login.html",
@@ -23,11 +24,12 @@ func newServer(sessonStore sessions.Store, cfg config.Settings) *server {
 	}
 
 	s := &server{
-		router:       mux.NewRouter(),
-		sessionStore: sessonStore,
-		templates:    templs,
-		configs:      cfg,
-		cookieKey:    config.RandStringBytes(32),
+		router:        mux.NewRouter(),
+		sessionStore:  sessonStore,
+		templates:     templs,
+		configs:       cfg,
+		cookieKey:     config.RandStringBytes(32),
+		proxmoxClient: ve.Authenticate(auth),
 	}
 
 	s.configRouter()

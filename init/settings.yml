@@ -12,10 +12,10 @@ TLS:
 Sessionkey: 'PXxv254dL3MuKtOxQuJbV1hToiXDkxH8lPHrK5pi31pVhEkaO1KksamcyCHsN9XO'
 Proxmox:
   up: true
-  ip: 'home-ve.lan'
+  hostname: 'home-ve.lan'
   port: 8006
-  username: 'root'
-  password: 'root'
+  username: 'root@pam'
+  password: 'password'
 Docker:
   up: true
   url: 'http://omv.lan:9400/api/v1/containers'

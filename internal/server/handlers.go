@@ -62,7 +62,7 @@ func (s *server) goDocker(w http.ResponseWriter, r *http.Request) {
 
 func (s *server) goProxmox(w http.ResponseWriter, r *http.Request) {
 	t := s.assemblyTempls(s.templates.proxmox)
-	d := initProxmox(s.configs)
+	d := initProxmox(s.configs, s.proxmoxClient)
 	templExecute(w, t, "index", d)
 }
 

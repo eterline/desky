@@ -1,80 +1,32 @@
 {{ define "main" }}
     <main>
         <div class="virt">
-                {{ range .LXCs }}
-                <div class="container">
-                    <img style="height: 100px; width: 100px;" src="/static/images/web-icons/lxc.svg" alt="">
-                    <div class="ct-data">
-                        <table>
-                            <tr>
-                                <th>Name</th>
-                                <td> {{ .Name }} </td>
-                            </tr>
-                            <tr>
-                                <th>VMID</th>
-                                <td> {{ .VMID }} </td>
-                            </tr>
-                            <tr>
-                                <th>Status</th>
-                                {{ if eq .Status "running" }}
-                                    <td style="color: greenyellow;"> {{ .Status }}</td>
-                                {{ else }}
-                                    <td style="color: rgb(255, 47, 47);"> {{ .Status }}</td>
-                                {{ end }}
-                            </tr>
-                        </table>
+            {{ range .LXCs }}
+                <div>
+                    <img width="100px" height="100px" src="/static/images/web-icons/lxc.svg" alt="LXC">
+                    {{ template "virt-dev" .}}
+                    <div class="buttons">
+                        {{ template "reboot-lxc" .}}
+                        {{ if eq .Status "running"}}
+                            {{ template "shutdown-lxc" .}}
+                        {{else}}
+                            {{ template "start-lxc" .}}
+                        {{ end }}
                     </div>
-                        <div class="btns">
-                            <button data-type="lxc" data-id="{{ .VMID }}" class="reboot-btn">
-                                <i class="fa fa-refresh"></i>
-                            </button>
-                            {{ if eq .Status "running" }}
-                            <button data-type="lxc" data-id="{{ .VMID }}" class="shutdown-btn act-btn" style="background-color: brown; color: black; border-color: rgb(107, 28, 28);">
-                                <i class="fa fa-pause"></i>
-                            </button>
-                            {{ else }}
-                            <button data-type="lxc" data-id="{{ .VMID }}" class="start-btn act-btn" style="background-color: rgb(87, 165, 42); color: black; border-color: rgb(40, 68, 17);">
-                                <i class="fa fa-play"></i>
-                            </button>
-                            {{ end }}
-                        </div>
+                    
                 </div>
-                {{ end }}
-                {{ range .VMs }}
-                <div class="container">
-                    <img style="height: 100px; width: 100px;" src="/static/images/web-icons/vm.svg" alt="">
-                    <div class="ct-data">
-                        <table>
-                            <tr>
-                                <th>Name</th>
-                                <td> {{ .Name }}</td>
-                            </tr>
-                            <tr>
-                                <th>VMID</th>
-                                <td> {{ .VMID }}</td>
-                            </tr>
-                            <tr>
-                                <th>Status</th>
-                                {{ if eq .Status "running" }}
-                                    <td style="color: greenyellow;"> {{ .Status }}</td>
-                                {{ else }}
-                                    <td style="color: rgb(255, 47, 47);"> {{ .Status }}</td>
-                                {{ end }}
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="btns">
-                        <button data-type="qm" data-id="{{ .VMID }}" class="reboot-btn">
-                            <i class="fa fa-refresh"></i>
-                        </button>
-                        {{ if eq .Status "running" }}
-                        <button data-type="qm" data-id="{{ .VMID }}" class="shutdown-btn act-btn" style="background-color: brown; color: black; border-color: rgb(107, 28, 28);">
-                            <i class="fa fa-pause"></i>
-                        </button>
-                        {{ else }}
-                        <button data-type="qm" data-id="{{ .VMID }}" class="start-btn act-btn" style="background-color: rgb(87, 165, 42); color: black; border-color: rgb(40, 68, 17);">
-                            <i class="fa fa-play"></i>
-                        </button>
+            {{ end }}
+
+            {{ range .VMs}}
+                <div>
+                    <img width="100px" height="100px" src="/static/images/web-icons/vm.svg" alt="VM">
+                    {{ template "virt-dev" .}}
+                    <div class="buttons">
+                        {{ template "reboot-qm" .}}
+                        {{ if eq .Status "running"}}
+                            {{ template "shutdown-qm" .}}
+                        {{else}}
+                            {{ template "start-qm" .}}
                         {{ end }}
                     </div>
                 </div>
@@ -90,6 +42,69 @@
 <link rel="stylesheet" href="/static/css/proxmox.css">
 {{ end }}
 
-{{ define "name" }}
+{{ define "tab-name" }}
 Proxmox
+{{ end }}
+
+
+{{ define "virt-dev" }}
+<div class="virt-dev">
+    <div class="data-param" style="background-color: black;">
+        <H2 style="text-align: center; color: white;">[{{ .Name }}]</H2>
+    </div>
+    <div class="data-param">
+        <span>ID:</span> {{ .ID }}
+    </div>
+    <div class="data-param">
+        {{ if eq .Status "running"}}
+            <div style="color: greenyellow;"><span>Status:</span> {{ .Status }}</div>
+        {{else}}
+            <div style="color: rgb(255, 47, 47);"><span>Status:</span> {{ .Status }}</div>
+        {{ end }}
+    </div>
+    <div class="data-param">
+        <span>vCPU:</span> {{ .CPUs }}
+    </div>
+    <div class="data-param">
+        <span>Uptime:</span> {{ .Uptime }} sec.
+    </div>
+</div>
+{{ end }}
+
+{{ define "reboot-lxc" }}
+    <button data-type="lxc" data-id="{{ .ID }}" class="reboot-btn">
+        <i class="fa fa-refresh"></i>
+    </button>
+{{ end }}
+
+{{ define "start-lxc" }}
+    <button data-type="lxc" data-id="{{ .ID }}" class="start-btn act-btn" style="background-color: rgb(173, 202, 41); color: black; border-color: rgb(40, 68, 17);">
+        Startup
+    </button>
+{{ end }}
+
+{{ define "shutdown-lxc" }}
+    <button data-type="lxc" data-id="{{ .ID }}" class="shutdown-btn act-btn" style="background-color: rgb(187, 30, 30); color: black; border-color: rgb(40, 68, 17);">
+        Shutdown
+    </button>
+{{ end }}
+
+
+
+{{ define "reboot-qm" }}
+    <button data-type="qm" data-id="{{ .ID }}" class="reboot-btn">
+        <i class="fa fa-refresh"></i>
+    </button>
+{{ end }}
+
+{{ define "start-qm" }}
+    <button data-type="qm" data-id="{{ .ID }}" class="start-btn act-btn" style="background-color: rgb(173, 202, 41); color: black; border-color: rgb(40, 68, 17);">
+        Startup
+    </button>
+{{ end }}
+
+{{ define "shutdown-qm" }}
+    <button data-type="qm" data-id="{{ .ID }}" class="shutdown-btn act-btn" style="background-color: rgb(187, 30, 30); color: black; border-color: rgb(40, 68, 17);">
+        Shutdown
+    </button>
 {{ end }}

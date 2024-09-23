@@ -5,23 +5,30 @@ import (
 	"net/http"
 
 	"github.com/eterline/desky/internal/config"
+	"github.com/eterline/desky/pkg/ve"
 	"github.com/gorilla/sessions"
 )
 
 func Start() error {
-	settings := config.ParseSettings()
-	ssStore := sessions.NewCookieStore([]byte(settings.SessionStoreKey))
-	srv := newServer(ssStore, settings)
+	cfg := config.ParseSettings()
+	ssStore := sessions.NewCookieStore([]byte(cfg.SessionStoreKey))
+	proxmox := ve.InitBase(
+		cfg.Proxmox.User,
+		cfg.Proxmox.Password,
+		cfg.Proxmox.Host,
+		cfg.Proxmox.Port,
+	)
+	srv := NewServer(ssStore, cfg, &proxmox)
 	config.PrintLogo(
-		settings.Proxmox.Up,
-		settings.Address.Ip,
-		settings.Address.Port,
-		settings.Auth,
+		cfg.Proxmox.Up,
+		cfg.Address.Ip,
+		cfg.Address.Port,
+		cfg.Auth,
 	)
 	return http.ListenAndServeTLS(
-		fmt.Sprintf("%s:%s", settings.Address.Ip, settings.Address.Port),
-		settings.Tls.Crt,
-		settings.Tls.Key,
+		fmt.Sprintf("%s:%s", cfg.Address.Ip, cfg.Address.Port),
+		cfg.Tls.Crt,
+		cfg.Tls.Key,
 		srv.router,
 	)
 }

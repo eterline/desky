@@ -1,44 +1,59 @@
 /* ---------------------Main site----------------------- */
 .virt {
+    padding: 10px;
     display: flex;
-    overflow: scroll;
+    overflow-x: scroll;
     border-radius: 10px;
+    width: 80%;
+    gap: 15px;
     flex-direction: row;
-    background-color: rgba(161, 161, 161, 0.5);
-    
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
-.container {
-    border-radius: 15px;
-    background-color: rgba(0, 0, 0, 0.7);
-    margin: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    padding: 5px;
+.virt div img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
 }
 
-.container img {
-    margin: auto;
-}
-
-.container th {
+.virt-dev {
     border-radius: 5px;
-    padding: 5px;
-    background-color:rgba(255, 255, 255, 0.76);
-    margin: 5px;
-    text-align: left;
-}
-.container th {
-    margin-left: 5px;
+    background-color: azure;
+    padding: 2px;
+    gap: 2px;
 }
 
-.ct-data {
-    border-radius: 10px;
-    margin-top: 5px;
-    padding: 5px;
-    background-color: rgba(240, 248, 255, 0.6);
+.virt div {
+    width: 200px;
 }
+
+.virt > div {
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.data-param {
+    margin-top: 5px;
+    border-radius: 5px;
+    background-color: rgba(163, 163, 163, 0.8);
+}
+
+.data-param span {
+    background-color: rgb(0, 0, 0);
+    border-radius: 2px;
+    color: aliceblue;
+    width: 30%;
+    padding-left: 5px;
+}
+
+.buttons {
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+}
+
 
 .reboot-btn {
     margin: auto;
@@ -46,11 +61,11 @@
     justify-content: center;
     width: 30%;
     height: 30px;
-    border-radius: 15px;
+    border-radius: 8px;
 }
 
 .act-btn {
-    border-radius: 15px;
+    border-radius: 8px;
     margin: auto;
     display: flex;
     justify-content: center;
@@ -64,8 +79,6 @@
     background-color: rgba(89, 80, 172, 0.6);
     display: flex;
     flex-direction: row;
-    width: 200px;
-    margin: 5px;
 }
 
 .btns button {
