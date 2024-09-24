@@ -7,16 +7,17 @@ User:
   username: 'admin'
   password: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'
 TLS:
+  enable: true
   crt: certificates/local.crt
   key: certificates/local.key
 Sessionkey: 'PXxv254dL3MuKtOxQuJbV1hToiXDkxH8lPHrK5pi31pVhEkaO1KksamcyCHsN9XO'
 Proxmox:
-  up: true
+  up: false
   hostname: 'home-ve.lan'
   port: 8006
   username: 'root@pam'
   password: 'password'
 Docker:
-  up: true
+  up: false
   url: 'http://omv.lan:9400/api/v1/containers'
-  key: 'pass-key'
+  key: 'password'

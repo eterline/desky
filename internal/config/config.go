@@ -39,8 +39,9 @@ type (
 			Password string `yaml:"password"`
 		} `yaml:"User"`
 		Tls struct {
-			Crt string `yaml:"crt"`
-			Key string `yaml:"key"`
+			Enable bool   `yaml:"enable"`
+			Crt    string `yaml:"crt"`
+			Key    string `yaml:"key"`
 		} `yaml:"TLS"`
 		SessionStoreKey string `yaml:"Sessionkey"`
 		Proxmox         struct {
@@ -84,6 +85,10 @@ func ParseSettings() Settings {
 	if cfg.Proxmox.Port == 0 {
 		cfg.Proxmox.Port = 8006
 	}
+
+	if !cfg.Tls.Enable {
+		cfg.Tls.Enable = false
+	}
 	return cfg
 }
 
@@ -95,6 +100,6 @@ func RandStringBytes(n int) string {
 	return string(b)
 }
 
-func PrintLogo(prox bool, ip string, port string, a bool) {
-	log.Printf(printDesky, ip, port, prox, a)
+func (cfg *Settings) PrintLogo() {
+	log.Printf(printDesky, cfg.Address.Ip, cfg.Address.Port, cfg.Proxmox.Up, cfg.Auth)
 }

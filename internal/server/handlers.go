@@ -58,21 +58,29 @@ func (s *server) Dasboard(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) Docker(w http.ResponseWriter, r *http.Request) {
-	t := assemblyTemplates(s, s.templates.docker)
-	data := initDocker(s.configs)
+	if s.configs.Docker.Up {
+		t := assemblyTemplates(s, s.templates.docker)
+		data := initDocker(s.configs)
 
-	if err := templateExec(w, t, "index", data); err != nil {
-		s.error(w, r, http.StatusInternalServerError, err)
+		if err := templateExec(w, t, "index", data); err != nil {
+			s.error(w, r, http.StatusInternalServerError, err)
+		}
+		return
 	}
+	s.Home(w, r)
 }
 
 func (s *server) Proxmox(w http.ResponseWriter, r *http.Request) {
-	t := assemblyTemplates(s, s.templates.proxmox)
-	data := initProxmox(s.configs, s.proxmoxClient)
+	if s.configs.Proxmox.Up {
+		t := assemblyTemplates(s, s.templates.proxmox)
+		data := initProxmox(s.configs, s.proxmoxClient)
 
-	if err := templateExec(w, t, "index", data); err != nil {
-		s.error(w, r, http.StatusInternalServerError, err)
+		if err := templateExec(w, t, "index", data); err != nil {
+			s.error(w, r, http.StatusInternalServerError, err)
+		}
+		return
 	}
+	s.Home(w, r)
 }
 
 func (s *server) Tty(w http.ResponseWriter, r *http.Request) {

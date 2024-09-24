@@ -22,7 +22,7 @@ func main() {
 	defer file.Close()
 
 	go func() {
-		err := server.Start()
+		err := server.Run()
 		if err != nil {
 			log.Fatal(err.Error())
 		}

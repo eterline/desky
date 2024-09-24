@@ -5,30 +5,21 @@ import (
 	"net/http"
 
 	"github.com/eterline/desky/internal/config"
-	"github.com/eterline/desky/pkg/ve"
-	"github.com/gorilla/sessions"
+	"github.com/gorilla/mux"
 )
 
-func Start() error {
-	cfg := config.ParseSettings()
-	ssStore := sessions.NewCookieStore([]byte(cfg.SessionStoreKey))
-	proxmox := ve.InitBase(
-		cfg.Proxmox.User,
-		cfg.Proxmox.Password,
-		cfg.Proxmox.Host,
-		cfg.Proxmox.Port,
+func ListenConnections(tls bool, config config.Settings, router *mux.Router) error {
+	if tls {
+		return http.ListenAndServeTLS(
+			fmt.Sprintf("%s:%s", config.Address.Ip, config.Address.Port),
+			config.Tls.Crt,
+			config.Tls.Key,
+			router,
+		)
+	}
+	return http.ListenAndServe(
+		fmt.Sprintf("%s:%s", config.Address.Ip, config.Address.Port),
+		router,
 	)
-	srv := NewServer(ssStore, cfg, &proxmox)
-	config.PrintLogo(
-		cfg.Proxmox.Up,
-		cfg.Address.Ip,
-		cfg.Address.Port,
-		cfg.Auth,
-	)
-	return http.ListenAndServeTLS(
-		fmt.Sprintf("%s:%s", cfg.Address.Ip, cfg.Address.Port),
-		cfg.Tls.Crt,
-		cfg.Tls.Key,
-		srv.router,
-	)
+
 }

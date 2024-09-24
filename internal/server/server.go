@@ -11,6 +11,22 @@ import (
 
 type Routes map[string]http.HandlerFunc
 
+func Run() error {
+	cfg := config.ParseSettings()
+	ssStore := sessions.NewCookieStore([]byte(cfg.SessionStoreKey))
+	proxmox := ve.InitBase(
+		cfg.Proxmox.User,
+		cfg.Proxmox.Password,
+		cfg.Proxmox.Host,
+		cfg.Proxmox.Port,
+	)
+	srv := NewServer(ssStore, cfg, &proxmox)
+
+	cfg.PrintLogo()
+
+	return ListenConnections(cfg.Tls.Enable, cfg, srv.router)
+}
+
 func NewServer(sessonStore sessions.Store, cfg config.Settings, auth ve.Auth) *server {
 	templates := paths{
 		index:     "templates/index.html",
@@ -31,19 +47,23 @@ func NewServer(sessonStore sessions.Store, cfg config.Settings, auth ve.Auth) *s
 		proxmoxClient: ve.Authenticate(auth),
 	}
 
+	s.configPrivateStatic()
 	s.configPagesRouter()
 	s.configApiRouter()
 	s.configPublicRouter()
+
 	return s
+}
+
+func (s *server) configPrivateStatic() {
+	content := s.router.PathPrefix("/static/").Subrouter()
+	content.Use(s.authUser)
+	content.PathPrefix("").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 }
 
 func (s *server) configPagesRouter() {
 	s.router.Use(loggingMiddleware)
 	s.router.NotFoundHandler = http.HandlerFunc(s.Home)
-
-	content := s.router.PathPrefix("/static/").Subrouter()
-	content.Use(s.authUser)
-	content.PathPrefix("").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	s.BuildSubRoute(
 		Routes{
