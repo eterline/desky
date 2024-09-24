@@ -1,6 +1,10 @@
 package ve
 
 import (
+	"context"
+	"fmt"
+	"sort"
+
 	"github.com/luthermonson/go-proxmox"
 )
 
@@ -8,7 +12,7 @@ type LXC struct {
 	ID     int
 	Name   string
 	CPUs   int
-	Uptime uint64
+	Uptime string
 	Status string
 	Tags   string
 	CT     *proxmox.Container
@@ -25,12 +29,16 @@ func (node *VENode) LXCList() ([]LXC, error) {
 			ID:     int(i.VMID),
 			Name:   i.Name,
 			CPUs:   i.CPUs,
-			Uptime: i.Uptime,
+			Uptime: uptimeStr(i.Uptime),
 			Status: i.Status,
 			Tags:   i.Tags,
 			CT:     i,
 		})
 	}
+
+	sort.Slice(l, func(i, j int) (less bool) {
+		return l[i].ID < l[j].ID
+	})
 	return l, nil
 }
 
@@ -43,9 +51,22 @@ func (node *VENode) LXCget(id int) (LXC, error) {
 		ID:     int(ct.VMID),
 		Name:   ct.Name,
 		CPUs:   ct.CPUs,
-		Uptime: ct.Uptime,
+		Uptime: uptimeStr(ct.Uptime),
 		Status: ct.Status,
 		Tags:   ct.Tags,
 		CT:     ct,
 	}, nil
+}
+
+func (ct LXC) Shutdown() {
+	ct.CT.Shutdown(context.Background(), false, 0)
+}
+
+func uptimeStr(time uint64) string {
+	days := time / 86400
+	hours := time % 86400 / 3600
+	mins := time % 86400 % 3600 / 60
+	sec := time % 86400 % 3600 % 60
+
+	return fmt.Sprintf("%vd|%vh|%vm|%vs", days, hours, mins, sec)
 }

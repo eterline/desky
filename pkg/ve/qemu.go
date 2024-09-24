@@ -1,6 +1,9 @@
 package ve
 
 import (
+	"context"
+	"sort"
+
 	"github.com/luthermonson/go-proxmox"
 )
 
@@ -8,7 +11,7 @@ type VM struct {
 	ID     int
 	Name   string
 	CPUs   int
-	Uptime uint64
+	Uptime string
 	Status string
 	Tags   string
 	VM     *proxmox.VirtualMachine
@@ -25,12 +28,16 @@ func (node *VENode) VMList() ([]VM, error) {
 			ID:     int(i.VMID),
 			Name:   i.Name,
 			CPUs:   i.CPUs,
-			Uptime: i.Uptime,
+			Uptime: uptimeStr(i.Uptime),
 			Status: i.Status,
 			Tags:   i.Tags,
 			VM:     i,
 		})
 	}
+
+	sort.Slice(l, func(i, j int) (less bool) {
+		return l[i].ID < l[j].ID
+	})
 	return l, nil
 }
 
@@ -43,9 +50,13 @@ func (node *VENode) VMget(id int) (VM, error) {
 		ID:     int(vm.VMID),
 		Name:   vm.Name,
 		CPUs:   vm.CPUs,
-		Uptime: vm.Uptime,
+		Uptime: uptimeStr(vm.Uptime),
 		Status: vm.Status,
 		Tags:   vm.Tags,
 		VM:     vm,
 	}, nil
+}
+
+func (ct VM) Shutdown() {
+	ct.VM.Shutdown(context.Background())
 }

@@ -6,6 +6,10 @@ import (
 	"github.com/luthermonson/go-proxmox"
 )
 
+type Virt interface {
+	Shutdown()
+}
+
 type VENode struct {
 	*proxmox.Node
 	context.Context

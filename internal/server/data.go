@@ -94,6 +94,11 @@ func findHostname() string {
 	return host
 }
 
-func templExecute(w http.ResponseWriter, t *template.Template, templ string, data any) {
-	t.ExecuteTemplate(w, templ, data)
+func templateExec(w http.ResponseWriter, t *template.Template, templ string, data any) error {
+	return t.ExecuteTemplate(w, templ, data)
+}
+
+func assemblyTemplates(s *server, templ ...string) *template.Template {
+	templ = append(templ, s.templates.index)
+	return template.Must(template.ParseFiles(templ...))
 }
