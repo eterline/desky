@@ -42,8 +42,7 @@ func (s *server) configApiRouter() {
 	// init handlers: path /api/proxmox/...
 	BuildSubRoute(api,
 		Routes{
-			"/images":         {s.apiPctList, "POST"}, // list pct devices
-			"/images":         {s.apiPctList, "GET"},  // list pct devices
+			"/node":           {s.apiNodeInfo, "GET"}, // list pct devices
 			"/pct":            {s.apiPctList, "GET"},  // list pct devices
 			"/qm":             {s.apiQmList, "GET"},   // list qemu devices
 			"/qm/{id}":        {s.apiQmInfo, "GET"},   // qemu device info
