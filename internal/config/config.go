@@ -34,6 +34,7 @@ type (
 		} `yaml:"Address"`
 		Background string `yaml:"Background"`
 		Auth       bool   `yaml:"Auth"`
+		APIKey     string `yaml:"APIKey"`
 		User       struct {
 			Username string `yaml:"username"`
 			Password string `yaml:"password"`
@@ -89,6 +90,9 @@ func ParseSettings() Settings {
 
 	if !cfg.Tls.Enable {
 		cfg.Tls.Enable = false
+	}
+	if len(cfg.APIKey) <= 16 && cfg.Auth {
+		log.Fatal(errors.New("API Key must > 15 symbols"))
 	}
 	return cfg
 }

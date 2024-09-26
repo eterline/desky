@@ -12,7 +12,8 @@ func (s *server) Login(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	user := r.FormValue("username")
 	pass := r.FormValue("password")
-	if chekUser(s.configs, user, pass) {
+	key := r.Header.Get("Authorization")
+	if checkUser(s.configs, user, pass) || checkAPIKey(s.configs, key) {
 		session, err := s.sessionStore.Get(r, SessionName)
 		if err != nil {
 			s.error(w, r, http.StatusBadRequest, err)

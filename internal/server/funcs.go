@@ -30,11 +30,15 @@ func (s *server) respond(w http.ResponseWriter, r *http.Request, code int) {
 	w.WriteHeader(code)
 }
 
-func chekUser(s config.Settings, u string, p string) bool {
+func checkUser(s config.Settings, u string, p string) bool {
 	h := sha256.New()
 	h.Write([]byte(p))
 	hex.EncodeToString(h.Sum(nil))
 	return s.User.Username == u && s.User.Password == ToHash(p)
+}
+
+func checkAPIKey(s config.Settings, key string) bool {
+	return s.APIKey == key
 }
 
 func ToHash(str string) string {

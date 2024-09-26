@@ -11,7 +11,7 @@
     padding: 4px;
     display: flex;
     border-radius: 10px 0px 0px 10px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--ui-black-color-70);
 }
 
 .main-in {
@@ -39,7 +39,7 @@
     width: 280px;
     min-width: 300px;
     margin: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: var(--ui-black-color-70);
     padding: 15px;
 }
 
@@ -59,8 +59,8 @@
     padding: 15px;
     height: auto;
     margin: 10px auto;
-    background-color: rgba(240, 248, 255, 0.6);
-    color: rgb(0, 0, 0);
+    background-color: var(--addition-60);
+    color: var(--ui-black-color);
     flex-direction: column;
 }
 
@@ -82,8 +82,8 @@
     width: 250px;
     margin: 10px auto;
     padding: 5px;
-    background-color: rgba(240, 248, 255, 0.6);
-    color: rgb(0, 0, 0);
+    background-color: var(--addition-60);
+    color: var(--ui-black-color);
     text-align: center;
 }
 
@@ -92,7 +92,7 @@
 }
 
 .app {
-    background-color: rgba(240, 248, 255, 0.6);
+    background-color: var(--addition-40);
     width: 150px;
     height: 150px;
     padding-top: 5px;
@@ -121,5 +121,5 @@
     font-size: 1.2em;
     color: antiquewhite;
     margin: auto;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: var(--ui-black-color-60);
 }

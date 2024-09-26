@@ -50,3 +50,11 @@ start_buttons.forEach(button => {
         if (result) {reqApi(button, "start")}
     });
 });
+
+
+const container = document.querySelector('.virt');
+
+container.addEventListener('wheel', (event) => {
+    event.preventDefault();
+    container.scrollLeft += event.deltaY;
+});

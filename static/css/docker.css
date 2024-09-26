@@ -1,6 +1,6 @@
 /* ---------------------Main site----------------------- */
 .padding {
-    background-color: rgba(161, 161, 161, 0.5);
+    background-color: var(--addition-20);
     border-radius: 10px 0px 0px 10px;
     height: 80%;
     display: flex;
@@ -15,7 +15,7 @@
 
 .container {
     border-radius: 15px;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: var(--ui-black-color-70);
     margin: 5px;
     padding: 5px;
     display: flex;
@@ -29,7 +29,7 @@
 .container th {
     border-radius: 5px;
     padding: 5px;
-    background-color:rgba(105, 86, 155, 0.548);
+    background-color:var(--purple-change);
     margin: 5px;
     text-align: left;
     margin-left: 5px;
@@ -40,7 +40,7 @@
 }
 
 .container tr :hover {
-    background-color: rgba(101, 86, 167, 0.4);
+    background-color: var(--purple-change-action);
     border-radius: 5px;
 }
 
@@ -49,5 +49,5 @@
     flex-direction: row;
     padding: 5px;
     margin-left: 5px;
-    background-color: rgba(240, 248, 255, 0.6);
+    background-color: var(--addition-60);
 }

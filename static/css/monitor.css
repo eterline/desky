@@ -7,21 +7,21 @@
     padding: 4px;
     display: flex;
     border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--ui-black-color-60);
 }
 
 #systemd {
     width: 25%;
     height: 100%;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: var(--addition-40);
 }
 
 #system {
     width: 35%;
     height: 100%;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: var(--addition-40);
 }
 
 .scroll {
@@ -39,22 +39,22 @@
     width: 40%;
     height: 100%;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: var(--addition-40);
 }
 
 .disk {
     border-radius: 4px;
     padding: 2px;
     margin: 10px;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--text-white-transparment);
 }
 
 .disk .model {
     border-radius: 4px;
     margin: 5px;
     padding: 2px;
-    color: aliceblue;
-    background-color: black;
+    color: var(--text-white);
+    background-color: var(--ui-black-color);
 }
 
 .model span {
@@ -62,7 +62,7 @@
 }
 
 .disk .model a {
-    color: aliceblue;
+    color: var(--text-white);
 }
 
 .disk .serial {
@@ -82,7 +82,7 @@
     border-radius: 10px;
     margin: 10px;
     padding: 5px;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: var(--ui-black-color-60);
     height: fit-content;
 }
 
@@ -93,7 +93,7 @@
 
 .module-title {
     text-align: center;
-    background-color: azure;
+    background-color: var(--text-white);
     padding: 2px;
     border-radius: 5px;
 }
@@ -109,41 +109,41 @@
     border-radius: 4px;
     font-size: 1.4em;
     padding: 3px;
-    background-color: rgba(226, 226, 226, 0.801);
+    background-color: var(--addition-80);
     text-align: center;
     width: 45%;
 }
 
 .module-data {
     padding: 0px 5px;
-    color: azure;
+    color: var(--text-white);
     border-radius: 4px;
-    background-color: rgba(240, 255, 255, 0.199);
+    background-color: var(--addition-20);
     margin: 2px;
 }
 
 .module-data a {
-    color: azure;
+    color: var(--text-white);
     text-decoration: none;
 }
 .disk-data {
     padding: 0px 5px;
-    color: rgb(0, 0, 0);
+    color: var(--ui-black-color-70);
     border-radius: 4px;
-    background-color: rgba(68, 68, 68, 0.199);
+    background-color: var(--grey-20);
     margin: 2px;
 }
 
 .unit {
     border-radius: 5px;
-    color: aliceblue;
+    color: var(--text-white);
     padding: 2px;
     margin: 4px;
-    background-color: rgba(0, 0, 0, 0.555);
+    background-color: var(--ui-black-color-45);
 }
 
 .unit div {
     border-radius: 5px;
     text-align: center;
-    background-color: aliceblue;
+    background-color: var(--text-white);
 }

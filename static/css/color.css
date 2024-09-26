@@ -1,0 +1,20 @@
+:root {
+    --main-ui-color: hsla(0, 0%, 0%, 0.85);
+    --ui-black-color: rgb(0, 0, 0);
+    --ui-black-color-70: rgba(0, 0, 0, 0.7);
+    --ui-black-color-60: rgba(0, 0, 0, 0.6);
+    --ui-black-color-45: rgba(0, 0, 0, 0.45);
+    --addition-80: rgb(240, 248, 255, 0.8);
+    --addition-60: rgb(240, 248, 255, 0.6);
+    --addition-40: rgb(240, 248, 255, 0.4);
+    --addition-20: rgb(240, 248, 255, 0.2);
+    --grey-20: rgba(68, 68, 68, 0.2);
+    --text-white: aliceblue;
+    --text-white-transparment: rgba(255, 255, 255, 0.6);
+    --shutdown-buttons: rgb(170, 0, 0);
+    --start-buttons: rgb(54, 170, 0);
+    --restart-buttons: rgb(108, 184, 139);
+
+    --purple-change: rgba(105, 86, 155, 0.4);
+    --purple-change-action: rgba(105, 86, 155, 0.6);
+}

@@ -84,7 +84,7 @@ func (s *server) apiPctList(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		s.error(w, r, http.StatusNotFound, err)
 	}
-	wrapJSON(w, list)
+	wrapJSON(w, struct{ VirtualMachines any }{list})
 }
 
 func (s *server) apiQmList(w http.ResponseWriter, r *http.Request) {
@@ -98,7 +98,7 @@ func (s *server) apiQmList(w http.ResponseWriter, r *http.Request) {
 		s.error(w, r, http.StatusNotFound, err)
 		return
 	}
-	wrapJSON(w, list)
+	wrapJSON(w, struct{ VirtualMachines any }{list})
 }
 
 func (s *server) apiPctInfo(w http.ResponseWriter, r *http.Request) {
