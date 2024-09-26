@@ -16,9 +16,9 @@ Proxmox:
   hostname: 'home-ve.lan'
   port: 8006
   username: 'root@pam'
-  password: '99013Vault99013'
+  password: 'password'
   node: 'home-ve'
 Docker:
   up: true
   url: 'http://omv.lan:9400/api/v1/containers'
-  key: '99013Vault99013'
+  key: 'password'
