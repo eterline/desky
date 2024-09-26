@@ -75,6 +75,15 @@ main {
     align-items: center;
 }
 
+main {
+    animation: 0.3s show ease-in;
+}
+
+@keyframes show {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 /* ----------------Footer of page----------------- */
 footer {
     width: 100%;

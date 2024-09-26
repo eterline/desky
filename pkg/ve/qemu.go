@@ -8,13 +8,8 @@ import (
 )
 
 type VM struct {
-	ID     int
-	Name   string
-	CPUs   int
-	Uptime string
-	Status string
-	Tags   string
-	VM     *proxmox.VirtualMachine
+	MemFmt, DiskFmt, UptimeFmt string
+	Device                     *proxmox.VirtualMachine
 }
 
 func (node *VENode) VMList() ([]VM, error) {
@@ -24,19 +19,11 @@ func (node *VENode) VMList() ([]VM, error) {
 	}
 	var l []VM
 	for _, i := range vms {
-		l = append(l, VM{
-			ID:     int(i.VMID),
-			Name:   i.Name,
-			CPUs:   i.CPUs,
-			Uptime: uptimeStr(i.Uptime),
-			Status: i.Status,
-			Tags:   i.Tags,
-			VM:     i,
-		})
+		l = append(l, CollectVM(i))
 	}
 
 	sort.Slice(l, func(i, j int) (less bool) {
-		return l[i].ID < l[j].ID
+		return l[i].Device.VMID < l[j].Device.VMID
 	})
 	return l, nil
 }
@@ -46,17 +33,18 @@ func (node *VENode) VMget(id int) (VM, error) {
 	if err != nil {
 		return VM{}, err
 	}
-	return VM{
-		ID:     int(vm.VMID),
-		Name:   vm.Name,
-		CPUs:   vm.CPUs,
-		Uptime: uptimeStr(vm.Uptime),
-		Status: vm.Status,
-		Tags:   vm.Tags,
-		VM:     vm,
-	}, nil
+	return CollectVM(vm), nil
 }
 
-func (ct VM) Shutdown() {
-	ct.VM.Shutdown(context.Background())
+func (vm VM) Shutdown() {
+	vm.Device.Shutdown(context.Background())
+}
+
+func CollectVM(vm *proxmox.VirtualMachine) VM {
+	return VM{
+		MemFmt:    sizeStrMB(vm.MaxMem),
+		DiskFmt:   sizeStrMB(vm.MaxDisk),
+		UptimeFmt: uptimeStr(vm.Uptime),
+		Device:    vm,
+	}
 }

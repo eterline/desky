@@ -12,12 +12,13 @@ TLS:
   key: certificates/local.key
 Sessionkey: 'PXxv254dL3MuKtOxQuJbV1hToiXDkxH8lPHrK5pi31pVhEkaO1KksamcyCHsN9XO'
 Proxmox:
-  up: false
+  up: true
   hostname: 'home-ve.lan'
   port: 8006
   username: 'root@pam'
   password: 'password'
+  node: 'home-ve'
 Docker:
-  up: false
+  up: true
   url: 'http://omv.lan:9400/api/v1/containers'
   key: 'password'

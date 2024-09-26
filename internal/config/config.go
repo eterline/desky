@@ -50,6 +50,7 @@ type (
 			Password string `yaml:"password"`
 			Host     string `yaml:"hostname"`
 			Port     int    `yaml:"port"`
+			Node     string `yaml:"node"`
 		} `yaml:"Proxmox"`
 		Docker struct {
 			Up  bool   `yaml:"up"`

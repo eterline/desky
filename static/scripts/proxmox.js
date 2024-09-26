@@ -3,66 +3,50 @@ const shutdown_buttons = document.querySelectorAll('.shutdown-btn');
 const start_buttons = document.querySelectorAll('.start-btn');
 
 
-let d = function reloadPage(){
+let reloadPage = function reloadPage(){
     window.location.reload();
 }
-// Добавляем обработчик события на каждую кнопку
+
+async function reqApi(button, exec)  {
+    const id = button.getAttribute('data-id');
+    const type = button.getAttribute('data-type');
+    let url = " ";
+    if (type == "lxc") {
+        url = `/api/proxmox/pct/${id}/${exec}`;
+    } else {
+        url = `/api/proxmox/qm/${id}/${exec}`;
+    };
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) {
+        setInterval(alert("Success!"), 500)
+        setInterval(reloadPage, 5000);
+    } else {
+        alert("Error request")
+    }
+}
+
 reboot_buttons.forEach(button => {
     button.addEventListener('click', () => {
-        const id = button.getAttribute('data-id');
-        const type = button.getAttribute('data-type');
-        let url = " ";
-        if (type == "lxc") {
-            url = `/api/pct/${id}/reboot`;
-        } else {
-            url = `/api/qm/${id}/reboot`;
-        };
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        setInterval(d, 5000);
+        const result = confirm("Reboot Virtual device?");
+        if (result) {reqApi(button, "reboot")}
     });
 });
 
 shutdown_buttons.forEach(button => {
     button.addEventListener('click', () => {
-        const id = button.getAttribute('data-id');
-        const type = button.getAttribute('data-type');
-        let url = " ";
-        if (type == "lxc") {
-            url = `/api/pct/${id}/shutdown`;
-        } else {
-            url = `/api/qm/${id}/shutdown`;
-        };
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        setInterval(d, 5000);
+        const result = confirm("Shutdown Virtual device?");
+        if (result) {reqApi(button, "shutdown")}
     });
 });
 
 start_buttons.forEach(button => {
     button.addEventListener('click', () => {
-        const id = button.getAttribute('data-id');
-        const type = button.getAttribute('data-type');
-        let url = " ";
-        if (type == "lxc") {
-            url = `/api/pct/${id}/start`;
-        } else {
-            url = `/api/qm/${id}/start`;
-        };
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        setInterval(d, 5000);
+        const result = confirm("Start Virtual device?");
+        if (result) {reqApi(button, "start")}
     });
 });

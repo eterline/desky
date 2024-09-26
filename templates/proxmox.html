@@ -7,7 +7,7 @@
                     {{ template "virt-dev" .}}
                     <div class="buttons">
                         {{ template "reboot-lxc" .}}
-                        {{ if eq .Status "running"}}
+                        {{ if eq .Device.Status "running"}}
                             {{ template "shutdown-lxc" .}}
                         {{else}}
                             {{ template "start-lxc" .}}
@@ -23,7 +23,7 @@
                     {{ template "virt-dev" .}}
                     <div class="buttons">
                         {{ template "reboot-qm" .}}
-                        {{ if eq .Status "running"}}
+                        {{ if eq .Device.Status "running"}}
                             {{ template "shutdown-qm" .}}
                         {{else}}
                             {{ template "start-qm" .}}
@@ -50,41 +50,47 @@ Proxmox
 {{ define "virt-dev" }}
 <div class="virt-dev">
     <div class="data-param" style="background-color: black;">
-        <H2 style="text-align: center; color: white;">[{{ .Name }}]</H2>
+        <H2 style="text-align: center; color: white;">[{{ .Device.Name }}]</H2>
     </div>
     <div class="data-param">
-        <span>ID:</span> {{ .ID }}
+        <span>ID:</span> {{ .Device.VMID }}
     </div>
     <div class="data-param">
-        {{ if eq .Status "running"}}
-            <div style="color: greenyellow;"><span>Status:</span> {{ .Status }}</div>
+        {{ if eq .Device.Status "running"}}
+            <div style="color: greenyellow;"><span>Status:</span> {{ .Device.Status }}</div>
         {{else}}
-            <div style="color: rgb(255, 47, 47);"><span>Status:</span> {{ .Status }}</div>
+            <div style="color: rgb(255, 47, 47);"><span>Status:</span> {{ .Device.Status }}</div>
         {{ end }}
     </div>
     <div class="data-param">
-        <span>vCPU:</span> {{ .CPUs }}
+        <span>vCPU:</span> {{ .Device.CPUs }}
     </div>
     <div class="data-param">
-        <span>Uptime:</span> {{ .Uptime }}
+        <span>Memory:</span> {{ .MemFmt }}
+    </div>
+    <div class="data-param">
+        <span>Uptime:</span> {{ .UptimeFmt }}
+    </div>
+    <div class="data-param">
+        <span>Disk:</span> {{ .DiskFmt }}
     </div>
 </div>
 {{ end }}
 
 {{ define "reboot-lxc" }}
-    <button data-type="lxc" data-id="{{ .ID }}" class="reboot-btn">
+    <button data-type="lxc" data-id="{{ .Device.VMID }}" class="reboot-btn">
         <i class="fa fa-refresh"></i>
     </button>
 {{ end }}
 
 {{ define "start-lxc" }}
-    <button data-type="lxc" data-id="{{ .ID }}" class="start-btn act-btn" style="background-color: rgb(173, 202, 41); color: black; border-color: rgb(40, 68, 17);">
+    <button data-type="lxc" data-id="{{ .Device.VMID }}" class="start-btn act-btn" style="background-color: rgb(173, 202, 41); color: black; border-color: rgb(40, 68, 17);">
         Startup
     </button>
 {{ end }}
 
 {{ define "shutdown-lxc" }}
-    <button data-type="lxc" data-id="{{ .ID }}" class="shutdown-btn act-btn" style="background-color: rgb(187, 30, 30); color: black; border-color: rgb(40, 68, 17);">
+    <button data-type="lxc" data-id="{{ .Device.VMID }}" class="shutdown-btn act-btn" style="background-color: rgb(187, 30, 30); color: black; border-color: rgb(40, 68, 17);">
         Shutdown
     </button>
 {{ end }}
@@ -92,19 +98,19 @@ Proxmox
 
 
 {{ define "reboot-qm" }}
-    <button data-type="qm" data-id="{{ .ID }}" class="reboot-btn">
+    <button data-type="qm" data-id="{{ .Device.VMID }}" class="reboot-btn">
         <i class="fa fa-refresh"></i>
     </button>
 {{ end }}
 
 {{ define "start-qm" }}
-    <button data-type="qm" data-id="{{ .ID }}" class="start-btn act-btn" style="background-color: rgb(173, 202, 41); color: black; border-color: rgb(40, 68, 17);">
+    <button data-type="qm" data-id="{{ .Device.VMID }}" class="start-btn act-btn" style="background-color: rgb(173, 202, 41); color: black; border-color: rgb(40, 68, 17);">
         Startup
     </button>
 {{ end }}
 
 {{ define "shutdown-qm" }}
-    <button data-type="qm" data-id="{{ .ID }}" class="shutdown-btn act-btn" style="background-color: rgb(187, 30, 30); color: black; border-color: rgb(40, 68, 17);">
+    <button data-type="qm" data-id="{{ .Device.VMID }}" class="shutdown-btn act-btn" style="background-color: rgb(187, 30, 30); color: black; border-color: rgb(40, 68, 17);">
         Shutdown
     </button>
 {{ end }}

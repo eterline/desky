@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/eterline/desky/internal/config"
@@ -8,8 +9,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 )
-
-type Routes map[string]http.HandlerFunc
 
 func Run() error {
 	cfg := config.ParseSettings()
@@ -47,6 +46,7 @@ func NewServer(sessonStore sessions.Store, cfg config.Settings, auth ve.Auth) *s
 		proxmoxClient: ve.Authenticate(auth),
 	}
 
+	s.router.Use(loggingMiddleware)
 	s.configPrivateStatic()
 	s.configPagesRouter()
 	s.configApiRouter()
@@ -55,43 +55,18 @@ func NewServer(sessonStore sessions.Store, cfg config.Settings, auth ve.Auth) *s
 	return s
 }
 
-func (s *server) configPrivateStatic() {
-	content := s.router.PathPrefix("/static/").Subrouter()
-	content.Use(s.authUser)
-	content.PathPrefix("").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
-}
-
-func (s *server) configPagesRouter() {
-	s.router.Use(loggingMiddleware)
-	s.router.NotFoundHandler = http.HandlerFunc(s.Home)
-
-	s.BuildSubRoute(
-		Routes{
-			"/ws":      wsConnection,
-			"/panel":   s.Dasboard,
-			"/tty":     s.Tty,
-			"/docker":  s.Docker,
-			"/proxmox": s.Proxmox,
-			"/monitor": s.SysInfo,
-		},
-		"/dashboard", s.authUser,
+func ListenConnections(tls bool, config config.Settings, router *mux.Router) error {
+	if tls {
+		return http.ListenAndServeTLS(
+			fmt.Sprintf("%s:%s", config.Address.Ip, config.Address.Port),
+			config.Tls.Crt,
+			config.Tls.Key,
+			router,
+		)
+	}
+	return http.ListenAndServe(
+		fmt.Sprintf("%s:%s", config.Address.Ip, config.Address.Port),
+		router,
 	)
-}
 
-func (s *server) configApiRouter() {
-	s.BuildSubRoute(
-		Routes{
-			"/system":         s.apiSystem,
-			"/pct/{id}/{cmd}": s.apiPct,
-			"/qm/{id}/{cmd}":  s.apiQm,
-		},
-		"/api", s.authUser,
-	)
-}
-
-func (s *server) configPublicRouter() {
-	s.dirHandleFiles("/public/", "/public/", "./public")
-	s.dirHandleFiles("/node/", "/node/", "./node_modules")
-	s.router.HandleFunc("/login", s.Login)
-	s.router.HandleFunc("/logout", s.Logout)
 }

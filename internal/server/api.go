@@ -28,7 +28,7 @@ type Virtual interface {
 	Reboot(ctx context.Context) (task *proxmox.Task, err error)
 }
 
-func (s *server) apiQm(w http.ResponseWriter, r *http.Request) {
+func (s *server) apiQmExec(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	host := strings.Split(s.configs.Proxmox.Host, ".")[0]
 
@@ -58,7 +58,7 @@ func (s *server) apiQm(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, requestOK)
 }
 
-func (s *server) apiPct(w http.ResponseWriter, r *http.Request) {
+func (s *server) apiPctExec(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	host := strings.Split(s.configs.Proxmox.Host, ".")[0]
 
@@ -87,36 +87,76 @@ func (s *server) apiPct(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) apiSystem(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	st := system.GetStats()
-	json.NewEncoder(w).Encode(st)
+	wrapJSON(w, system.GetStats())
 }
 
-func idFromStr(id string) int {
-	res, err := strconv.Atoi(id)
+func (s *server) apiPctList(w http.ResponseWriter, r *http.Request) {
+	node, err := ve.Node(s.proxmoxClient, s.configs.Proxmox.Node, context.Background())
 	if err != nil {
-		return 0
+		s.error(w, r, http.StatusInternalServerError, err)
 	}
-	return res
+	list, err := node.LXCList()
+	if err != nil {
+		s.error(w, r, http.StatusNotFound, err)
+	}
+	wrapJSON(w, list)
 }
 
-func execVirt(virt Virtual, cmd string) error {
-	var err error
-	switch cmd {
-	case "start":
-		_, err = virt.Start(context.Background())
-	case "reboot":
-		_, err = virt.Reboot(context.Background())
-	case "shutdown":
-		switch v := virt.(type) {
-		case *proxmox.Container:
-			_, err = v.Shutdown(context.Background(), false, 0)
-		case *proxmox.VirtualMachine:
-			_, err = v.Shutdown(context.Background())
-		}
-	default:
-		return errBadCommand
+func (s *server) apiQmList(w http.ResponseWriter, r *http.Request) {
+	node, err := ve.Node(s.proxmoxClient, s.configs.Proxmox.Node, context.Background())
+	if err != nil {
+		s.error(w, r, http.StatusInternalServerError, err)
+		return
 	}
+	list, err := node.VMList()
+	if err != nil {
+		s.error(w, r, http.StatusNotFound, err)
+		return
+	}
+	wrapJSON(w, list)
+}
+
+func (s *server) apiPctInfo(w http.ResponseWriter, r *http.Request) {
+	VMID, err := strconv.Atoi(mux.Vars(r)["id"])
+	if err != nil {
+		s.error(w, r, http.StatusInternalServerError, err)
+		return
+	}
+	node, err := ve.Node(s.proxmoxClient, s.configs.Proxmox.Node, context.Background())
+	if err != nil {
+		s.error(w, r, http.StatusInternalServerError, err)
+		return
+	}
+	info, err := node.VMget(VMID)
+	if err != nil {
+		s.error(w, r, http.StatusNotFound, err)
+		return
+	}
+	wrapJSON(w, info)
+}
+
+func (s *server) apiQmInfo(w http.ResponseWriter, r *http.Request) {
+	VMID, err := strconv.Atoi(mux.Vars(r)["id"])
+	if err != nil {
+		s.error(w, r, http.StatusInternalServerError, err)
+		return
+	}
+	node, err := ve.Node(s.proxmoxClient, s.configs.Proxmox.Node, context.Background())
+	if err != nil {
+		s.error(w, r, http.StatusInternalServerError, err)
+		return
+	}
+	info, err := node.VMget(VMID)
+	if err != nil {
+		s.error(w, r, http.StatusNotFound, err)
+		return
+	}
+	wrapJSON(w, info)
+}
+
+func wrapJSON(w http.ResponseWriter, v any) error {
+	w.Header().Set("Content-Type", "application/json")
+	err := json.NewEncoder(w).Encode(v)
 	if err != nil {
 		return err
 	}
