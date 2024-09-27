@@ -7,7 +7,6 @@ import (
 // Init private static content route: path /static/...
 func (s *server) configPrivateStatic() {
 	content := s.router.PathPrefix("/static/").Subrouter()
-	content.Use(s.authUser)
 	content.PathPrefix("").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 }
 
@@ -24,7 +23,7 @@ func (s *server) configPagesRouter() {
 			"/proxmox": {s.Proxmox, "GET"},    // proxmox devices and info page
 			"/monitor": {s.SysInfo, "GET"},    // system info page
 		},
-		"/dashboard", s.authUser,
+		"/dashboard",
 	)
 }
 
@@ -36,7 +35,7 @@ func (s *server) configApiRouter() {
 			"/system":  {s.apiSystem, "GET"},
 			"/systemd": {s.apiSystemdList, "GET"},
 		},
-		"/api", s.authUser,
+		"/api",
 	)
 
 	// init handlers: path /api/proxmox/...
@@ -50,7 +49,7 @@ func (s *server) configApiRouter() {
 			"/pct/{id}/{cmd}": {s.apiPctExec, "POST"}, // reload|start|shutdown pct
 			"/qm/{id}/{cmd}":  {s.apiQmExec, "POST"},  // reload|start|shutdown qemu
 		},
-		"/proxmox", s.authUser,
+		"/proxmox",
 	)
 }
 
@@ -58,6 +57,4 @@ func (s *server) configApiRouter() {
 func (s *server) configPublicRouter() {
 	s.dirHandleFiles("/public/", "/public/", "./public")   //
 	s.dirHandleFiles("/node/", "/node/", "./node_modules") // node modules tty js script
-	s.router.HandleFunc("/login", s.Login)
-	s.router.HandleFunc("/logout", s.Logout)
 }

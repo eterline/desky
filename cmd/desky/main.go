@@ -20,7 +20,6 @@ func main() {
 	file, _ := os.Create(logPath)
 	log.SetOutput(file)
 	defer file.Close()
-
 	go func() {
 		err := server.Run()
 		if err != nil {

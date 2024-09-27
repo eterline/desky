@@ -1,53 +1,8 @@
 package server
 
 import (
-	"html/template"
-	"log"
 	"net/http"
-
-	"github.com/eterline/desky/internal/config"
 )
-
-func (s *server) Login(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	user := r.FormValue("username")
-	pass := r.FormValue("password")
-	key := r.Header.Get("Authorization")
-	if checkUser(s.configs, user, pass) || checkAPIKey(s.configs, key) {
-		session, err := s.sessionStore.Get(r, SessionName)
-		if err != nil {
-			s.error(w, r, http.StatusBadRequest, err)
-			return
-		}
-		session.Values["uID"] = s.cookieKey
-		err = s.sessionStore.Save(r, w, session)
-		if err != nil {
-			s.error(w, r, http.StatusBadRequest, err)
-			return
-		}
-		log.Printf("Log In to panel from: %s.", r.RemoteAddr)
-		http.Redirect(w, r, "/dashboard/panel", http.StatusTemporaryRedirect)
-		return
-	} else {
-		log.Printf("| %s > Log In failed. Attempt username: %s", r.RemoteAddr, user)
-	}
-	t := template.Must(template.ParseFiles(s.templates.login))
-	err := t.ExecuteTemplate(w, "login.html", s.configs)
-	if err != nil {
-		log.Println(EXEC_TEMPLATE_ERR, err.Error())
-		return
-	}
-}
-
-func (s *server) Logout(w http.ResponseWriter, r *http.Request) {
-	clearSession(s)
-	http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
-}
-
-func clearSession(s *server) {
-	log.Println("User session has been cleared. New CookieKey generated.")
-	s.cookieKey = config.RandStringBytes(32)
-}
 
 func (s *server) Dasboard(w http.ResponseWriter, r *http.Request) {
 	t := assemblyTemplates(s, s.templates.dashboard)

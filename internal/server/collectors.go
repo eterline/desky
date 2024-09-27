@@ -37,7 +37,6 @@ func initProxmox(s config.Settings, proxm *proxmox.Client) proxmoxData {
 		VMs:        vms,
 		LXCs:       pcts,
 		Background: s.Background,
-		Auth:       s.Auth,
 	}
 }
 
@@ -48,7 +47,6 @@ func initDashboard(s config.Settings) dashboardData {
 		Board:      system.BoardModel(),
 		Cpu:        system.CpuModel(),
 		Background: s.Background,
-		Auth:       s.Auth,
 	}
 }
 
@@ -57,7 +55,6 @@ func initDocker(s config.Settings) dockerData {
 		Host:       findHostname(),
 		Containers: api.DockerContainers(s),
 		Background: s.Background,
-		Auth:       s.Auth,
 	}
 }
 
@@ -65,7 +62,6 @@ func initTty(s config.Settings) ttyData {
 	return ttyData{
 		Host:       findHostname(),
 		Background: s.Background,
-		Auth:       s.Auth,
 	}
 }
 
@@ -73,10 +69,10 @@ func initSysInfo(s config.Settings) sysInfoData {
 	var inf sysinfo.SysInfo
 	inf.GetSysInfo()
 	smarts := disk.SmartDisks(inf.Storage)
+
 	return sysInfoData{
 		Host:       findHostname(),
 		Background: s.Background,
-		Auth:       s.Auth,
 		Info:       inf,
 		Systemd:    systemd.UnitsList(),
 		Smarts:     smarts,

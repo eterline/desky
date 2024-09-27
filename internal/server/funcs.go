@@ -9,7 +9,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/eterline/desky/internal/config"
 	"github.com/gorilla/mux"
 	"github.com/luthermonson/go-proxmox"
 )
@@ -28,17 +27,6 @@ func (s *server) error(w http.ResponseWriter, r *http.Request, code int, err err
 
 func (s *server) respond(w http.ResponseWriter, r *http.Request, code int) {
 	w.WriteHeader(code)
-}
-
-func checkUser(s config.Settings, u string, p string) bool {
-	h := sha256.New()
-	h.Write([]byte(p))
-	hex.EncodeToString(h.Sum(nil))
-	return s.User.Username == u && s.User.Password == ToHash(p)
-}
-
-func checkAPIKey(s config.Settings, key string) bool {
-	return s.APIKey == key
 }
 
 func ToHash(str string) string {

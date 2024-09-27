@@ -1,7 +1,6 @@
 package config
 
 import (
-	"errors"
 	"log"
 	"math/rand"
 	"os"
@@ -22,7 +21,6 @@ ______             _
 ===============================   
  - Desky succsessfully started on: %s:%s
  - Proxmox module is up: %v
- - Auth mode: %v
 ===============================                   
 `
 
@@ -33,13 +31,7 @@ type (
 			Port string `yaml:"port"`
 		} `yaml:"Address"`
 		Background string `yaml:"Background"`
-		Auth       bool   `yaml:"Auth"`
-		APIKey     string `yaml:"APIKey"`
-		User       struct {
-			Username string `yaml:"username"`
-			Password string `yaml:"password"`
-		} `yaml:"User"`
-		Tls struct {
+		Tls        struct {
 			Enable bool   `yaml:"enable"`
 			Crt    string `yaml:"crt"`
 			Key    string `yaml:"key"`
@@ -58,6 +50,12 @@ type (
 			URL string `yaml:"url"`
 			Key string `yaml:"key"`
 		} `yaml:"Docker"`
+		Notifications struct {
+			Gotify struct {
+				URL string `yaml:"url"`
+				KEY string `yaml:"key"`
+			} `yaml:"Gotify"`
+		} `yaml:"Notifications"`
 	}
 )
 
@@ -75,9 +73,6 @@ func ParseSettings() Settings {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	if len(cfg.User.Password) != 64 {
-		log.Fatal(errors.New("Password must be SHA256 string"))
-	}
 	if !cfg.Proxmox.Up {
 		cfg.Proxmox.Up = false
 	}
@@ -91,9 +86,6 @@ func ParseSettings() Settings {
 	if !cfg.Tls.Enable {
 		cfg.Tls.Enable = false
 	}
-	if len(cfg.APIKey) <= 16 && cfg.Auth {
-		log.Fatal(errors.New("API Key must > 15 symbols"))
-	}
 	return cfg
 }
 
@@ -106,5 +98,5 @@ func RandStringBytes(n int) string {
 }
 
 func (cfg *Settings) PrintLogo() {
-	log.Printf(printDesky, cfg.Address.Ip, cfg.Address.Port, cfg.Proxmox.Up, cfg.Auth)
+	log.Printf(printDesky, cfg.Address.Ip, cfg.Address.Port, cfg.Proxmox.Up)
 }

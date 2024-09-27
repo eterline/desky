@@ -7,11 +7,11 @@ import (
 	"github.com/zcalusic/sysinfo"
 )
 
-func SmartDisks(devices []sysinfo.StorageDevice) map[string]smart.GenericAttributes {
-	attrs := make(map[string]smart.GenericAttributes)
+func SmartDisks(devices []sysinfo.StorageDevice) map[string]*smart.GenericAttributes {
+	attrs := make(map[string]*smart.GenericAttributes)
 	for _, dev := range devices {
 		name, smart := Smart("/dev/" + dev.Name)
-		attrs[strings.Trim(name, "/dev/")] = *smart
+		attrs[strings.Trim(name, "/dev/")] = smart
 	}
 	return attrs
 }

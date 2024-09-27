@@ -2,15 +2,12 @@ Address:
   ip: '0.0.0.0'
   port: 443
 Background: 'image2.jpg'
-Auth: false
-User:
-  username: 'admin'
-  password: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'
+# =================================================
 TLS:
   enable: true
   crt: certificates/local.crt
   key: certificates/local.key
-Sessionkey: 'PXxv254dL3MuKtOxQuJbV1hToiXDkxH8lPHrK5pi31pVhEkaO1KksamcyCHsN9XO'
+# =================================================
 Proxmox:
   up: true
   hostname: 'home-ve.lan'
@@ -18,7 +15,13 @@ Proxmox:
   username: 'root@pam'
   password: 'password'
   node: 'home-ve'
+# =================================================
 Docker:
   up: true
   url: 'http://omv.lan:9400/api/v1/containers'
   key: 'password'
+# =================================================
+Notifications:
+  Gotify:
+    url: "https://{gotify.host}/message"
+    key: ********** // key string from - https://gotify.host/applications

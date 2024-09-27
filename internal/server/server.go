@@ -2,9 +2,11 @@ package server
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/eterline/desky/internal/config"
+	"github.com/eterline/desky/pkg/notification"
 	"github.com/eterline/desky/pkg/ve"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
@@ -29,7 +31,6 @@ func Run() error {
 func NewServer(sessonStore sessions.Store, cfg config.Settings, auth ve.Auth) *server {
 	templates := paths{
 		index:     "templates/index.html",
-		login:     "templates/login.html",
 		dashboard: "templates/dashboard.html",
 		docker:    "templates/docker.html",
 		proxmox:   "templates/proxmox.html",
@@ -39,10 +40,8 @@ func NewServer(sessonStore sessions.Store, cfg config.Settings, auth ve.Auth) *s
 
 	s := &server{
 		router:        mux.NewRouter(),
-		sessionStore:  sessonStore,
 		templates:     templates,
 		configs:       cfg,
-		cookieKey:     config.RandStringBytes(32),
 		proxmoxClient: ve.Authenticate(auth),
 	}
 
@@ -51,7 +50,7 @@ func NewServer(sessonStore sessions.Store, cfg config.Settings, auth ve.Auth) *s
 	s.configPagesRouter()
 	s.configApiRouter()
 	s.configPublicRouter()
-
+	Notify(s.configs)
 	return s
 }
 
@@ -69,4 +68,21 @@ func ListenConnections(tls bool, config config.Settings, router *mux.Router) err
 		router,
 	)
 
+}
+
+func Notify(c config.Settings) {
+	gotify, err := notification.InitGotify(
+		c.Notifications.Gotify.URL,
+		c.Notifications.Gotify.KEY,
+	)
+	if err != nil {
+		log.Println("failed send notification")
+		return
+	}
+	err = gotify.Send("Desky panel", "Desky panel has been started.", 2)
+	if err != nil {
+		log.Println("failed send notification")
+		return
+	}
+	log.Println("startup notification sent")
 }

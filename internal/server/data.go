@@ -9,7 +9,6 @@ import (
 	"github.com/eterline/desky/internal/config"
 	"github.com/eterline/desky/internal/requsters/api"
 	"github.com/gorilla/mux"
-	"github.com/gorilla/sessions"
 	proxmox "github.com/luthermonson/go-proxmox"
 	"github.com/zcalusic/sysinfo"
 )
@@ -18,17 +17,14 @@ type (
 	// Server structure data
 	server struct {
 		router        *mux.Router
-		sessionStore  sessions.Store
 		templates     paths
 		configs       config.Settings
-		cookieKey     string
 		proxmoxClient *proxmox.Client
 	}
 
 	// html pages names
 	paths struct {
 		index     string
-		login     string
 		dashboard string
 		docker    string
 		proxmox   string
@@ -42,14 +38,12 @@ type (
 		Board      string
 		Cpu        string
 		Background string
-		Auth       bool
 	}
 
 	dockerData struct {
 		Host       string
 		Containers api.ContainerList
 		Background string
-		Auth       bool
 	}
 
 	proxmoxData struct {
@@ -58,19 +52,16 @@ type (
 		LXCs       interface{}
 		VMs        interface{}
 		Background string
-		Auth       bool
 	}
 
 	ttyData struct {
 		Host       string
 		Background string
-		Auth       bool
 	}
 
 	sysInfoData struct {
 		Host       string
 		Background string
-		Auth       bool
 		Info       sysinfo.SysInfo
 		Systemd    any
 		Smarts     any
