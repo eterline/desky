@@ -24,4 +24,4 @@ Docker:
 Notifications:
   Gotify:
     url: "https://{gotify.host}/message"
-    key: ********** // key string from - https://gotify.host/applications
+    key: "**********" # key string from - https://gotify.host/applications
