@@ -16,6 +16,7 @@ type VENode struct {
 }
 
 type NodeData struct {
+	Name   string
 	CPU    NodeCPU
 	Memory NodeMem
 	Uptime uint64
@@ -39,6 +40,7 @@ func Node(session *proxmox.Client, node string, ctx context.Context) (VENode, er
 
 func (node *VENode) Data() NodeData {
 	return NodeData{
+		Name:   node.Name,
 		CPU:    cpuInf(node.CPUInfo),
 		Memory: memInf(node.Memory),
 		Uptime: node.Uptime,

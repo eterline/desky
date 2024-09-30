@@ -9,7 +9,7 @@ import (
 	"github.com/eterline/desky/internal/config"
 	"github.com/eterline/desky/internal/requsters/api"
 	"github.com/gorilla/mux"
-	proxmox "github.com/luthermonson/go-proxmox"
+	"github.com/luthermonson/go-proxmox"
 	"github.com/zcalusic/sysinfo"
 )
 
@@ -19,17 +19,19 @@ type (
 		router        *mux.Router
 		templates     paths
 		configs       config.Settings
-		proxmoxClient *proxmox.Client
+		proxmoxClient []*proxmox.Client
+		ProxmNodes    config.Settings
 	}
 
 	// html pages names
 	paths struct {
-		index     string
-		dashboard string
-		docker    string
-		proxmox   string
-		monitor   string
-		tty       string
+		index      string
+		dashboard  string
+		docker     string
+		proxmox    string
+		monitor    string
+		tty        string
+		ProxmNodes []config.ProxmNode
 	}
 
 	dashboardData struct {
@@ -38,12 +40,14 @@ type (
 		Board      string
 		Cpu        string
 		Background string
+		ProxmNodes []config.ProxmNode
 	}
 
 	dockerData struct {
 		Host       string
 		Containers api.ContainerList
 		Background string
+		ProxmNodes []config.ProxmNode
 	}
 
 	proxmoxData struct {
@@ -52,11 +56,13 @@ type (
 		LXCs       interface{}
 		VMs        interface{}
 		Background string
+		ProxmNodes []config.ProxmNode
 	}
 
 	ttyData struct {
 		Host       string
 		Background string
+		ProxmNodes []config.ProxmNode
 	}
 
 	sysInfoData struct {
@@ -65,6 +71,7 @@ type (
 		Info       sysinfo.SysInfo
 		Systemd    any
 		Smarts     any
+		ProxmNodes []config.ProxmNode
 	}
 
 	ctxKey int8

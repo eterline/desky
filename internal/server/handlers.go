@@ -1,7 +1,10 @@
 package server
 
 import (
+	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func (s *server) Dasboard(w http.ResponseWriter, r *http.Request) {
@@ -20,6 +23,7 @@ func (s *server) Docker(w http.ResponseWriter, r *http.Request) {
 
 		if err := templateExec(w, t, "index", data); err != nil {
 			s.error(w, r, http.StatusInternalServerError, err)
+			return
 		}
 		return
 	}
@@ -27,14 +31,21 @@ func (s *server) Docker(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) Proxmox(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
 	if s.configs.Proxmox.Up {
 		t := assemblyTemplates(s, s.templates.proxmox)
-		data := initProxmox(s.configs, s.proxmoxClient)
-
+		data, err := initProxmox(s.configs, s.proxmoxClient, vars["host"])
+		if err != nil {
+			log.Println(err)
+			s.Home(w, r)
+			return
+		}
 		if err := templateExec(w, t, "index", data); err != nil {
 			s.error(w, r, http.StatusInternalServerError, err)
+			return
 		}
 		return
+
 	}
 	s.Home(w, r)
 }

@@ -10,25 +10,20 @@ import (
 	"github.com/eterline/desky/pkg/ve"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
+	"github.com/luthermonson/go-proxmox"
 )
 
 func Run() error {
 	cfg := config.ParseSettings()
 	ssStore := sessions.NewCookieStore([]byte(cfg.SessionStoreKey))
-	proxmox := ve.InitBase(
-		cfg.Proxmox.User,
-		cfg.Proxmox.Password,
-		cfg.Proxmox.Host,
-		cfg.Proxmox.Port,
-	)
-	srv := NewServer(ssStore, cfg, &proxmox)
+	srv := NewServer(ssStore, cfg)
 
 	cfg.PrintLogo()
 
 	return ListenConnections(cfg.Tls.Enable, cfg, srv.router)
 }
 
-func NewServer(sessonStore sessions.Store, cfg config.Settings, auth ve.Auth) *server {
+func NewServer(sessonStore sessions.Store, cfg config.Settings) *server {
 	templates := paths{
 		index:     "templates/index.html",
 		dashboard: "templates/dashboard.html",
@@ -38,11 +33,17 @@ func NewServer(sessonStore sessions.Store, cfg config.Settings, auth ve.Auth) *s
 		tty:       "templates/tty.html",
 	}
 
+	var accountsProxm []*proxmox.Client
+	for _, j := range cfg.Proxmox.Nodes {
+		auth := ve.InitBase(j.User, j.Password, j.Host, j.Port)
+		accountsProxm = append(accountsProxm, ve.Authenticate(&auth))
+	}
+
 	s := &server{
 		router:        mux.NewRouter(),
 		templates:     templates,
 		configs:       cfg,
-		proxmoxClient: ve.Authenticate(auth),
+		proxmoxClient: accountsProxm,
 	}
 
 	s.router.Use(loggingMiddleware)

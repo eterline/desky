@@ -1,35 +1,30 @@
 package server
 
 import (
-	"context"
-	"strings"
-
 	"github.com/eterline/desky/internal/applets"
 	"github.com/eterline/desky/internal/config"
 	"github.com/eterline/desky/internal/requsters/api"
 	"github.com/eterline/desky/internal/requsters/disk"
 	"github.com/eterline/desky/internal/requsters/system"
 	"github.com/eterline/desky/internal/requsters/systemd"
-	"github.com/eterline/desky/pkg/ve"
 	"github.com/luthermonson/go-proxmox"
 	"github.com/zcalusic/sysinfo"
 )
 
-func initProxmox(s config.Settings, proxm *proxmox.Client) proxmoxData {
+func initProxmox(s config.Settings, proxm []*proxmox.Client, nodeId string) (proxmoxData, error) {
 	// Setting hostname, ignores .domain: 'host.domain.lan' --> 'host'
-	hst := strings.Split(s.Proxmox.Host, ".")[0]
-
-	node, err := ve.Node(proxm, hst, context.Background())
+	node, err := findProxmoxHost(s, nodeId, proxm)
 	if err != nil {
-		return proxmoxData{}
+		return proxmoxData{}, err
 	}
+
 	pcts, err := node.LXCList()
 	if err != nil {
-		return proxmoxData{}
+		return proxmoxData{}, err
 	}
 	vms, err := node.VMList()
 	if err != nil {
-		return proxmoxData{}
+		return proxmoxData{}, err
 	}
 	return proxmoxData{
 		Host:       findHostname(),
@@ -37,7 +32,8 @@ func initProxmox(s config.Settings, proxm *proxmox.Client) proxmoxData {
 		VMs:        vms,
 		LXCs:       pcts,
 		Background: s.Background,
-	}
+		ProxmNodes: s.Proxmox.Nodes,
+	}, nil
 }
 
 func initDashboard(s config.Settings) dashboardData {
@@ -47,6 +43,7 @@ func initDashboard(s config.Settings) dashboardData {
 		Board:      system.BoardModel(),
 		Cpu:        system.CpuModel(),
 		Background: s.Background,
+		ProxmNodes: s.Proxmox.Nodes,
 	}
 }
 
@@ -55,6 +52,7 @@ func initDocker(s config.Settings) dockerData {
 		Host:       findHostname(),
 		Containers: api.DockerContainers(s),
 		Background: s.Background,
+		ProxmNodes: s.Proxmox.Nodes,
 	}
 }
 
@@ -62,6 +60,7 @@ func initTty(s config.Settings) ttyData {
 	return ttyData{
 		Host:       findHostname(),
 		Background: s.Background,
+		ProxmNodes: s.Proxmox.Nodes,
 	}
 }
 
@@ -76,5 +75,6 @@ func initSysInfo(s config.Settings) sysInfoData {
 		Info:       inf,
 		Systemd:    systemd.UnitsList(),
 		Smarts:     smarts,
+		ProxmNodes: s.Proxmox.Nodes,
 	}
 }

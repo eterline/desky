@@ -1,36 +1,70 @@
 {{ define "main" }}
     <main>
-        <div class="virt">
-            {{ range .LXCs }}
-                <div>
-                    <img width="100px" height="100px" src="/static/images/web-icons/lxc.svg" alt="LXC">
-                    {{ template "virt-dev" .}}
-                    <div class="buttons">
-                        {{ template "reboot-lxc" .}}
-                        {{ if eq .Device.Status "running"}}
-                            {{ template "shutdown-lxc" .}}
-                        {{else}}
-                            {{ template "start-lxc" .}}
-                        {{ end }}
+        <div class="pad-proxmox">
+            <div class="nodes-info">
+                    <div class="info-title">
+                        <H2>
+                            [{{ .HostData.Name }}]
+                        </H2>
                     </div>
-                    
-                </div>
-            {{ end }}
-
-            {{ range .VMs}}
-                <div>
-                    <img width="100px" height="100px" src="/static/images/web-icons/vm.svg" alt="VM">
-                    {{ template "virt-dev" .}}
-                    <div class="buttons">
-                        {{ template "reboot-qm" .}}
-                        {{ if eq .Device.Status "running"}}
-                            {{ template "shutdown-qm" .}}
-                        {{else}}
-                            {{ template "start-qm" .}}
-                        {{ end }}
+                    <div class="node-btn">
+                        CPUs: {{ .HostData.CPU.CPUs }}
                     </div>
+                    <div class="node-btn">
+                        Cores: {{ .HostData.CPU.Cores}}
+                    </div>
+                    <div class="node-btn">
+                        MemUse: {{ .HostData.Memory.UsedPrecent }}%
+                    </div>
+            </div>
+            <div class="virt">
+                {{ range .LXCs }}
+                    <div class="dev-block">
+                        <div style="color: aliceblue; margin: 5px;">LXC</div>
+                        <img width="100px" height="100px" src="/static/images/web-icons/lxc.svg" alt="LXC">
+                        {{ template "virt-dev" .}}
+                        <div class="buttons">
+                            {{ template "reboot-lxc" .}}
+                            {{ if eq .Device.Status "running"}}
+                                {{ template "shutdown-lxc" .}}
+                            {{else}}
+                                {{ template "start-lxc" .}}
+                            {{ end }}
+                        </div>
+                        
+                    </div>
+                {{ end }}
+    
+                {{ range .VMs}}
+                    <div class="dev-block">
+                        <div style="color: aliceblue; margin: 5px;">VM</div>
+                        <img width="100px" height="100px" src="/static/images/web-icons/vm.svg" alt="VM">
+                        {{ template "virt-dev" .}}
+                        <div class="buttons">
+                            {{ template "reboot-qm" .}}
+                            {{ if eq .Device.Status "running"}}
+                                {{ template "shutdown-qm" .}}
+                            {{else}}
+                                {{ template "start-qm" .}}
+                            {{ end }}
+                        </div>
+                    </div>
+                {{ end }}
+            </div>
+            <div class="nodes-menu">
+                <div class="info-title">
+                    <H2>
+                        [HOSTS]
+                    </H2>
                 </div>
-            {{ end }}
+                {{ range .ProxmNodes }}
+                <a href="/dashboard/proxmox/{{ .Node }}">
+                    <div class="node-btn">
+                        {{ .Node }}
+                    </div>
+                </a>
+                {{ end }}
+            </div>
         </div>
     </main>
     <script src="/static/scripts/proxmox.js"></script> 
@@ -48,9 +82,9 @@ Proxmox
 
 
 {{ define "virt-dev" }}
-<div class="virt-dev">
+<div class="virt-table">
     <div class="data-param" style="background-color: black;">
-        <H2 style="text-align: center; color: white;">[{{ .Device.Name }}]</H2>
+        <H3 style="text-align: center; color: white;">[{{ .Device.Name }}]</H3>
     </div>
     <div class="data-param">
         <span>ID:</span> {{ .Device.VMID }}
@@ -78,19 +112,19 @@ Proxmox
 {{ end }}
 
 {{ define "reboot-lxc" }}
-    <button data-type="lxc" data-id="{{ .Device.VMID }}" class="reboot-btn">
+    <button data-type="lxc" data-id="{{ .Device.VMID }}" data-host="{{ .Device.Node }}" class="reboot-btn">
         <i class="fa fa-refresh"></i>
     </button>
 {{ end }}
 
 {{ define "start-lxc" }}
-    <button data-type="lxc" data-id="{{ .Device.VMID }}" class="start-btn act-btn" style="background-color: rgb(173, 202, 41); color: black; border-color: rgb(40, 68, 17);">
+    <button data-type="lxc" data-id="{{ .Device.VMID }}" data-host="{{ .Device.Node }}" class="start-btn act-btn">
         Startup
     </button>
 {{ end }}
 
 {{ define "shutdown-lxc" }}
-    <button data-type="lxc" data-id="{{ .Device.VMID }}" class="shutdown-btn act-btn" style="background-color: rgb(187, 30, 30); color: black; border-color: rgb(40, 68, 17);">
+    <button data-type="lxc" data-id="{{ .Device.VMID }}" data-host="{{ .Device.Node }}" class="shutdown-btn act-btn">
         Shutdown
     </button>
 {{ end }}
@@ -98,19 +132,19 @@ Proxmox
 
 
 {{ define "reboot-qm" }}
-    <button data-type="qm" data-id="{{ .Device.VMID }}" class="reboot-btn">
+    <button data-type="qm" data-id="{{ .Device.VMID }}" data-host="{{ .Device.Node }}" class="reboot-btn">
         <i class="fa fa-refresh"></i>
     </button>
 {{ end }}
 
 {{ define "start-qm" }}
-    <button data-type="qm" data-id="{{ .Device.VMID }}" class="start-btn act-btn" style="background-color: rgb(173, 202, 41); color: black; border-color: rgb(40, 68, 17);">
+    <button data-type="qm" data-id="{{ .Device.VMID }}" data-host="{{ .Device.Node }}" class="start-btn act-btn">
         Startup
     </button>
 {{ end }}
 
 {{ define "shutdown-qm" }}
-    <button data-type="qm" data-id="{{ .Device.VMID }}" class="shutdown-btn act-btn" style="background-color: rgb(187, 30, 30); color: black; border-color: rgb(40, 68, 17);">
+    <button data-type="qm" data-id="{{ .Device.VMID }}" data-host="{{ .Device.Node }}" class="shutdown-btn act-btn">
         Shutdown
     </button>
 {{ end }}

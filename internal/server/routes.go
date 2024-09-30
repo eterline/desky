@@ -16,12 +16,12 @@ func (s *server) configPagesRouter() {
 
 	BuildSubRoute(s.router,
 		Routes{
-			"/ws":      {wsConnection, "GET"}, // ws connection for .../tty
-			"/panel":   {s.Dasboard, "GET"},   // dashboard rendering page
-			"/tty":     {s.Tty, "GET"},        // tty console page
-			"/docker":  {s.Docker, "GET"},     // docker ct list page
-			"/proxmox": {s.Proxmox, "GET"},    // proxmox devices and info page
-			"/monitor": {s.SysInfo, "GET"},    // system info page
+			"/ws":             {wsConnection, "GET"}, // ws connection for .../tty
+			"/panel":          {s.Dasboard, "GET"},   // dashboard rendering page
+			"/tty":            {s.Tty, "GET"},        // tty console page
+			"/docker":         {s.Docker, "GET"},     // docker ct list page
+			"/proxmox/{host}": {s.Proxmox, "GET"},    // proxmox devices and info page
+			"/monitor":        {s.SysInfo, "GET"},    // system info page
 		},
 		"/dashboard",
 	)
@@ -41,13 +41,13 @@ func (s *server) configApiRouter() {
 	// init handlers: path /api/proxmox/...
 	BuildSubRoute(api,
 		Routes{
-			"/node":           {s.apiNodeInfo, "GET"}, // list pct devices
-			"/pct":            {s.apiPctList, "GET"},  // list pct devices
-			"/qm":             {s.apiQmList, "GET"},   // list qemu devices
-			"/qm/{id}":        {s.apiQmInfo, "GET"},   // qemu device info
-			"/pct/{id}":       {s.apiPctInfo, "GET"},  // pct device info
-			"/pct/{id}/{cmd}": {s.apiPctExec, "POST"}, // reload|start|shutdown pct
-			"/qm/{id}/{cmd}":  {s.apiQmExec, "POST"},  // reload|start|shutdown qemu
+			"/{host}/node":           {s.apiNodeInfo, "GET"}, // list pct devices
+			"/{host}/pct":            {s.apiPctList, "GET"},  // list pct devices
+			"/{host}/qm":             {s.apiQmList, "GET"},   // list qemu devices
+			"/{host}/qm/{id}":        {s.apiQmInfo, "GET"},   // qemu device info
+			"/{host}/pct/{id}":       {s.apiPctInfo, "GET"},  // pct device info
+			"/{host}/pct/{id}/{cmd}": {s.apiPctExec, "POST"}, // reload|start|shutdown pct
+			"/{host}/qm/{id}/{cmd}":  {s.apiQmExec, "POST"},  // reload|start|shutdown qemu
 		},
 		"/proxmox",
 	)

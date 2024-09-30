@@ -2,19 +2,30 @@ const reboot_buttons = document.querySelectorAll('.reboot-btn');
 const shutdown_buttons = document.querySelectorAll('.shutdown-btn');
 const start_buttons = document.querySelectorAll('.start-btn');
 
+const virt = document.querySelector('.virt');
+const firstItem = virt.querySelector('.dev-block');
 
 let reloadPage = function reloadPage(){
     window.location.reload();
 }
 
+window.addEventListener('load', () => {
+    const itemStyles = window.getComputedStyle(firstItem);
+    const itemWidth = firstItem.offsetWidth + 
+                      parseFloat(itemStyles.marginLeft) + 
+                      parseFloat(itemStyles.marginRight);
+    virt.style.width = `${itemWidth*2+15}px`;
+});
+
 async function reqApi(button, exec)  {
     const id = button.getAttribute('data-id');
     const type = button.getAttribute('data-type');
+    const host = button.getAttribute('data-host');
     let url = " ";
     if (type == "lxc") {
-        url = `/api/proxmox/pct/${id}/${exec}`;
+        url = `/api/proxmox/${host}/pct/${id}/${exec}`;
     } else {
-        url = `/api/proxmox/qm/${id}/${exec}`;
+        url = `/api/proxmox/${host}/qm/${id}/${exec}`;
     };
     const response = await fetch(url, {
         method: 'POST',

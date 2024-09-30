@@ -4,34 +4,81 @@
     display: flex;
     overflow-x: scroll;
     border-radius: 10px;
-    width: 80%;
+    width: fit-content;
     gap: 15px;
     flex-direction: row;
-    background-color: var(--ui-black-color-60);
+    background-color: var(--ui-black-color-40);
 }
 
-.virt div img {
+.virt img {
     display: block;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
 }
 
-.virt-dev {
+.virt-table {
     border-radius: 5px;
     background-color: var(--text-white-transparment);
     padding: 2px;
-    gap: 2px;
+    width: 250px;
 }
 
-.virt div {
-    width: 220px;
-}
-
-.virt > div {
+.pad-proxmox {
+    border-radius: 5px;
+    padding: 5px;
+    width: fit-content;
+    height: fit-content;
     background-color: var(--ui-black-color-45);
-    padding: 4px;
+    display: flex;
+}
+
+.nodes-menu {
+    border-radius: 10px;
+    margin: 10px;
+    width: 200px;
+    align-content: center;
+    background-color: var(--ui-black-color-45);
+}
+
+.nodes-info {
+    border-radius: 10px;
+    margin: 10px;
+    width: 200px;
+    align-content: center;
+    background-color: var(--ui-black-color-45);
+}
+
+.info-title {
+    text-align: center;
+    color: var(--text-white);
+}
+
+.node-btn {
+    font-size: 1.2em;
+    text-align: center;
+    padding: 10px;
+    border-radius: 15px;
+    margin: 10px;
+    background-color: var(--addition-60);
+    transition: 0.3s;
+}
+
+.nodes-menu a {
+    text-decoration: none;
+    color: black;
+}
+
+.node-btn:hover {
+    background-color: var(--addition-80);
+    color: black;
+}
+
+.dev-block {
+    background-color: var(--ui-black-color-45);
+    width: fit-content;
     border-radius: 8px;
+    padding-bottom: 5px;
 }
 
 .data-param {
@@ -44,7 +91,6 @@
     background-color: var(--ui-black-color);
     border-radius: 2px;
     color: var(--text-white);
-    width: 30%;
     padding-left: 5px;
 }
 
@@ -73,9 +119,14 @@
     height: 30px;
 }
 
+.shutdown-btn {
+    background-color: rgb(187, 30, 30);
+    color: rgb(255, 255, 255);
+    border-color: rgb(87, 15, 15);
+}
 
-.btns button {
-    text-align: center;
-    padding-top: 5px;
-    vertical-align: middle;
+.start-btn {
+    background-color: rgb(173, 202, 41);
+    color: black;
+    border-color: rgb(40, 68, 17);
 }

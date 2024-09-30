@@ -21,6 +21,7 @@ ______             _
 ===============================   
  - Desky succsessfully started on: %s:%s
  - Proxmox module is up: %v
+ - Docker module is up: %v
 ===============================                   
 `
 
@@ -38,12 +39,8 @@ type (
 		} `yaml:"TLS"`
 		SessionStoreKey string `yaml:"Sessionkey"`
 		Proxmox         struct {
-			Up       bool   `yaml:"up"`
-			User     string `yaml:"username"`
-			Password string `yaml:"password"`
-			Host     string `yaml:"hostname"`
-			Port     int    `yaml:"port"`
-			Node     string `yaml:"node"`
+			Up    bool        `yaml:"up"`
+			Nodes []ProxmNode `yaml:"Nodes"`
 		} `yaml:"Proxmox"`
 		Docker struct {
 			Up  bool   `yaml:"up"`
@@ -56,6 +53,14 @@ type (
 				KEY string `yaml:"key"`
 			} `yaml:"Gotify"`
 		} `yaml:"Notifications"`
+	}
+
+	ProxmNode struct {
+		Node     string `yaml:"node"`
+		User     string `yaml:"username"`
+		Password string `yaml:"password"`
+		Host     string `yaml:"hostname"`
+		Port     int    `yaml:"port"`
 	}
 )
 
@@ -79,10 +84,6 @@ func ParseSettings() Settings {
 	if !cfg.Docker.Up {
 		cfg.Docker.Up = false
 	}
-	if cfg.Proxmox.Port == 0 {
-		cfg.Proxmox.Port = 8006
-	}
-
 	if !cfg.Tls.Enable {
 		cfg.Tls.Enable = false
 	}
@@ -98,5 +99,5 @@ func RandStringBytes(n int) string {
 }
 
 func (cfg *Settings) PrintLogo() {
-	log.Printf(printDesky, cfg.Address.Ip, cfg.Address.Port, cfg.Proxmox.Up)
+	log.Printf(printDesky, cfg.Address.Ip, cfg.Address.Port, cfg.Proxmox.Up, cfg.Docker.Up)
 }

@@ -1,25 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
+	"github.com/eterline/desky/internal/logging"
 	"github.com/eterline/desky/internal/server"
 )
 
 func main() {
-	logPath := fmt.Sprintf(
-		"logs/desky_%v_%v_%v-%v_%v_%v.log",
-		time.Now().Year(), time.Now().Month(), time.Now().Day(),
-		time.Now().Hour(), time.Now().Minute(), time.Now().Second(),
-	)
-	file, _ := os.Create(logPath)
-	log.SetOutput(file)
-	defer file.Close()
+	output := logging.InitLogOutput("logs/desky.log", true)
+	log.SetOutput(output)
 	go func() {
 		err := server.Run()
 		if err != nil {

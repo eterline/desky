@@ -2,25 +2,31 @@ Address:
   ip: '0.0.0.0'
   port: 443
 Background: 'image2.jpg'
-# =================================================
+# ========================================================
 TLS:
   enable: true
   crt: certificates/local.crt
   key: certificates/local.key
-# =================================================
+# ========================================================
 Proxmox:
   up: true
-  hostname: 'home-ve.lan'
-  port: 8006
-  username: 'root@pam'
-  password: 'password'
-  node: 'home-ve'
-# =================================================
+  Nodes:
+    - node: 'home-ve'
+      hostname: 'home-ve.lan'
+      port: 8006
+      username: 'root@pam'
+      password: 'password'
+    - node: 'home-ve-2'
+      hostname: 'home-ve-2.lan'
+      port: 8006
+      username: 'root@pam'
+      password: 'password'
+# ========================================================
 Docker:
   up: true
   url: 'http://omv.lan:9400/api/v1/containers'
   key: 'password'
-# =================================================
+# ========================================================
 Notifications:
   Gotify:
     url: "https://{gotify.host}/message"
