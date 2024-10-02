@@ -19,7 +19,7 @@ jobs:
         go-version: '1.23'
 
     - name: Build
-      run: go build -v ./cmd/desky/...
+      run: go build ./cmd/desky/...
     
     - name: Deploy to Server 
       env:
@@ -33,7 +33,7 @@ jobs:
         ssh root@78.109.34.7 'systemctl stop desky'
         ssh root@78.109.34.7 'rm -rf /root/desky* && mkdir /root/desky'
         
-        scp -r ./ root@78.109.34.7:/root/desky
+        scp -r * root@78.109.34.7:/root/desky
     
 
         ssh root@78.109.34.7 'cp -r /root/desky-settings/* /root/desky/init/ && chmod +x /root/desky/desky'
