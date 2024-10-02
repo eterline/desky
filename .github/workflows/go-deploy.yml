@@ -25,17 +25,15 @@ jobs:
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       run: |
-        rm -f /root/desky/init/*
-        
         mkdir -p ~/.ssh
         echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H 78.109.34.7 >> ~/.ssh/known_hosts
         
-        # Передача файлов на сервер
+        ssh root@78.109.34.7 'rm -f /root/desky/init/*'
         ssh root@78.109.34.7 'systemctl stop desky'
         scp -r ./ root@78.109.34.7:/root/desky
     
-        # Выполнение команд на сервере
+
         ssh root@78.109.34.7 'cp -r /root/desky-settings/* /root/desky/init/ && chmod +x /root/desky/desky'
         ssh root@78.109.34.7 'systemctl restart desky'
