@@ -30,8 +30,9 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H 78.109.34.7 >> ~/.ssh/known_hosts
         
-        ssh root@78.109.34.7 'rm -f /root/desky/init/*'
         ssh root@78.109.34.7 'systemctl stop desky'
+        ssh root@78.109.34.7 'rm -rf /root/desky* && mkdir /root/desky'
+        
         scp -r ./ root@78.109.34.7:/root/desky
     
 
