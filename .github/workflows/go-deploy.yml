@@ -1,0 +1,41 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Go
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.23'
+
+    - name: Build
+      run: go build -v ./cmd/desky/...
+    
+    - name: Deploy to Server 
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        rm -f ./init/*
+        
+        mkdir -p ~/.ssh
+        echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H 78.109.34.7 >> ~/.ssh/known_hosts
+        
+        # Передача файлов на сервер
+        ssh root@78.109.34.7 'systemctl stop desky'
+        scp -r ./ root@78.109.34.7:/root/desky
+    
+        # Выполнение команд на сервере
+        ssh root@78.109.34.7 'cp -r /root/desky-settings/* /root/desky/init/ && chmod +x /root/desky/desky'
+        ssh root@78.109.34.7 'systemctl restart desky'
