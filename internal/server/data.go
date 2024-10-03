@@ -7,7 +7,6 @@ import (
 
 	"github.com/eterline/desky/internal/applets"
 	"github.com/eterline/desky/internal/config"
-	"github.com/eterline/desky/internal/requsters/api"
 	"github.com/gorilla/mux"
 	"github.com/luthermonson/go-proxmox"
 	"github.com/zcalusic/sysinfo"
@@ -39,13 +38,6 @@ type (
 		Host       string
 		Board      string
 		Cpu        string
-		Background string
-		ProxmNodes []config.ProxmNode
-	}
-
-	dockerData struct {
-		Host       string
-		Containers api.ContainerList
 		Background string
 		ProxmNodes []config.ProxmNode
 	}

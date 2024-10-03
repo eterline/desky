@@ -18,10 +18,9 @@ func (s *server) configPagesRouter() {
 		Routes{
 			"/ws":             {wsConnection, "GET"}, // ws connection for .../tty
 			"/panel":          {s.Dasboard, "GET"},   // dashboard rendering page
-			"/tty":            {s.Tty, "GET"},        // tty console page
-			"/docker":         {s.Docker, "GET"},     // docker ct list page
 			"/proxmox/{host}": {s.Proxmox, "GET"},    // proxmox devices and info page
 			"/monitor":        {s.SysInfo, "GET"},    // system info page
+			"/tty":            {s.Tty, "GET"},        // tty console page
 		},
 		"/dashboard",
 	)
