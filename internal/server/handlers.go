@@ -7,7 +7,7 @@ import (
 )
 
 func (s *server) Dasboard(w http.ResponseWriter, r *http.Request) {
-	t := assemblyTemplates(s, s.templates.dashboard)
+	t := assemblyTemplates(s, s.templates["dashboard"])
 	data := initDashboard(s.configs)
 
 	if err := templateExec(w, t, "index", data); err != nil {
@@ -18,7 +18,7 @@ func (s *server) Dasboard(w http.ResponseWriter, r *http.Request) {
 func (s *server) Proxmox(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	if s.configs.Proxmox.Up {
-		t := assemblyTemplates(s, s.templates.proxmox)
+		t := assemblyTemplates(s, s.templates["proxmox"])
 		data, err := initProxmox(s.configs, s.proxmoxClient, vars["host"])
 		if err != nil {
 			log.Println(err)
@@ -35,18 +35,27 @@ func (s *server) Proxmox(w http.ResponseWriter, r *http.Request) {
 	s.Home(w, r)
 }
 
-func (s *server) Tty(w http.ResponseWriter, r *http.Request) {
-	t := assemblyTemplates(s, s.templates.tty)
-	data := initTty(s.configs)
+func (s *server) SysInfo(w http.ResponseWriter, r *http.Request) {
+	t := assemblyTemplates(s, s.templates["monitor"])
+	data := initSysInfo(s.configs)
 
 	if err := templateExec(w, t, "index", data); err != nil {
 		s.error(w, r, http.StatusInternalServerError, err)
 	}
 }
 
-func (s *server) SysInfo(w http.ResponseWriter, r *http.Request) {
-	t := assemblyTemplates(s, s.templates.monitor)
-	data := initSysInfo(s.configs)
+func (s *server) Systemd(w http.ResponseWriter, r *http.Request) {
+	t := assemblyTemplates(s, s.templates["systemd"])
+	data := initSystemd(s.configs)
+
+	if err := templateExec(w, t, "index", data); err != nil {
+		s.error(w, r, http.StatusInternalServerError, err)
+	}
+}
+
+func (s *server) Tty(w http.ResponseWriter, r *http.Request) {
+	t := assemblyTemplates(s, s.templates["tty"])
+	data := initTty(s.configs)
 
 	if err := templateExec(w, t, "index", data); err != nil {
 		s.error(w, r, http.StatusInternalServerError, err)

@@ -68,3 +68,12 @@ func initSysInfo(s config.Settings) sysInfoData {
 		ProxmNodes: s.Proxmox.Nodes,
 	}
 }
+
+func initSystemd(s config.Settings) systemdData {
+	return systemdData{
+		Host:       findHostname(),
+		Background: s.Background,
+		Systemd:    systemd.UnitsList(),
+		ProxmNodes: s.Proxmox.Nodes,
+	}
+}

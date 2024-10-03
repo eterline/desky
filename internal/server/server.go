@@ -15,18 +15,20 @@ import (
 var log *logrus.Logger
 
 func (s *server) Run() error {
+	log.Infof("Server started at: %s:%s", s.configs.Address.Ip, s.configs.Address.Port)
 	return ListenConnections(s.configs, s.router)
 }
 
 func InitServer(cfg config.Settings, logger *logrus.Logger) *server {
 	log = logger
-	templates := paths{
-		index:     "templates/index.html",
-		dashboard: "templates/dashboard.html",
-		docker:    "templates/docker.html",
-		proxmox:   "templates/proxmox.html",
-		monitor:   "templates/monitor.html",
-		tty:       "templates/tty.html",
+
+	templates := map[string]string{
+		"index":     "templates/index.html",
+		"dashboard": "templates/dashboard.html",
+		"proxmox":   "templates/proxmox.html",
+		"monitor":   "templates/monitor.html",
+		"systemd":   "templates/systemd.html",
+		"tty":       "templates/tty.html",
 	}
 
 	var accountsProxm []*proxmox.Client

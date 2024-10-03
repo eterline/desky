@@ -1,0 +1,55 @@
+{{ define "main" }}
+<main>
+    <div id="systemd-padding">
+        <div id="systemd">
+                {{ range .Systemd }}
+                    <div class="unit">
+                        {{ if eq .State "enabled" }}
+                        <span style="background-color: rgb(0, 204, 0);" class="dot"></span>
+                        {{ end }}
+                        {{ if eq .State "alias" }}
+                        <span style="background-color: rgb(0, 204, 0);" class="dot"></span>
+                        {{ end }}
+                        {{ if eq .State "static" }}
+                        <span style="background-color: rgb(120, 42, 165);" class="dot"></span>
+                        {{ end }}
+                        {{ if eq .State "disabled" }}
+                        <span style="background-color: brown;" class="dot"></span>
+                        {{ end }}
+
+                        <div class="unit-name">{{ .Unit }}</div>
+                        
+                        <button data-service="{{ .Unit }}" class="btn restart-btn">⟳</button>
+                        <button data-service="{{ .Unit }}" class="btn start-btn">▶️ Start</button>
+                        <button data-service="{{ .Unit }}" class="btn stop-btn">⏸️ Stop</button>
+                        
+                        {{ if eq .State "enabled" }}
+                        <button data-service="{{ .Unit }}" class="btn disable-btn">◼ Disable</button>
+                        {{ end }}
+                        {{ if eq .State "alias" }}
+                        <button data-service="{{ .Unit }}" class="btn disable-btn">◼ Disable</button>
+                        {{ end }}
+                        {{ if eq .State "static" }}
+                        <button data-service="{{ .Unit }}" class="btn disable-btn">◼ Disable</button>
+                        {{ end }}
+                        {{ if eq .State "disabled" }}
+                        <button data-service="{{ .Unit }}" class="btn enable-btn">⏻  Enable</button>
+                        {{ end }}
+
+                    </div>
+                {{ end }}
+        </div>
+    </div>
+</main>
+<script src="/static/scripts/systemd.js"></script>
+{{ end }}
+
+{{ define "styles" }}
+<link rel="stylesheet" href="/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/css/index.css">
+<link rel="stylesheet" href="/static/css/systemd.css">
+{{ end }}
+
+{{ define "tab-name" }}
+Systemd
+{{ end }}

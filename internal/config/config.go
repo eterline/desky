@@ -42,11 +42,6 @@ type (
 			Up    bool        `yaml:"up"`
 			Nodes []ProxmNode `yaml:"Nodes"`
 		} `yaml:"Proxmox"`
-		Docker struct {
-			Up  bool   `yaml:"up"`
-			URL string `yaml:"url"`
-			Key string `yaml:"key"`
-		} `yaml:"Docker"`
 		Notifications struct {
 			Gotify struct {
 				URL string `yaml:"url"`
@@ -81,9 +76,6 @@ func ParseSettings() Settings {
 	if !cfg.Proxmox.Up {
 		cfg.Proxmox.Up = false
 	}
-	if !cfg.Docker.Up {
-		cfg.Docker.Up = false
-	}
 	if !cfg.Tls.Enable {
 		cfg.Tls.Enable = false
 	}
@@ -96,8 +88,4 @@ func RandStringBytes(n int) string {
 		b[i] = letterBytes[rand.Intn(len(letterBytes))]
 	}
 	return string(b)
-}
-
-func (cfg *Settings) PrintLogo() {
-	log.Printf(printDesky, cfg.Address.Ip, cfg.Address.Port, cfg.Proxmox.Up, cfg.Docker.Up)
 }

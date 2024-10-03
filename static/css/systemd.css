@@ -1,0 +1,94 @@
+#systemd-padding {
+    width:60%;
+    height: 80%;
+    padding: 10px;
+    display: flex;
+    border-radius: 12px;
+    background-color: var(--ui-black-color-60);
+}
+
+#systemd {
+    border-radius: 5px;
+    display: flex;
+    overflow-x: auto;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.unit {
+    gap: 10px;;
+    align-items: center;
+    border-radius: 5px;
+    padding: 8px;
+    width: 100%;
+    height: 50px;
+    background-color: var(--addition-60);
+    display: flex;
+}
+
+.unit-name {
+    text-align: center;
+    height: 80%;
+    font-size: 1.2em;
+    border-radius: 5px;
+    background-color: var(--ui-black-color-60);
+    width: 60%;
+    overflow: hidden;
+
+	text-overflow: ellipsis;
+
+	display: -webkit-box;
+
+	-webkit-line-clamp: 4;
+
+	-webkit-box-orient: vertical;
+
+    color: var(--text-white);
+
+    align-items: center;
+}
+
+.dot {
+    overflow: hidden;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.btn {
+    overflow: hidden;
+    display: inline
+    white-space: nowrap;
+    border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+    border-style: solid;
+    border-width: 1px;
+    padding: 1px 7px 2px;
+    text-rendering: auto;
+    color: initial;
+    display: inline-block;
+    text-align: start;
+    margin: 0em;
+    font: 400 11px system-ui;
+
+    color: black;
+    height: 80%;
+    width: fit-content;
+    font-size: 1.2em;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.restart-btn {
+    font-size: 1.2em;
+    margin: 0px 5px;
+}
+
+.start-btn {
+}
+
+.enable-btn {
+}
+
+.disable-btn {
+}

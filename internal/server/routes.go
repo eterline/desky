@@ -20,6 +20,7 @@ func (s *server) configPagesRouter() {
 			"/panel":          {s.Dasboard, "GET"},   // dashboard rendering page
 			"/proxmox/{host}": {s.Proxmox, "GET"},    // proxmox devices and info page
 			"/monitor":        {s.SysInfo, "GET"},    // system info page
+			"/systemd":        {s.Systemd, "GET"},    // system info page
 			"/tty":            {s.Tty, "GET"},        // tty console page
 		},
 		"/dashboard",

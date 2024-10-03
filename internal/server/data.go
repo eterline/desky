@@ -7,6 +7,7 @@ import (
 
 	"github.com/eterline/desky/internal/applets"
 	"github.com/eterline/desky/internal/config"
+	"github.com/eterline/desky/internal/requsters/systemd"
 	"github.com/gorilla/mux"
 	"github.com/luthermonson/go-proxmox"
 	"github.com/sirupsen/logrus"
@@ -17,7 +18,7 @@ type (
 	// Server structure data
 	server struct {
 		router        *mux.Router
-		templates     paths
+		templates     map[string]string
 		configs       config.Settings
 		proxmoxClient []*proxmox.Client
 		ProxmNodes    config.Settings
@@ -68,6 +69,13 @@ type (
 		ProxmNodes []config.ProxmNode
 	}
 
+	systemdData struct {
+		Host       string
+		Background string
+		Systemd    systemd.Systemctl
+		ProxmNodes []config.ProxmNode
+	}
+
 	ctxKey int8
 )
 
@@ -91,6 +99,6 @@ func templateExec(w http.ResponseWriter, t *template.Template, templ string, dat
 }
 
 func assemblyTemplates(s *server, templ ...string) *template.Template {
-	templ = append(templ, s.templates.index)
+	templ = append(templ, s.templates["index"])
 	return template.Must(template.ParseFiles(templ...))
 }
