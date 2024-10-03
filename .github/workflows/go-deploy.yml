@@ -30,31 +30,35 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H 78.109.34.7 >> ~/.ssh/known_hosts
         echo "===================================="
-        
-        ssh root@78.109.34.7 'systemctl stop desky'
+
         echo "- stopping desky"
-        ssh root@78.109.34.7 'rm -rf /root/desky && mkdir /root/desky'
+        ssh root@78.109.34.7 'systemctl stop desky"
+        
         echo "- remake desky dir"
+        ssh root@78.109.34.7 'rm -rf /root/desky && mkdir /root/desky'
 
         echo "===================================="
 
         echo "- compress repo to archive"
         tar -czf desky.tar *
-        echo "start repo copy"
+        
+        echo "============ Transfer =============="
+        echo "- copy to server..."
         scp desky.tar root@78.109.34.7:/root/
-        echo "- end repo copy"
+        echo "- transfer finished"
 
         echo "===================================="
 
-        echo "- unarchive repo"
+        echo "- unarchive repo in server"
         ssh root@78.109.34.7 'tar -xf desky.tar -C desky && rm desky.tar'
 
         echo "===================================="
-        
-        ssh root@78.109.34.7 'cp /root/settings-desky/* /root/desky/init/ && chmod +x /root/desky/desky'
+
         echo "- copy settings files"
-        ssh root@78.109.34.7 'systemctl start desky'
+        ssh root@78.109.34.7 'cp /root/settings-desky/* /root/desky/init/ && chmod +x /root/desky/desky'
+        
         echo "- starting desky"
+        ssh root@78.109.34.7 'systemctl start desky'
         
         echo "=============== END ================"
         
