@@ -3,7 +3,6 @@ package server
 import (
 	"github.com/eterline/desky/internal/applets"
 	"github.com/eterline/desky/internal/config"
-	"github.com/eterline/desky/internal/requsters/api"
 	"github.com/eterline/desky/internal/requsters/disk"
 	"github.com/eterline/desky/internal/requsters/system"
 	"github.com/eterline/desky/internal/requsters/systemd"
@@ -42,15 +41,6 @@ func initDashboard(s config.Settings) dashboardData {
 		Host:       findHostname(),
 		Board:      system.BoardModel(),
 		Cpu:        system.CpuModel(),
-		Background: s.Background,
-		ProxmNodes: s.Proxmox.Nodes,
-	}
-}
-
-func initDocker(s config.Settings) dockerData {
-	return dockerData{
-		Host:       findHostname(),
-		Containers: api.DockerContainers(s),
 		Background: s.Background,
 		ProxmNodes: s.Proxmox.Nodes,
 	}
