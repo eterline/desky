@@ -32,7 +32,7 @@ jobs:
         echo "===================================="
 
         echo "- stopping desky"
-        ssh root@78.109.34.7 'systemctl stop desky"
+        ssh root@78.109.34.7 'systemctl stop desky'
         
         echo "- remake desky dir"
         ssh root@78.109.34.7 'rm -rf /root/desky && mkdir /root/desky'
