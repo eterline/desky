@@ -10,6 +10,7 @@ import (
 	"github.com/eterline/desky/internal/requsters/api"
 	"github.com/gorilla/mux"
 	"github.com/luthermonson/go-proxmox"
+	"github.com/sirupsen/logrus"
 	"github.com/zcalusic/sysinfo"
 )
 
@@ -21,6 +22,7 @@ type (
 		configs       config.Settings
 		proxmoxClient []*proxmox.Client
 		ProxmNodes    config.Settings
+		logger        *logrus.Logger
 	}
 
 	// html pages names

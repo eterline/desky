@@ -88,6 +88,7 @@ func (s *server) apiPctList(w http.ResponseWriter, r *http.Request) {
 	list, err := node.LXCList()
 	if err != nil {
 		s.error(w, r, http.StatusNotFound, err)
+		return
 	}
 	wrapJSON(w, struct{ VirtualMachines any }{list})
 }

@@ -2,28 +2,24 @@ package server
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/eterline/desky/internal/config"
 	"github.com/eterline/desky/pkg/notification"
 	"github.com/eterline/desky/pkg/ve"
 	"github.com/gorilla/mux"
-	"github.com/gorilla/sessions"
 	"github.com/luthermonson/go-proxmox"
+	"github.com/sirupsen/logrus"
 )
 
-func Run() error {
-	cfg := config.ParseSettings()
-	ssStore := sessions.NewCookieStore([]byte(cfg.SessionStoreKey))
-	srv := NewServer(ssStore, cfg)
+var log *logrus.Logger
 
-	cfg.PrintLogo()
-
-	return ListenConnections(cfg.Tls.Enable, cfg, srv.router)
+func (s *server) Run() error {
+	return ListenConnections(s.configs, s.router)
 }
 
-func NewServer(sessonStore sessions.Store, cfg config.Settings) *server {
+func InitServer(cfg config.Settings, logger *logrus.Logger) *server {
+	log = logger
 	templates := paths{
 		index:     "templates/index.html",
 		dashboard: "templates/dashboard.html",
@@ -44,9 +40,10 @@ func NewServer(sessonStore sessions.Store, cfg config.Settings) *server {
 		templates:     templates,
 		configs:       cfg,
 		proxmoxClient: accountsProxm,
+		logger:        logger,
 	}
 
-	s.router.Use(loggingMiddleware)
+	s.router.Use(s.loggingMiddleware)
 	s.configPrivateStatic()
 	s.configPagesRouter()
 	s.configApiRouter()
@@ -55,8 +52,8 @@ func NewServer(sessonStore sessions.Store, cfg config.Settings) *server {
 	return s
 }
 
-func ListenConnections(tls bool, config config.Settings, router *mux.Router) error {
-	if tls {
+func ListenConnections(config config.Settings, router *mux.Router) error {
+	if config.Tls.Enable {
 		return http.ListenAndServeTLS(
 			fmt.Sprintf("%s:%s", config.Address.Ip, config.Address.Port),
 			config.Tls.Crt,

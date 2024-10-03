@@ -1,20 +1,25 @@
 package main
 
 import (
-	"log"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"github.com/eterline/desky/internal/logging"
+	"github.com/eterline/desky/internal/config"
 	"github.com/eterline/desky/internal/server"
+	"github.com/eterline/desky/pkg/logging"
 )
 
 func main() {
-	output := logging.InitLogOutput("logs/desky.log", true)
-	log.SetOutput(output)
+	conf := config.ParseSettings()
+
+	logging.InitLogger("logs", "desky.log")
+	log := logging.ReturnEntry()
+
+	srv := server.InitServer(conf, log.Logger)
+
 	go func() {
-		err := server.Run()
+		err := srv.Run()
 		if err != nil {
 			log.Fatal(err.Error())
 		}
@@ -22,5 +27,5 @@ func main() {
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
-	log.Println("Shutting down the server...")
+	log.Info("Shutting down server")
 }

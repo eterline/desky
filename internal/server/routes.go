@@ -32,10 +32,12 @@ func (s *server) configApiRouter() {
 	// Init base API subrouting: path /api/...
 	api := BuildSubRoute(s.router,
 		Routes{
-			"/system":  {s.apiSystem, "GET"},
-			"/systemd": {s.apiSystemdList, "GET"},
+			"/system":                  {s.apiSystem, "GET"},
+			"/systemd":                 {s.apiSystemdList, "GET"},
+			"/systemd/{service}":       {s.apiSystemdStatus, "GET"},
+			"/systemd/{service}/{cmd}": {s.apiSystemdExec, "POST"},
 		},
-		"/api",
+		"/api", enableCors,
 	)
 
 	// init handlers: path /api/proxmox/...
@@ -49,7 +51,7 @@ func (s *server) configApiRouter() {
 			"/{host}/pct/{id}/{cmd}": {s.apiPctExec, "POST"}, // reload|start|shutdown pct
 			"/{host}/qm/{id}/{cmd}":  {s.apiQmExec, "POST"},  // reload|start|shutdown qemu
 		},
-		"/proxmox",
+		"/proxmox", enableCors,
 	)
 }
 

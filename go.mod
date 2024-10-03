@@ -19,6 +19,7 @@ require (
 	github.com/gorilla/securecookie v1.1.2 // indirect
 	github.com/jinzhu/copier v0.3.4 // indirect
 	github.com/magefile/mage v1.14.0 // indirect
+	github.com/sirupsen/logrus v1.9.3 // indirect
 	golang.org/x/sys v0.9.0 // indirect
 	gopkg.in/djherbis/times.v1 v1.2.0 // indirect
 )

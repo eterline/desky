@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -20,7 +19,7 @@ type Handle struct {
 }
 
 func (s *server) error(w http.ResponseWriter, r *http.Request, code int, err error) {
-	log.Println(err)
+	log.Error(err)
 	http.Error(w, err.Error(), code)
 	s.respond(w, r, code)
 }
