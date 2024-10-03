@@ -29,13 +29,32 @@ jobs:
         echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H 78.109.34.7 >> ~/.ssh/known_hosts
+        echo "===================================="
         
-        ssh root@78.109.34.7 'systemctl stop desky' && echo "stop desky"
-        ssh root@78.109.34.7 'rm -rf /root/desky && mkdir /root/desky' && echo "remake desky dir"
+        ssh root@78.109.34.7 'systemctl stop desky'
+        echo "- stopping desky"
+        ssh root@78.109.34.7 'rm -rf /root/desky && mkdir /root/desky'
+        echo "- remake desky dir"
 
+        echo "===================================="
+
+        echo "- compress repo to archive"
+        tar -czf desky.tar *
         echo "start repo copy"
-        scp -r * root@78.109.34.7:/root/desky
-        echo "end repo copy"
+        scp desky.tar root@78.109.34.7:/root/
+        echo "- end repo copy"
 
+        echo "===================================="
+
+        echo "- unarchive repo"
+        ssh root@78.109.34.7 'tar -xf desky.tar -C desky && rm desky.tar'
+
+        echo "===================================="
+        
         ssh root@78.109.34.7 'cp /root/settings-desky/* /root/desky/init/ && chmod +x /root/desky/desky'
-        ssh root@78.109.34.7 'systemctl restart desky' && echo "start desky"
+        echo "- copy settings files"
+        ssh root@78.109.34.7 'systemctl start desky'
+        echo "- starting desky"
+        
+        echo "=============== END ================"
+        
