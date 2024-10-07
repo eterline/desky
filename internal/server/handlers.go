@@ -62,6 +62,15 @@ func (s *server) Tty(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (s *server) Opnsense(w http.ResponseWriter, r *http.Request) {
+	t := assemblyTemplates(s, s.templates["opnsense"])
+	data := initOpnsense(s.configs, s.opnsenseClient)
+
+	if err := templateExec(w, t, "index", data); err != nil {
+		s.error(w, r, http.StatusInternalServerError, err)
+	}
+}
+
 func (s *server) Home(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/dashboard/panel", http.StatusTemporaryRedirect)
 }

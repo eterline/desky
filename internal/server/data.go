@@ -1,13 +1,10 @@
 package server
 
 import (
-	"html/template"
-	"net/http"
-	"os"
-
 	"github.com/eterline/desky/internal/applets"
 	"github.com/eterline/desky/internal/config"
 	"github.com/eterline/desky/internal/requsters/systemd"
+	opnsenseapi "github.com/eterline/opnsense-api"
 	"github.com/gorilla/mux"
 	"github.com/luthermonson/go-proxmox"
 	"github.com/sirupsen/logrus"
@@ -17,12 +14,12 @@ import (
 type (
 	// Server structure data
 	server struct {
-		router        *mux.Router
-		templates     map[string]string
-		configs       config.Settings
-		proxmoxClient []*proxmox.Client
-		ProxmNodes    config.Settings
-		logger        *logrus.Logger
+		router         *mux.Router
+		templates      map[string]string
+		configs        config.Settings
+		proxmoxClient  []*proxmox.Client
+		opnsenseClient opnsenseapi.OpnsenseClient
+		logger         *logrus.Logger
 	}
 
 	// html pages names
@@ -76,6 +73,15 @@ type (
 		ProxmNodes []config.ProxmNode
 	}
 
+	opnsenseData struct {
+		Host       string
+		Background string
+		Firmware   opnsenseapi.FirmwareInfo
+		Syslog     opnsenseapi.SyslogStats
+		Wireguard  opnsenseapi.WgService
+		ProxmNodes []config.ProxmNode
+	}
+
 	ctxKey int8
 )
 
@@ -85,20 +91,3 @@ const (
 	TEMPLATE_ERR             = "error parse template file:"
 	EXEC_TEMPLATE_ERR        = "error execute template:"
 )
-
-func findHostname() string {
-	host, err := os.Hostname()
-	if err != nil {
-		return "Unknown"
-	}
-	return host
-}
-
-func templateExec(w http.ResponseWriter, t *template.Template, templ string, data any) error {
-	return t.ExecuteTemplate(w, templ, data)
-}
-
-func assemblyTemplates(s *server, templ ...string) *template.Template {
-	templ = append(templ, s.templates["index"])
-	return template.Must(template.ParseFiles(templ...))
-}

@@ -22,6 +22,7 @@ func (s *server) configPagesRouter() {
 			"/monitor":        {s.SysInfo, "GET"},    // system info page
 			"/systemd":        {s.Systemd, "GET"},    // system info page
 			"/tty":            {s.Tty, "GET"},        // tty console page
+			"/opnsense":       {s.Opnsense, "GET"},   // opnsense page
 		},
 		"/dashboard",
 	)

@@ -1,0 +1,58 @@
+{{ define "main" }}
+<main>
+    <div class="padding">
+        <div class="base-info">
+            <div class="logo-opnsense">
+                <img src="/static/images/opnsense-logo.png" alt="OPNsense logo">
+            </div>
+            <div class="system-data">
+                <div class="data-label">ID: {{ .Firmware.Product.ID }}</div>
+                <div class="data-label">Abi: {{ .Firmware.Product.Abi }}</div>
+                <div class="data-label">Ver: {{ .Firmware.Product.Version }}</div>
+                <div class="data-label">Arch: {{ .Firmware.Product.Arch }}</div>
+                <div class="data-label">Name: {{ .Firmware.Product.Name }}</div>
+            </div>
+            <div class="wg">
+                <div id="wg-title">Wireguard</div>
+                <div class="wg-scroll">
+                    {{ range .Wireguard.Rows }}
+                        <div class="wg-instance">
+                            name: {{ .Name }} |
+                            iface: {{ .If }} |
+                            end: {{ .Endpoint }} |
+                            ifname: {{ .Ifname }} |
+                            {{ .Status }} >
+                            (
+                                RX: {{ .TransferRx }}B
+                                TX: {{ .TransferTx }}B 
+                            )
+                        </div>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+        <div class="syslog">
+            <div class="syslog-title">syslog</div>
+            <div class="syslog-scroll">
+                {{ range .Syslog.Rows }}
+                        <div class="syslog-instance">
+                            {{ . }}
+                        </div>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+</main>
+{{ end }}
+
+{{ define "styles" }}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/css/index.css">
+<link rel="stylesheet" href="/static/css/opnsense.css">
+{{ end }}
+
+{{ define "tab-name" }}
+Opnsense
+{{ end }}

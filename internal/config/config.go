@@ -42,6 +42,11 @@ type (
 			Up    bool        `yaml:"up"`
 			Nodes []ProxmNode `yaml:"Nodes"`
 		} `yaml:"Proxmox"`
+		Opnsense struct {
+			Key    string `yaml:"key"`
+			Secret string `yaml:"secret"`
+			Host   string `yaml:"host"`
+		} `yaml:"Opnsense"`
 		Notifications struct {
 			Gotify struct {
 				URL string `yaml:"url"`

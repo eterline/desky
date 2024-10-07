@@ -7,6 +7,7 @@ import (
 	"github.com/eterline/desky/internal/config"
 	"github.com/eterline/desky/pkg/notification"
 	"github.com/eterline/desky/pkg/ve"
+	opnsenseapi "github.com/eterline/opnsense-api"
 	"github.com/gorilla/mux"
 	"github.com/luthermonson/go-proxmox"
 	"github.com/sirupsen/logrus"
@@ -29,6 +30,7 @@ func InitServer(cfg config.Settings, logger *logrus.Logger) *server {
 		"monitor":   "templates/monitor.html",
 		"systemd":   "templates/systemd.html",
 		"tty":       "templates/tty.html",
+		"opnsense":  "templates/opnsense.html",
 	}
 
 	var accountsProxm []*proxmox.Client
@@ -37,12 +39,22 @@ func InitServer(cfg config.Settings, logger *logrus.Logger) *server {
 		accountsProxm = append(accountsProxm, ve.Authenticate(&auth))
 	}
 
+	opnClinet, err := opnsenseapi.NewClient(
+		cfg.Opnsense.Key,
+		cfg.Opnsense.Secret,
+		cfg.Opnsense.Host,
+	)
+	if err != nil {
+		log.Panic(err)
+	}
+
 	s := &server{
-		router:        mux.NewRouter(),
-		templates:     templates,
-		configs:       cfg,
-		proxmoxClient: accountsProxm,
-		logger:        logger,
+		router:         mux.NewRouter(),
+		templates:      templates,
+		configs:        cfg,
+		proxmoxClient:  accountsProxm,
+		opnsenseClient: opnClinet,
+		logger:         logger,
 	}
 
 	s.router.Use(s.loggingMiddleware)

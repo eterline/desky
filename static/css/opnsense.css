@@ -1,0 +1,121 @@
+:root {
+    --logo-opnsense-h: 100px;
+}
+
+.padding {
+    display: flex;
+    width: 60%;
+    height: 80%;
+    background-color: var(--ui-black-color-60);
+    border-radius: 10px;
+    padding: 5px;
+    padding-right: 10px;
+}
+
+.base-info{
+    width: 50%;
+    height: 100%;
+    background-color: var(--addition-60);
+    border-radius: 10px;
+}
+
+.data-label {
+    display: flex;
+    padding: 2px;
+    background-color: black;
+    color: aliceblue;
+    margin: 5px;
+    border-radius: 3px;
+}
+
+.logo-opnsense {
+    background-color: var(--ui-black-color-45);
+    border-radius: 10px 10px 0px 0px;
+    width: 100%;
+    padding: 10px 0px;
+    height: var(--logo-opnsense-h);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.logo-opnsense img {
+    width: 80%;
+}
+
+.system-data {
+    width: 100%;
+    height: calc(50% - var(--logo-opnsense-h));
+}
+
+.wg {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#wg-title {
+    text-align: center;
+    align-self: center;
+    padding: 5px;
+    background-color: var(--addition-60);
+    width: fit-content;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.wg-scroll {
+    display: flex;
+    overflow-y: scroll;
+    flex-direction: column;
+    border-radius: 4px;
+    color: aliceblue;
+    padding: 2px;
+    margin: 4px;
+    height: 200px;
+    background-color: var(--ui-black-color-45);
+}
+
+.wg-instance {
+    border-radius: 4px;
+    margin: 5px;
+    padding: 3px;
+    background-color: var(--ui-black-color-60);
+}
+
+.syslog {
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+    width: 50%;
+    height: 100%;
+}
+
+.syslog-title {
+    font-size: 1.5em;
+    background-color: var(--addition-80);
+    color: black;
+    width: fit-content;
+    padding: 4px;
+    border-radius: 4px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.syslog-scroll {
+    background-color: var(--addition-40);
+    margin: 5px;
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+}
+
+.syslog-instance {
+    color: aliceblue;
+    border-radius: 4px;
+    margin: 5px;
+    padding: 3px;
+    background-color: var(--ui-black-color-60);
+}

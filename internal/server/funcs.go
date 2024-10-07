@@ -5,8 +5,11 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
+	"text/template"
+	"unsafe"
 
 	"github.com/gorilla/mux"
 	"github.com/luthermonson/go-proxmox"
@@ -89,4 +92,25 @@ func idFromStr(id string) int {
 		return 0
 	}
 	return res
+}
+
+func findHostname() string {
+	host, err := os.Hostname()
+	if err != nil {
+		return "Unknown"
+	}
+	return host
+}
+
+func templateExec(w http.ResponseWriter, t *template.Template, templ string, data any) error {
+	return t.ExecuteTemplate(w, templ, data)
+}
+
+func assemblyTemplates(s *server, templ ...string) *template.Template {
+	templ = append(templ, s.templates["index"])
+	return template.Must(template.ParseFiles(templ...))
+}
+
+func eqDataSize(v1, v2 any) bool {
+	return unsafe.Sizeof(v1) == unsafe.Sizeof(v2)
 }
