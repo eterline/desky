@@ -39,7 +39,7 @@ To build project and run:
 ```bash
 make init 
 
-sudo ./app
+sudo ./run.sh
 ```
 
 
@@ -56,7 +56,7 @@ After=network.target
 Type=simple
 User=root
 
-ExecStart=/root/desky/app
+ExecStart=/bin/sh /root/desky/run.sh
 WorkingDirectory=/root/desky
 
 Restart=always
