@@ -23,47 +23,24 @@ Made for pratice and common usage, no more.
 
 
 Working with:
-- tty
-- docker
 - web self-hosted apps
 - proxmox
+- system
+- docker (planned)
+- ssh (planned)
 
 ## Install
 
 To build project and run:
 
 ```bash
-go build ./cmd/desky/...
-./desky
+make init 
+
+sudo ./app
 ```
 
 
-## Settings ./init
-
-App list configuration.
-```json
-apps.json
-[
-    {
-        "name": "Proxmox",
-        "icon": "proxmox",
-        "url": "https://url.to.proxmox",
-        "description": "Proxmox VE"
-    },
-    {
-        "name": "OMV",
-        "icon": "openmediavault",
-        "url": "http://url.to.omv",
-        "description": "OpenMediaVault System."
-    },
-    {
-        "name": "Portainer",
-        "icon": "portainer",
-        "url": "http://url.to.portainer",
-        "description": "Portainer Docker assist."
-    }
-]
-```
+## Settings
 
 Systemd service file.
 ```
@@ -76,11 +53,11 @@ After=network.target
 Type=simple
 User=root
 
-ExecStart=/root/desky/desky
+ExecStart=/root/desky/app
 WorkingDirectory=/root/desky
 
 Restart=always
-RestartSec=15
+RestartSec=30
 
 
 [Install]
@@ -88,15 +65,6 @@ WantedBy=default.target
 ```
 
 ## Screenshoots
-
-Main apps
-![Screenshot 1](./repo/screenshoot_1.png)
-
-System info
-![Screenshot 2](./repo/screenshoot_2.png)
-
-TTY cmd
-![Screenshot 2](./repo/screenshoot_3.png)
 
 ## License
 
