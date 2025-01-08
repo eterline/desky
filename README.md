@@ -18,6 +18,9 @@
                                               |  $$$$$$/
                                                \______/ 
 
+- [Frontend](https://github.com/eterline/desky-front) (now is private)
+- [Backend](https://github.com/eterline/desky-backend)
+
 My own dashboard for homelab server.
 Made for pratice and common usage, no more.
 
