@@ -42,6 +42,11 @@ make init
 sudo ./run.sh
 ```
 
+For help
+```bash
+./app -h
+```
+
 
 ## Settings
 
