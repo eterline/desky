@@ -18,6 +18,6 @@ build:
 	./builder.sh
 	
 
-test: clear clone build del-git
+init: clear clone build del-git
 
 .DEFAULT_GOAL := test
