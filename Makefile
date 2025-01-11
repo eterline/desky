@@ -20,4 +20,7 @@ build:
 
 init: clear clone build del-git
 
+deploy: init
+	./deploy.sh
+
 .DEFAULT_GOAL := test
